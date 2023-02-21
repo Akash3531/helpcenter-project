@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.helpCenter.category.dtos.RequestCategoryDto;
 import com.helpCenter.category.dtos.UpdateCategoryDto;
-import com.helpCenter.requestHandler.entities.RequestHandler;
+import com.helpCenter.requestHandler.entities.entity.RequestHandler;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

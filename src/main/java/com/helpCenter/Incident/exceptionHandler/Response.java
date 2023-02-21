@@ -11,10 +11,11 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Response {
 
-	public Response(String message2) {
-		// TODO Auto-generated constructor stub
+	private String message;
+
+	public Response(String message) {
+		
+		this.message=message;
 	}
 
-	private String message;
-	
 }

@@ -3,7 +3,7 @@ package com.helpCenter.category.dtos;
 import org.springframework.stereotype.Component;
 
 import com.helpCenter.category.entity.Category;
-import com.helpCenter.requestHandler.entities.RequestHandler;
+import com.helpCenter.requestHandler.entities.entity.RequestHandler;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
