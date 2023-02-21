@@ -50,10 +50,9 @@ public class IncidentServiceImpl implements IncidentService {
 		User name = userRepository.findByuserName(createrName);
 
 		// Fetching Category
-		if(incident.getCategoryCode()!=null)
-		{
-		Category category = categoryRepo.findByCode(incident.getCategoryCode().toUpperCase());
-		incident.setCategory(category);
+		if (incident.getCategoryCode() != null) {
+			Category category = categoryRepo.findByCode(incident.getCategoryCode().toUpperCase());
+			incident.setCategory(category);
 		}
 		// Adding Images In List
 		if (file != null) {
@@ -67,9 +66,7 @@ public class IncidentServiceImpl implements IncidentService {
 			incident.setImages(imageslist);
 		}
 		incident.setUser(name);
-		
 		incidentReposatiory.save(incident);
-
 	}
 
 // GET ALL INCIDENTS

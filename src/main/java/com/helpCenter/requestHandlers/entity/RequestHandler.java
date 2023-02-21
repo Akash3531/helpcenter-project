@@ -1,4 +1,4 @@
-package com.helpCenter.requestHandler.entities;
+package com.helpCenter.requestHandlers.entity;
 
 import java.util.List;
 
@@ -62,6 +62,11 @@ public class RequestHandler {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	@Override
+	public String toString() {
+		return "RequestHandler [id=" + id + ", handler=" + handler + ", category=" + category + "]";
 	}
 
 

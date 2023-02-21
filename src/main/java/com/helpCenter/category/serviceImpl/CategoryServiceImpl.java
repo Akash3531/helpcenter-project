@@ -18,8 +18,8 @@ import com.helpCenter.category.exceptionHandler.ResourceAlreadyExist;
 import com.helpCenter.category.exceptionHandler.ResourceNotFoundException;
 import com.helpCenter.category.repository.CategoryRepo;
 import com.helpCenter.category.services.CategoryService;
-import com.helpCenter.requestHandler.entities.HandlerDetails;
-import com.helpCenter.requestHandler.entities.RequestHandler;
+import com.helpCenter.requestHandlers.entity.HandlerDetails;
+import com.helpCenter.requestHandlers.entity.RequestHandler;
 
 import lombok.extern.slf4j.Slf4j;
 
