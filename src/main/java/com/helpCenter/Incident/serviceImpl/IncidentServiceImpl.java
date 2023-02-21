@@ -16,6 +16,7 @@ import com.helpCenter.Incident.dtos.ResponseIncidentDto;
 import com.helpCenter.Incident.dtos.UpdateIncidentDto;
 import com.helpCenter.Incident.entity.ImageCreation;
 import com.helpCenter.Incident.entity.Incident;
+import com.helpCenter.Incident.exceptionHandler.CategoryNotFoundException;
 import com.helpCenter.Incident.exceptionHandler.IncidentNotFoundException;
 import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 import com.helpCenter.Incident.service.IncidentService;
@@ -50,26 +51,27 @@ public class IncidentServiceImpl implements IncidentService {
 		User name = userRepository.findByuserName(createrName);
 
 		// Fetching Category
-		if(incident.getCategoryCode()!=null)
-		{
-		Category category = categoryRepo.findByCode(incident.getCategoryCode().toUpperCase());
-		incident.setCategory(category);
-		}
-		// Adding Images In List
-		if (file != null) {
-			List<ImageCreation> imageslist = new ArrayList<>();
-			for (MultipartFile multipart : file) {
-				ImageCreation image = new ImageCreation();
-				image.setImage(multipart.getBytes());
-				image.setIncident(incident);
-				imageslist.add(image);
+		String code = incident.getCategoryCode();
+		Category category = categoryRepo.findByCode(code.toUpperCase());
+		if (category == null) {
+			throw new CategoryNotFoundException(code);
+		} else {
+			// Adding Images In List
+			if (file != null) {
+				List<ImageCreation> imageslist = new ArrayList<>();
+				for (MultipartFile multipart : file) {
+					ImageCreation image = new ImageCreation();
+					image.setImage(multipart.getBytes());
+					image.setIncident(incident);
+					imageslist.add(image);
+				}
+				incident.setImages(imageslist);
 			}
-			incident.setImages(imageslist);
-		}
-		incident.setUser(name);
-		
-		incidentReposatiory.save(incident);
+			incident.setUser(name);
+			incident.setCategory(category);
+			incidentReposatiory.save(incident);
 
+		}
 	}
 
 // GET ALL INCIDENTS
@@ -99,71 +101,42 @@ public class IncidentServiceImpl implements IncidentService {
 	public void updateIncident(int id, UpdateIncidentDto incidentdto, List<MultipartFile> file) throws IOException {
 
 		// Getting User from authentication
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String createrName = authentication.getName();
-		User name = userRepository.findByuserName(createrName);
-
-		Category category = null;
-
-		if (incidentdto != null && file == null) {
-			// DTO CONVERSION
-			Incident incident = incidentClass.UpdateDtoToIncident(incidentdto);
-			// Fetching Category
-			String categoryCode = incident.getCategoryCode();
-			if (categoryCode != null) {
-				category = categoryRepo.findByCode(categoryCode.toUpperCase());
+				Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+				String createrName = authentication.getName();
+				User name = userRepository.findByuserName(createrName);	
+				
+				// Fetching Incident To be Updated
+				Incident updateIncident = incidentReposatiory.findById(id);		
+				Category category = null;
+				
+				if(incidentdto != null)
+				{
+					 //DTO CONVERSION
+					Incident incident = incidentClass.UpdateDtoToIncident(incidentdto);
+					// Fetching Category
+					String categoryCode = incident.getCategoryCode();
+					if (categoryCode != null) {
+						category = categoryRepo.findByCode(categoryCode.toUpperCase());
+					}		
+					updateIncident.setUser(name);
+					updateIncident.setTitle(incident.getTitle());
+					updateIncident.setCategoryCode(incident.getCategoryCode());
+					updateIncident.setDescription(incident.getDescription());
+					updateIncident.setPriority(incident.getPriority());
+					updateIncident.setCategory(category);
+				}
+				if(file!=null)
+				{	
+					List<ImageCreation> imageslist = new ArrayList<>();
+					for (MultipartFile multipart : file) {
+						ImageCreation image = new ImageCreation();
+						image.setImage(multipart.getBytes());
+						image.setIncident(updateIncident);
+						imageslist.add(image);
+					}
+					updateIncident.setImages(imageslist);		
+				}
+					
+				incidentReposatiory.save(updateIncident);
 			}
-			// Fetching Incident To be Updated
-			Incident updatedIncident = incidentReposatiory.findById(id);
-			updatedIncident.setUser(name);
-			updatedIncident.setTitle(incident.getTitle());
-			updatedIncident.setCategoryCode(incident.getCategoryCode());
-			updatedIncident.setDescription(incident.getDescription());
-			updatedIncident.setPriority(incident.getPriority());
-			updatedIncident.setCategory(category);
-			incidentReposatiory.save(updatedIncident);
-		}
-
-		if (file != null && incidentdto == null) {
-			// Fetching Incident To be Updated
-			Incident updatedIncident = incidentReposatiory.findById(id);
-
-			List<ImageCreation> imageslist = new ArrayList<>();
-			for (MultipartFile multipart : file) {
-				ImageCreation image = new ImageCreation();
-				image.setImage(multipart.getBytes());
-				image.setIncident(updatedIncident);
-				imageslist.add(image);
-			}
-			updatedIncident.setImages(imageslist);
-			incidentReposatiory.save(updatedIncident);
-		}
-
-		if (incidentdto != null && file != null) {
-			// DTO CONVERSION
-			Incident incident = incidentClass.UpdateDtoToIncident(incidentdto);
-			// Fetching Category
-			String categoryCode = incident.getCategoryCode();
-			if (categoryCode != null) {
-				category = categoryRepo.findByCode(categoryCode.toUpperCase());
-			}
-			// Fetching Incident To be Updated
-			Incident updatedIncident = incidentReposatiory.findById(id);
-			List<ImageCreation> imageslist = new ArrayList<>();
-			for (MultipartFile multipart : file) {
-				ImageCreation image = new ImageCreation();
-				image.setImage(multipart.getBytes());
-				image.setIncident(updatedIncident);
-				imageslist.add(image);
-			}
-			updatedIncident.setImages(imageslist);
-			updatedIncident.setUser(name);
-			updatedIncident.setTitle(incident.getTitle());
-			updatedIncident.setCategoryCode(incident.getCategoryCode());
-			updatedIncident.setDescription(incident.getDescription());
-			updatedIncident.setPriority(incident.getPriority());
-			updatedIncident.setCategory(category);
-			incidentReposatiory.save(updatedIncident);
-		}
-	}
 }

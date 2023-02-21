@@ -95,7 +95,6 @@ public class ResponseIncidentDto {
 
 	public ResponseIncidentDto() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 // DTO CONVERSION FROM INCIDENT TO INCIDENT_DTO

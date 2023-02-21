@@ -1,4 +1,4 @@
-package com.helpCenter.requestHandler.entities;
+package com.helpCenter.requestHandler.entities.entity;
 
 import java.util.List;
 

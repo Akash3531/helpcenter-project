@@ -29,7 +29,7 @@ public class SecurityConfiguration {
 		http.authorizeHttpRequests()
 				.requestMatchers(HttpMethod.GET, "/user/{name}").hasAnyRole("ADMIN", "NORMAL")
 				.requestMatchers(HttpMethod.PATCH, "/user/{userName}").hasAnyRole("ADMIN", "NORMAL")
-				.requestMatchers("/user/**", "/category/**","/iamge/**","/incident/**").hasRole("ADMIN")
+				.requestMatchers("/user/**", "/category/**","/iamge/**","/incident/**").hasRole("NORMAL")
 				.anyRequest()
 				.authenticated()
 				.and()
