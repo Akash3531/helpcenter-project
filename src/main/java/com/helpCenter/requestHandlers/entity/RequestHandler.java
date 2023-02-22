@@ -1,3 +1,4 @@
+
 package com.helpCenter.requestHandlers.entity;
 
 import java.util.List;
@@ -15,19 +16,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+
 @Component
 @Entity
 public class RequestHandler {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+
 	@JdbcTypeCode(SqlTypes.JSON)
 	private List<HandlerDetails> handler;
-	
+
 	@OneToOne
 	@JsonBackReference
-	@JoinColumn(name="category_id")
+	@JoinColumn(name = "category_id")
 	private Category category;
 
 	public RequestHandler() {
@@ -70,6 +72,4 @@ public class RequestHandler {
 		return "RequestHandler [id=" + id + ", handler=" + handler + ", category=" + category + "]";
 	}
 
-
-	
 }

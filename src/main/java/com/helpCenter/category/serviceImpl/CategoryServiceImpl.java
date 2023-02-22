@@ -19,7 +19,6 @@ import com.helpCenter.category.exceptionHandler.ResourceNotFoundException;
 import com.helpCenter.category.repository.CategoryRepo;
 import com.helpCenter.category.services.CategoryService;
 import com.helpCenter.requestHandlers.entity.RequestHandler;
-import com.helpCenter.requestHandlers.repository.RequestHandlerRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -100,11 +99,6 @@ public class CategoryServiceImpl implements CategoryService {
 				throw new CodeException(code);
 			}
 			updateCategory.setCode(category.getCode().toUpperCase());
-		}
-		if(category.getRequestHandler()!=null)
-		{
-			requestHandler.setCategory(updateCategory);
-			updateCategory.getRequestHandler().setCategory(category);		
 		}
 		categoryRepository.save(updateCategory);
 	}
