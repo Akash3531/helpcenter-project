@@ -18,8 +18,8 @@ import com.helpCenter.category.exceptionHandler.ResourceAlreadyExist;
 import com.helpCenter.category.exceptionHandler.ResourceNotFoundException;
 import com.helpCenter.category.repository.CategoryRepo;
 import com.helpCenter.category.services.CategoryService;
-import com.helpCenter.requestHandlers.entity.HandlerDetails;
 import com.helpCenter.requestHandlers.entity.RequestHandler;
+import com.helpCenter.requestHandlers.repository.RequestHandlerRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,11 +29,12 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	CategoryRepo categoryRepository;
-
 	@Autowired
 	ResponseCategoryDto responseCategoryDto;
 	@Autowired
 	RequestCategoryDto requestCategoryDto;
+	@Autowired
+	RequestHandler requestHandler;
 
 // CREATE CATEGORY
 	@Override
@@ -71,8 +72,7 @@ public class CategoryServiceImpl implements CategoryService {
 	public void updateFields(String code, UpdateCategoryDto Category) {
 		Category category = new Category(Category);
 		Category updateCategory = categoryRepository.findByCode(code.toUpperCase());
-		System.out.println(updateCategory);
-		if (updateCategory == null || updateCategory.getFlag() == true) {
+		if (updateCategory == null || updateCategory.isActive()==true) {
 			throw new ResourceNotFoundException(code);
 		}
 		String CategoryName = category.getName();
@@ -94,12 +94,17 @@ public class CategoryServiceImpl implements CategoryService {
 				updateCategory.setParent(parent);
 			}
 		}
-		if (category.getCode() != null) {
+		if (category.getCode() != null && (category.getCode().toLowerCase().equals(code.toLowerCase())!=true)) {
 			Category categoryByCode = categoryRepository.findByCode(Category.getCode().toUpperCase());
 			if (categoryByCode != null) {
 				throw new CodeException(code);
 			}
 			updateCategory.setCode(category.getCode().toUpperCase());
+		}
+		if(category.getRequestHandler()!=null)
+		{
+			requestHandler.setCategory(updateCategory);
+			updateCategory.getRequestHandler().setCategory(category);		
 		}
 		categoryRepository.save(updateCategory);
 	}
@@ -147,7 +152,7 @@ public class CategoryServiceImpl implements CategoryService {
 		if (category == null) {
 			throw new ResourceNotFoundException(code);
 		} else {
-			category.setFlag(true);
+			category.setActive(false);
 			categoryRepository.save(category);
 			List<Category> childList = categoryRepository.getChild(category.getId());
 			for (Category child : childList) {

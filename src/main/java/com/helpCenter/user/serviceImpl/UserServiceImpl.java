@@ -1,6 +1,5 @@
 package com.helpCenter.user.serviceImpl;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,16 +25,15 @@ import com.helpCenter.user.service.UserService;
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-	private UserRepository userRepository;
+	UserRepository userRepository;
 	@Autowired
-	private RoleRepository roleRepository;
+	RoleRepository roleRepository;
 	@Autowired
-	private PasswordEncoder bCryptPasswordEncoder;
+	PasswordEncoder bCryptPasswordEncoder;
 	@Autowired
-	private ResponseUsersNameDto responseUsersNameDto; 
+	ResponseUsersNameDto responseUsersNameDto;
 	@Autowired
-	private ResponseUserDto responseUserDto;
-
+	ResponseUserDto responseUserDto;
 
 // create user
 	@Override
@@ -90,7 +88,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<ResponseUserDto> allUser() {
 		List<User> users = userRepository.findAll();
-		List<ResponseUserDto> allUsers = users.stream().map(user -> responseUserDto.userToDto(user)).collect(Collectors.toList());
+		List<ResponseUserDto> allUsers = users.stream().map(user -> responseUserDto.userToDto(user))
+				.collect(Collectors.toList());
 		return allUsers;
 	}
 
@@ -101,20 +100,17 @@ public class UserServiceImpl implements UserService {
 		if (user == null) {
 			throw new UserNotFound(userName);
 		}
-		user.setActive(true);
+		user.setActive(false);
 		userRepository.save(user);
 
 	}
-	
-	//kasdfnefnr
-	//sddfnsdlkfns
-	//klfsdf
 
+	// List of usersName
 	@Override
 	public List<ResponseUsersNameDto> usersName() {
 		List<User> users = userRepository.findAll();
-		List<ResponseUsersNameDto> usersName=users.stream().map(user -> responseUsersNameDto.usersName(user)).collect(Collectors.toList());
-		
+		List<ResponseUsersNameDto> usersName = users.stream().map(user -> responseUsersNameDto.usersName(user))
+				.collect(Collectors.toList());
 		return usersName;
 	}
 

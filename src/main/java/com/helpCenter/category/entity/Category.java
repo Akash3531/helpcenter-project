@@ -19,7 +19,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-@Where(clause = "flag=false")
+@Where(clause = "active=true")
 //@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Entity
 @Table
@@ -33,12 +33,11 @@ public class Category {
 	private Integer id;
 	@Column(length = 64)
 	private String name;
-	private boolean Flag = false;
+	private boolean active = true;
 	@ManyToOne
 	@JoinColumn(name = "parent_id")
 	private Category parent;
 	private String code;
-
 
 //	@JsonManagedReference(value="Cat")
 //	@JsonIgnore
@@ -54,18 +53,15 @@ public class Category {
 //		this.incident = incident;
 //	}
 
-
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "category", fetch = FetchType.EAGER)
 	private RequestHandler requestHandler;
 
-
-
-	public Category(Integer id, String name, boolean flag, Category parent, String code,
+	public Category(Integer id, String name, boolean active, Category parent, String code,
 			RequestHandler requestHandler) {
 		super();
 		this.id = id;
 		this.name = name;
-		Flag = flag;
+		this.active = active;
 		this.parent = parent;
 		this.code = code;
 		this.requestHandler = requestHandler;
@@ -100,6 +96,7 @@ public class Category {
 		this.code = category.getCode();
 		this.name = category.getName();
 		this.parent = category.getParent();
+		this.requestHandler=category.getRequestHandler();
 	}
 
 	public Integer getId() {
@@ -126,12 +123,12 @@ public class Category {
 		this.parent = parent;
 	}
 
-	public boolean getFlag() {
-		return Flag;
+	public boolean isActive() {
+		return active;
 	}
 
-	public void setFlag(boolean Flag) {
-		this.Flag = Flag;
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	public String getCode() {
