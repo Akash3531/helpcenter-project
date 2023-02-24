@@ -1,6 +1,7 @@
 package com.helpCenter.category.dtos;
 
 import com.helpCenter.category.entity.Category;
+import com.helpCenter.requestHandlers.entity.RequestHandler;
 
 import jakarta.validation.constraints.Pattern;
 
@@ -12,7 +13,7 @@ public class UpdateCategoryDto {
 	private String code;
 	private Category parent;
 	private int Flag;
-
+	private RequestHandler requestHandler;
 	public UpdateCategoryDto(String name, String code) {
 		super();
 		this.name = name;
@@ -49,6 +50,15 @@ public class UpdateCategoryDto {
 
 	public void setParent(Category parent) {
 		this.parent = parent;
+	}
+	
+
+	public RequestHandler getRequestHandler() {
+		return requestHandler;
+	}
+
+	public void setRequestHandler(RequestHandler requestHandler) {
+		this.requestHandler = requestHandler;
 	}
 
 	@Override

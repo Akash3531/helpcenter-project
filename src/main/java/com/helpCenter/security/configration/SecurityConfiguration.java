@@ -28,8 +28,8 @@ public class SecurityConfiguration {
 		http.csrf().disable();
 		http.authorizeHttpRequests()
 				.requestMatchers(HttpMethod.GET, "/user/{name}").hasAnyRole("ADMIN", "NORMAL")
-				.requestMatchers(HttpMethod.PATCH, "/user/{userName}").hasAnyRole("ADMIN", "NORMAL")
-				.requestMatchers("/user/**", "/category/**","/image/**","/incident/**").hasRole("NORMAL")
+				.requestMatchers(HttpMethod.PATCH, "/user/{userName}").hasAnyRole("ADMIN", "NORMAL")			
+				.requestMatchers("/user/**", "/category/**","/iamge/**","/incident/**").hasRole("ADMIN")
 				.anyRequest()
 				.authenticated()
 				.and()

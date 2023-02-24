@@ -51,6 +51,23 @@ public class IncidentServiceImpl implements IncidentService {
 		User name = userRepository.findByuserName(createrName);
 
 		// Fetching Category
+		if (incident.getCategoryCode() != null) {
+			Category category = categoryRepo.findByCode(incident.getCategoryCode().toUpperCase());
+			incident.setCategory(category);
+		}
+		// Adding Images In List
+		if (file != null) {
+			List<ImageCreation> imageslist = new ArrayList<>();
+			for (MultipartFile multipart : file) {
+				ImageCreation image = new ImageCreation();
+				image.setImage(multipart.getBytes());
+				image.setIncident(incident);
+				imageslist.add(image);
+			}
+			incident.setImages(imageslist);
+		}
+		incident.setUser(name);
+		incidentReposatiory.save(incident);
 		String code = incident.getCategoryCode();
 		Category category = categoryRepo.findByCode(code.toUpperCase());
 		if (category == null) {

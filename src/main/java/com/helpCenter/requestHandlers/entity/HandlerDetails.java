@@ -1,15 +1,15 @@
-package com.helpCenter.requestHandler.entities.entity;
+package com.helpCenter.requestHandlers.entity;
 
 import java.util.List;
 
 public class HandlerDetails {
-	
+
 	private int level;
 	private List<String> resources;
-	
+
 	public HandlerDetails() {
 		super();
-		
+
 	}
 
 	public int getLevel() {
@@ -32,7 +32,5 @@ public class HandlerDetails {
 	public String toString() {
 		return "HandlerDetails [level=" + level + ", resources=" + resources + "]";
 	}
-	
 
-	
 }
