@@ -28,6 +28,7 @@ import com.helpCenter.category.dtos.RequestCategoryDto;
 import com.helpCenter.category.dtos.UpdateCategoryDto;
 import com.helpCenter.category.entity.Category;
 import com.helpCenter.category.repository.CategoryRepo;
+import com.helpCenter.requestHandlers.entity.RequestHandler;
 
 @ContextConfiguration(classes = CategoryApplication.class)
 @SpringBootTest
@@ -55,7 +56,7 @@ class categoryIntegrationTest {
 	// CREATE CATEGORY
 	@Test
 	public void givenCategoryObject_whenCreateCategory_thenReturnStatus() throws Exception {
-		// given - precondition or setup
+		// given - precondition or setup		
 		RequestCategoryDto category = new RequestCategoryDto("Ranoooooo", "test8@");
 		// when - action or behavior that we are going test
 		ResultActions response = mockMvc.perform(MockMvcRequestBuilders.post("/category/")
@@ -69,12 +70,12 @@ class categoryIntegrationTest {
 	@Test
 	public void givenUpdatedCategory_whenUpdateCategory_thenReturnUpdateCategoryObject() throws Exception {
 		// given - precondition or setup
-
 		Category category = new Category("Raju", "CHAI5@");
 		categoryRepo.save(category);
 		UpdateCategoryDto updateCategory = new UpdateCategoryDto("File", "Documents@2");
 		Category fromDb = categoryRepo.findByName("File");
 		assertSame(null, fromDb);
+		//when - action or behavior
 		ResultActions response = mockMvc.perform(MockMvcRequestBuilders.patch("/category/{code}", category.getCode())
 				.contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(updateCategory)));
 		// then - verify the output

@@ -30,7 +30,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
-@Where(clause = "active=true")
+@Where(clause = "active=false")
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 public class User implements UserDetails {
@@ -42,7 +42,7 @@ public class User implements UserDetails {
 	private String userName;
 	private String password;
 	private int failureAttempes = 0;
-	private boolean active = true;
+	private boolean active = false;
 	private String createdBy;
 	@CreatedDate
 	private Date createdDate;

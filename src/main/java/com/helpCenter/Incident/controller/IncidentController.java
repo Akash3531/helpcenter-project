@@ -38,7 +38,7 @@ public class IncidentController {
 
 // CREATE INCIDENT
 	@PostMapping(path = "/", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
-	public ResponseEntity<?> createIncident(@RequestParam(value = "Image", required = false) List<MultipartFile> file,
+	public ResponseEntity<?> createIncident(@RequestParam(value = "image", required = false) List<MultipartFile> file,
 		@Valid	@RequestPart(value = "incident") RequestIncidentDto incidentdto) throws IOException {
 
 		incidentService.createIncident(incidentdto, file);
@@ -49,7 +49,7 @@ public class IncidentController {
 	@PatchMapping(path = "/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<?> updateIncident(@PathVariable int id,
 			@RequestParam(value = "Image", required = false) List<MultipartFile> file,
-			@RequestPart(value = "incident", required = false) UpdateIncidentDto incidentdto) throws IOException {
+			@RequestPart(value = "incident") UpdateIncidentDto incidentdto) throws IOException {
 
 		incidentService.updateIncident(id, incidentdto, file);
 		return new ResponseEntity<>(HttpStatus.OK);
