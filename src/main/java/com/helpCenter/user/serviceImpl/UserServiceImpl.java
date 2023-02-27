@@ -100,15 +100,11 @@ public class UserServiceImpl implements UserService {
 		if (user == null) {
 			throw new UserNotFound(userName);
 		}
-		user.setActive(true);
+		user.setActive(false);
 		userRepository.save(user);
 
 	}
 
-	// kasdfnefnr
-	// sddfnsdlkfns
-	// klfsdf
-  
 	@Override
 	public List<ResponseUsersNameDto> usersName() {
 		List<User> users = userRepository.findAll();
