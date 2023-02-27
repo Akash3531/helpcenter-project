@@ -48,7 +48,6 @@ class categoryIntegrationTest {
 
 	}
 	
-
 	@BeforeEach
 	void setUp() {
 		categoryRepo.deleteAll();
