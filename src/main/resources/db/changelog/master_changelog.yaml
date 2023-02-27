@@ -1,0 +1,7 @@
+#master
+databaseChangeLog:
+  - include:
+      file: db/changelog/ddl/ddl_changelog.yaml
+  - include:
+      file: db/changelog/dml/dml_changelog.yaml
+  

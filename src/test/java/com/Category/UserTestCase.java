@@ -50,7 +50,7 @@ public class UserTestCase {
 
 	}
 
-	@AfterEach
+	@BeforeEach
 	void setup() {
 		userRepository.deleteAll();
 	}
