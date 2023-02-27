@@ -28,7 +28,6 @@ import com.helpCenter.category.dtos.RequestCategoryDto;
 import com.helpCenter.category.dtos.UpdateCategoryDto;
 import com.helpCenter.category.entity.Category;
 import com.helpCenter.category.repository.CategoryRepo;
-import com.helpCenter.requestHandlers.entity.RequestHandler;
 
 @ContextConfiguration(classes = CategoryApplication.class)
 @SpringBootTest
@@ -56,8 +55,8 @@ class categoryIntegrationTest {
 	// CREATE CATEGORY
 	@Test
 	public void givenCategoryObject_whenCreateCategory_thenReturnStatus() throws Exception {
-		// given - precondition or setup		
-		RequestCategoryDto category = new RequestCategoryDto("Ranoooooo", "test8@");
+		// given - precondition or setup
+		RequestCategoryDto category = new RequestCategoryDto("Hardware", "hardware8@");
 		// when - action or behavior that we are going test
 		ResultActions response = mockMvc.perform(MockMvcRequestBuilders.post("/category/")
 				.contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(category)));
@@ -70,12 +69,12 @@ class categoryIntegrationTest {
 	@Test
 	public void givenUpdatedCategory_whenUpdateCategory_thenReturnUpdateCategoryObject() throws Exception {
 		// given - precondition or setup
-		Category category = new Category("Raju", "CHAI5@");
+		Category category = new Category("software", "SOFTWARE5@");
 		categoryRepo.save(category);
 		UpdateCategoryDto updateCategory = new UpdateCategoryDto("File", "Documents@2");
 		Category fromDb = categoryRepo.findByName("File");
 		assertSame(null, fromDb);
-		//when - action or behavior
+		// when - action or behavior
 		ResultActions response = mockMvc.perform(MockMvcRequestBuilders.patch("/category/{code}", category.getCode())
 				.contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(updateCategory)));
 		// then - verify the output
@@ -87,7 +86,7 @@ class categoryIntegrationTest {
 	@Test
 	public void givenCategoryName_whenGetCategoryByName_thenReturnCategoryObject() throws Exception {
 		// given - precondition or setup
-		Category category = new Category("Raju", "CHAI#2");
+		Category category = new Category("procurement", "PROCUREMENT#2");
 		categoryRepo.save(category);
 		// when - action or the behavior that we are going test
 		ResultActions response = mockMvc.perform(get("/category/{code}", category.getCode()));
@@ -103,8 +102,8 @@ class categoryIntegrationTest {
 	public void givenCategoryObject_whenCreateCategory_thenReturnSavedCategory() throws Exception {
 		// given - precondition or setup
 		List<Category> categories = new ArrayList<>();
-		Category category = new Category("json", "json5@@");
-		Category category1 = new Category("test", "test6@@");
+		Category category = new Category("mouse", "mouse5@");
+		Category category1 = new Category("keyboard", "keyboard6@");
 		categories.add(category);
 		categories.add(category1);
 		categoryRepo.saveAll(categories);
