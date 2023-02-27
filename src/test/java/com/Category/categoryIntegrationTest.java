@@ -46,6 +46,7 @@ class categoryIntegrationTest {
 	void contextLoads() {
 
 	}
+	
 
 	@BeforeEach
 	void setUp() {
@@ -115,5 +116,7 @@ class categoryIntegrationTest {
 				.andExpect(jsonPath("$.[1].name", is(category1.getName())));
 
 	}
+	
+	
 
 }
