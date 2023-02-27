@@ -128,7 +128,7 @@ public class IncidentTestCase {
 			}
 		});
 		ResultActions response = mockMvc.perform(builder.file(jsonFile).file(file));
-		//then - verify output
+		// then - verify output
 		response.andDo(print()).andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
@@ -150,11 +150,10 @@ public class IncidentTestCase {
 		response.andDo(print()).andExpect(jsonPath("$.title", is(incident.getTitle())))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
-	
-	//get all incident
+
+	// get all incident
 	@Test
-	public void gevenIncident_whenGetAllIncident_thenReturnSavedIncident() throws Exception
-	{
+	public void gevenIncident_whenGetAllIncident_thenReturnSavedIncident() throws Exception {
 		Category category = new Category("hardware", "HARDWARE@33");
 		categoryRepo.save(category);
 
@@ -162,23 +161,22 @@ public class IncidentTestCase {
 		incidentForKeyboard.setCategoryCode(category.getCode());
 		incidentForKeyboard.setTitle("Keyboard problem");
 		incidentForKeyboard.setDescription("Keyboard is not working");
-		
+
 		Incident incident = new Incident();
 		incident.setCategoryCode(category.getCode());
 		incident.setTitle("Mouse problem");
 		incident.setDescription("mouse is not working");
-		List<Incident>incidents=new ArrayList<>();
+		List<Incident> incidents = new ArrayList<>();
 		incidents.add(incidentForKeyboard);
 		incidents.add(incident);
-	
+
 		incidentReposatiory.saveAll(incidents);
-		
-		//when - action or behavior
+
+		// when - action or behavior
 		ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/incident/"));
-		//then -verify output
-		response.andDo(print())
-		.andExpect(jsonPath("$.[0].title", is(incidentForKeyboard.getTitle())))
-		.andExpect(jsonPath("$.[1].title",is(incident.getTitle())));
+		// then -verify output
+		response.andDo(print()).andExpect(jsonPath("$.[0].title", is(incidentForKeyboard.getTitle())))
+				.andExpect(jsonPath("$.[1].title", is(incident.getTitle())));
 	}
 
 }

@@ -18,22 +18,19 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 	@Autowired
 	private CustomeUserDetailsService customeUserDetailService;
-  
+
 	@Bean
 	public PasswordEncoder bCryptPasswordEncoder() throws Exception {
 		return new BCryptPasswordEncoder(10);
 	}
+
 	@Bean
 	public SecurityFilterChain chain(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-		http.authorizeHttpRequests()
-				.requestMatchers(HttpMethod.GET, "/user/{name}").hasAnyRole("ADMIN", "NORMAL")
-				.requestMatchers(HttpMethod.PATCH, "/user/{userName}").hasAnyRole("ADMIN", "NORMAL")			
-				.requestMatchers("/user/**", "/category/**","/iamge/**","/incident/**").hasRole("ADMIN")
-				.anyRequest()
-				.authenticated()
-				.and()
-				.httpBasic();
+		http.authorizeHttpRequests().requestMatchers(HttpMethod.GET, "/user/{name}").hasAnyRole("ADMIN", "NORMAL")
+				.requestMatchers(HttpMethod.PATCH, "/user/{userName}").hasAnyRole("ADMIN", "NORMAL")
+				.requestMatchers("/user/**", "/category/**", "/image/**", "/incident/**").hasRole("ADMIN")
+				.anyRequest().authenticated().and().httpBasic();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authenticationProvider(authenticationProvider());
 		DefaultSecurityFilterChain defaultSecurityFilterChain = http.build();
@@ -49,4 +46,3 @@ public class SecurityConfiguration {
 	}
 
 }
-
