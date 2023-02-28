@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.helpCenter.CategoryApplication;
+import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 import com.helpCenter.category.dtos.RequestCategoryDto;
 import com.helpCenter.category.dtos.UpdateCategoryDto;
 import com.helpCenter.category.entity.Category;
@@ -40,6 +41,8 @@ class categoryIntegrationTest {
 	@Autowired
 	private CategoryRepo categoryRepo;
 	@Autowired
+	private IncidentReposatiory incidentReposatiory;
+	@Autowired
 	private ObjectMapper objectMapper;
 
 	@Test
@@ -50,6 +53,7 @@ class categoryIntegrationTest {
 
 	@BeforeEach
 	void setUp() {
+		incidentReposatiory.deleteAll();
 		categoryRepo.deleteAll();
 	}
 
