@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ import com.helpCenter.user.repository.UserRepository;
 
 @ContextConfiguration(classes = CategoryApplication.class)
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @WithMockUser(username = "user", password = "password", roles = "ADMIN")
 public class UserTestCase {
 	@Autowired
@@ -52,7 +54,7 @@ public class UserTestCase {
 	void setup() {
 		userRepository.deleteAll();
 	}
-
+	
 	// CREATE User
 	@Test
 	public void givenUserObject_whenCreateUser_thenReturnStatus() throws Exception {
@@ -87,7 +89,7 @@ public class UserTestCase {
 
 	// get user by name
 	@Test
-	public void givenUserName_whenGetUserByName_returnUserObject() throws JsonProcessingException, Exception {
+	public void givenUser_whenGetUserByName_returnUserObject() throws JsonProcessingException, Exception {
 		// given - precondition
 		RequestUserDTO userDto = new RequestUserDTO("akash", "akash", "prabhjot");
 		User user = new User(userDto);

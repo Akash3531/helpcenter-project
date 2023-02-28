@@ -100,18 +100,15 @@ public class UserServiceImpl implements UserService {
 		if (user == null) {
 			throw new UserNotFound(userName);
 		}
-		user.setActive(true);
+		user.setActive(false);
 		userRepository.save(user);
-
 	}
-
-// 
-    @Override
+// users name
+	@Override
 	public List<ResponseUsersNameDto> usersName() {
 		List<User> users = userRepository.findAll();
 		List<ResponseUsersNameDto> usersName = users.stream().map(user -> responseUsersNameDto.usersName(user))
 				.collect(Collectors.toList());
-
 		return usersName;
 	}
 
