@@ -71,7 +71,7 @@ public class CategoryServiceImpl implements CategoryService {
 	public void updateFields(String code, UpdateCategoryDto Category) {
 		Category category = new Category(Category);
 		Category updateCategory = categoryRepository.findByCode(code.toUpperCase());
-		if (updateCategory == null || updateCategory.isActive()==true) {
+		if (updateCategory == null || updateCategory.isActive()==false) {
 			throw new ResourceNotFoundException(code);
 		}
 		String CategoryName = category.getName();
