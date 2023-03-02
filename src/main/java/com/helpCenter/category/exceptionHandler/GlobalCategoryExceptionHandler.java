@@ -22,7 +22,6 @@ public class GlobalCategoryExceptionHandler {
 			resp.put(field, message);
 		});
 		return new ResponseEntity<Map<String, String>>(resp, HttpStatus.BAD_REQUEST);
-
 	}
 
 	@ExceptionHandler(ResourceNotFoundException.class)
