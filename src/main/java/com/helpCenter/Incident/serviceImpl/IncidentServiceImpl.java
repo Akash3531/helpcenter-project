@@ -22,7 +22,6 @@ import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 import com.helpCenter.Incident.service.IncidentService;
 import com.helpCenter.category.entity.Category;
 import com.helpCenter.category.repository.CategoryRepo;
-import com.helpCenter.emailSender.emailSenderServiceImpl.EmailServiceImpl;
 import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
@@ -38,8 +37,6 @@ public class IncidentServiceImpl implements IncidentService {
 	@Autowired
 	Incident incidentClass;
 	@Autowired
-	EmailServiceImpl emailServiceImpl;
-	@Autowired
 	ResponseIncidentDto responseIncidentDto;
 
 // CREATE INCIDENT
@@ -52,26 +49,8 @@ public class IncidentServiceImpl implements IncidentService {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String createrName = authentication.getName();
 		User name = userRepository.findByuserName(createrName);
-
-		// Fetching Category
-		if (incident.getCategoryCode() != null) {
-			Category category = categoryRepo.findByCode(incident.getCategoryCode().toUpperCase());
-			incident.setCategory(category);
-		}
-		// Adding Images In List
-		if (file != null) {
-			List<ImageCreation> imageslist = new ArrayList<>();
-			for (MultipartFile multipart : file) {
-				ImageCreation image = new ImageCreation();
-				image.setImage(multipart.getBytes());
-				image.setIncident(incident);
-				imageslist.add(image);
-			}
-			incident.setImages(imageslist);
-		}
-		incident.setUser(name);
-		incidentReposatiory.save(incident);
 		String code = incident.getCategoryCode();
+		// Fetching Category
 		Category category = categoryRepo.findByCode(code.toUpperCase());
 		if (category == null) {
 			throw new CategoryNotFoundException(code);
@@ -89,12 +68,7 @@ public class IncidentServiceImpl implements IncidentService {
 			}
 			incident.setUser(name);
 			incident.setCategory(category);
-			Incident incidentForMail = incidentReposatiory.save(incident);
-			if(incidentForMail!=null)
-			{
-				emailServiceImpl.processMail(incidentForMail);
-			}
-
+			incidentReposatiory.save(incident);
 		}
 	}
 
@@ -131,13 +105,13 @@ public class IncidentServiceImpl implements IncidentService {
 
 		// Fetching Incident To be Updated
 		Incident updateIncident = incidentReposatiory.findById(id);
-		Category category = null;
 
 		if (incidentdto != null) {
 			// DTO CONVERSION
 			Incident incident = incidentClass.UpdateDtoToIncident(incidentdto);
 			// Fetching Category
 			String categoryCode = incident.getCategoryCode();
+			Category category = null;
 			if (categoryCode != null) {
 				category = categoryRepo.findByCode(categoryCode.toUpperCase());
 			}

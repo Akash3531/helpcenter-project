@@ -44,13 +44,11 @@ class categoryIntegrationTest {
 	private IncidentReposatiory incidentReposatiory;
 	@Autowired
 	private ObjectMapper objectMapper;
-
 	@Test
 	void contextLoads() {
 
 	}
 	
-
 	@BeforeEach
 	void setUp() {
 		incidentReposatiory.deleteAll();
