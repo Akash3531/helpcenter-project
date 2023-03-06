@@ -138,7 +138,7 @@ public class IncidentTestCase {
 		// given - precondition
 		Category category = new Category("hardware", "HARDWARE@33");
 		categoryRepo.save(category);
-
+		
 		Incident incident = new Incident();
 		incident.setCategoryCode(category.getCode());
 		incident.setTitle("Keyboard problem");

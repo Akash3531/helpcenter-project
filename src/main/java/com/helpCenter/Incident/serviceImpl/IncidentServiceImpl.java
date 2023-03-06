@@ -22,6 +22,7 @@ import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 import com.helpCenter.Incident.service.IncidentService;
 import com.helpCenter.category.entity.Category;
 import com.helpCenter.category.repository.CategoryRepo;
+import com.helpCenter.emailSender.emailSenderServiceImpl.EmailServiceImpl;
 import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
@@ -36,6 +37,8 @@ public class IncidentServiceImpl implements IncidentService {
 	CategoryRepo categoryRepo;
 	@Autowired
 	Incident incidentClass;
+	@Autowired
+	EmailServiceImpl emailServiceImpl;
 	@Autowired
 	ResponseIncidentDto responseIncidentDto;
 
@@ -86,7 +89,11 @@ public class IncidentServiceImpl implements IncidentService {
 			}
 			incident.setUser(name);
 			incident.setCategory(category);
-			incidentReposatiory.save(incident);
+			Incident incidentForMail = incidentReposatiory.save(incident);
+			if(incidentForMail!=null)
+			{
+				emailServiceImpl.processMail(incidentForMail);
+			}
 
 		}
 	}

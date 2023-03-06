@@ -55,7 +55,7 @@ public class UserTestCase {
 	
 	// CREATE User
 	@Test
-	public void givenUserObject_whenCreateUser_thenReturnStatus() throws Exception {
+	public void givenUserObject_whenCreateUser_thenReturnStatusCreated() throws Exception {
 
 		// given - precondition or setup
 		RequestUserDTO userDto = new RequestUserDTO("akash", "akash", "prabhjot");
