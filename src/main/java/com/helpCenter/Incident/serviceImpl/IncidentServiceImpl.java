@@ -49,26 +49,8 @@ public class IncidentServiceImpl implements IncidentService {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String createrName = authentication.getName();
 		User name = userRepository.findByuserName(createrName);
-
-		// Fetching Category
-		if (incident.getCategoryCode() != null) {
-			Category category = categoryRepo.findByCode(incident.getCategoryCode().toUpperCase());
-			incident.setCategory(category);
-		}
-		// Adding Images In List
-		if (file != null) {
-			List<ImageCreation> imageslist = new ArrayList<>();
-			for (MultipartFile multipart : file) {
-				ImageCreation image = new ImageCreation();
-				image.setImage(multipart.getBytes());
-				image.setIncident(incident);
-				imageslist.add(image);
-			}
-			incident.setImages(imageslist);
-		}
-		incident.setUser(name);
-		incidentReposatiory.save(incident);
 		String code = incident.getCategoryCode();
+		// Fetching Category
 		Category category = categoryRepo.findByCode(code.toUpperCase());
 		if (category == null) {
 			throw new CategoryNotFoundException(code);
@@ -87,7 +69,6 @@ public class IncidentServiceImpl implements IncidentService {
 			incident.setUser(name);
 			incident.setCategory(category);
 			incidentReposatiory.save(incident);
-
 		}
 	}
 
