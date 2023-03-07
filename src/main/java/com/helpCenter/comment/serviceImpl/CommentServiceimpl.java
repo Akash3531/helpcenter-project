@@ -36,6 +36,7 @@ public class CommentServiceimpl implements CommentsService {
 	@Autowired
 	UserRepository userRepository;
 
+// CREATE COMMENT
 	@Override
 	public void createComment(int id, RequestCommentDto commentDto, List<MultipartFile> file) throws IOException {
 
@@ -66,6 +67,7 @@ public class CommentServiceimpl implements CommentsService {
 
 	}
 
+// GET ALL COMMENTS
 	@Override
 	public List<ResponseCommentDto> getAllComments() {
 		List<Comment> comments = commentReposatiory.findAll();
@@ -74,6 +76,7 @@ public class CommentServiceimpl implements CommentsService {
 		return commentsList;
 	}
 
+// GET COMMENTS BY INCIDENT
 	@Override
 	public List<ResponseCommentDto> getCommentsByIncident(int id) {
 		List<Comment> comments = commentReposatiory.findByIncident(id);

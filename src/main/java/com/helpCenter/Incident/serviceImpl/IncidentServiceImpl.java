@@ -114,6 +114,9 @@ public class IncidentServiceImpl implements IncidentService {
 			Category category = null;
 			if (categoryCode != null) {
 				category = categoryRepo.findByCode(categoryCode.toUpperCase());
+				if (category == null) {
+					throw new CategoryNotFoundException(categoryCode);
+				}
 			}
 			updateIncident.setUser(name);
 			updateIncident.setTitle(incident.getTitle());
@@ -132,7 +135,6 @@ public class IncidentServiceImpl implements IncidentService {
 			}
 			updateIncident.setImages(imageslist);
 		}
-
 		incidentReposatiory.save(updateIncident);
 	}
 }
