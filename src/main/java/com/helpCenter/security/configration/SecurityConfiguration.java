@@ -29,8 +29,8 @@ public class SecurityConfiguration {
 		http.csrf().disable();
 		http.authorizeHttpRequests().requestMatchers(HttpMethod.GET, "/user/{name}").hasAnyRole("ADMIN", "NORMAL")
 				.requestMatchers(HttpMethod.PATCH, "/user/{userName}").hasAnyRole("ADMIN", "NORMAL")
-				.requestMatchers("/user/**", "/category/**", "/iamge/**", "/incident/**").hasRole("ADMIN").anyRequest()
-				.authenticated().and().httpBasic();
+				.requestMatchers("/user/**", "/category/**", "/iamge/**", "/incident/**")
+				.permitAll();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authenticationProvider(authenticationProvider());
 		DefaultSecurityFilterChain defaultSecurityFilterChain = http.build();

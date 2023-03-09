@@ -22,7 +22,9 @@ import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 import com.helpCenter.Incident.service.IncidentService;
 import com.helpCenter.category.entity.Category;
 import com.helpCenter.category.repository.CategoryRepo;
+import com.helpCenter.user.dto.ResponseUserDto;
 import com.helpCenter.user.entity.User;
+import com.helpCenter.user.exceptionHandler.UserNotFound;
 import com.helpCenter.user.repository.UserRepository;
 
 @Service
@@ -153,5 +155,18 @@ public class IncidentServiceImpl implements IncidentService {
 		}
 
 		incidentReposatiory.save(updateIncident);
+	}
+	
+//	
+
+	@Override
+	public List<ResponseIncidentDto> getIncidentbyUser(int user_id) {
+		 List<Incident> incidents = incidentReposatiory.findByIncident(user_id);
+		
+		if (incidents == null) {
+			throw new IncidentNotFoundException(user_id);
+		}
+		List<ResponseIncidentDto> incidentList = incidents.stream().map((incident)->responseIncidentDto.UserIncident(incident)).collect(Collectors.toList());
+		return incidentList;
 	}
 }
