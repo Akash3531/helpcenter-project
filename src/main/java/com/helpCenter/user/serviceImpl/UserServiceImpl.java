@@ -102,8 +102,9 @@ public class UserServiceImpl implements UserService {
 		}
 		user.setActive(false);
 		userRepository.save(user);
-
 	}
+
+// users name
 
 	@Override
 	public List<ResponseUsersNameDto> usersName() {
