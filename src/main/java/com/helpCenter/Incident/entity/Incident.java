@@ -1,9 +1,11 @@
 package com.helpCenter.Incident.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -14,6 +16,7 @@ import com.helpCenter.user.entity.User;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +25,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
+@EntityListeners(AuditingEntityListener.class)
 @Component
 @Entity
 public class Incident {
@@ -39,6 +43,9 @@ public class Incident {
 	private String Status = "In Progress";
 
 	private String priority;
+
+	@CreatedDate
+	private Date createdDate;
 
 //	@JsonManagedReference(value = "category")
 	@ManyToOne
@@ -123,6 +130,14 @@ public class Incident {
 
 	public void setPriority(String priority) {
 		this.priority = priority;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	public Incident(int id, String title, String description, String categoryCode, String status, Category category) {
