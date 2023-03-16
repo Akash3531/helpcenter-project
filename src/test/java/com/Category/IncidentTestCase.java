@@ -34,6 +34,7 @@ import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 import com.helpCenter.category.entity.Category;
 import com.helpCenter.category.repository.CategoryRepo;
+import com.helpCenter.comment.reposatiory.CommentReposatiory;
 import com.helpCenter.user.repository.UserRepository;
 
 @WebAppConfiguration
@@ -50,6 +51,8 @@ public class IncidentTestCase {
 	@Autowired
 	IncidentReposatiory incidentReposatiory;
 	@Autowired
+	CommentReposatiory commentReposatiory;
+	@Autowired
 	private MockMvc mockMvc;
 	@Autowired
 	ObjectMapper objectMapper;
@@ -61,7 +64,7 @@ public class IncidentTestCase {
 
 	@BeforeEach
 	void setup() {
-
+		commentReposatiory.deleteAll();
 		incidentReposatiory.deleteAll();
 		categoryRepo.deleteAll();
 		userRepository.deleteAll();
@@ -84,7 +87,7 @@ public class IncidentTestCase {
 		String jsonStr = Obj.writeValueAsString(incidentDto);
 		MockMultipartFile jsonFile = new MockMultipartFile("incident", "", "application/json", jsonStr.getBytes());
 
-		MockMultipartFile file = new MockMultipartFile("image", "C:\\Users\\akash\\Pictures\\bankimage.jpg",
+		MockMultipartFile file = new MockMultipartFile("image", "C:\\\\Users\\\\salariyaabhishek\\\\Pictures\\\\meditation-buddhism-monk-temple",
 				MediaType.MULTIPART_FORM_DATA_VALUE, "".getBytes());
 		// when - action or behavior
 		ResultActions response = mockMvc.perform(multipart("/incident/").file(jsonFile).file(file));

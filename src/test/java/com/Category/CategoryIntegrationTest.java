@@ -34,7 +34,7 @@ import com.helpCenter.category.repository.CategoryRepo;
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser(username = "user", password = "password", roles = "ADMIN")
-class categoryIntegrationTest {
+class CategoryIntegrationTest {
 
 	@Autowired
 	private MockMvc mockMvc;

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.helpCenter.comment.dto.CommentByIncidentIdDto;
 import com.helpCenter.comment.dto.RequestCommentDto;
 import com.helpCenter.comment.dto.ResponseCommentDto;
 
@@ -16,5 +17,5 @@ public interface CommentsService {
 
 	List<ResponseCommentDto> getAllComments();
 
-	List<ResponseCommentDto> getCommentsByIncident(int id);
+	List<CommentByIncidentIdDto> getCommentsByIncident(int id);
 }

@@ -37,7 +37,7 @@ public class CategoryController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	//Get Category By name
+	//Get Category By Category code
 	@GetMapping("/{code}")
 	public ResponseEntity<ResponseCategoryDto> GetByName(@PathVariable String code)
 	{

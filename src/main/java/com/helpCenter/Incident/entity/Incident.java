@@ -52,6 +52,7 @@ public class Incident {
 	@JoinColumn(name = "category_id")
 	private Category category;
 
+	@JsonManagedReference(value="image")
 	@OneToMany(mappedBy = "incident", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ImageCreation> images = new ArrayList<>();
 

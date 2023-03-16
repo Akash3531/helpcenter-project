@@ -98,11 +98,6 @@ public class IncidentServiceImpl implements IncidentService {
 	@Override
 	public void updateIncident(int id, UpdateIncidentDto incidentdto, List<MultipartFile> file) throws IOException {
 
-		// Getting User from authentication
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String createrName = authentication.getName();
-		User name = userRepository.findByuserName(createrName);
-
 		// Fetching Incident To be Updated
 		Incident updateIncident = incidentReposatiory.findById(id);
 
@@ -114,16 +109,24 @@ public class IncidentServiceImpl implements IncidentService {
 			Category category = null;
 			if (categoryCode != null) {
 				category = categoryRepo.findByCode(categoryCode.toUpperCase());
+				updateIncident.setCategory(category);
 				if (category == null) {
 					throw new CategoryNotFoundException(categoryCode);
 				}
 			}
-			updateIncident.setUser(name);
-			updateIncident.setTitle(incident.getTitle());
-			updateIncident.setCategoryCode(incident.getCategoryCode());
-			updateIncident.setDescription(incident.getDescription());
-			updateIncident.setPriority(incident.getPriority());
-			updateIncident.setCategory(category);
+			if (incident.getTitle() != null) {
+				updateIncident.setTitle(incident.getTitle());
+			}
+			if (incident.getCategory() != null) {
+				updateIncident.setCategoryCode(incident.getCategoryCode());
+			}
+			if (incident.getDescription() != null) {
+				updateIncident.setDescription(incident.getDescription());
+			}
+			if (incident.getPriority() != null) {
+				updateIncident.setPriority(incident.getPriority());
+			}
+
 		}
 		if (file != null) {
 			List<ImageCreation> imageslist = new ArrayList<>();

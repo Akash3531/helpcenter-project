@@ -6,19 +6,16 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.helpCenter.Incident.entity.ImageCreation;
-import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.comment.entity.Comment;
 
 @Component
-public class ResponseCommentDto {
-
+public class CommentByIncidentIdDto {
+	
 	private int id;
 
 	private String comments;
 
 	private List<ImageCreation> images = new ArrayList<>();
-
-	private Incident incident;
 
 	public int getId() {
 		return id;
@@ -44,22 +41,25 @@ public class ResponseCommentDto {
 		this.images = images;
 	}
 
-	public Incident getIncident() {
-		return incident;
+	public CommentByIncidentIdDto() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public void setIncident(Incident incident) {
-		this.incident = incident;
+	@Override
+	public String toString() {
+		return "CommentByIncidentIdDto [id=" + id + ", comments=" + comments + ", images=" + images + "]";
 	}
-
-
-// Dto Conversion Commentclass To Dto
-	public ResponseCommentDto commentToResponsedto(Comment comment) {
-		ResponseCommentDto dto = new ResponseCommentDto();
+	
+	// Dto conversion
+	public CommentByIncidentIdDto dtoConversion(Comment comment)
+	{
+		CommentByIncidentIdDto dto = new CommentByIncidentIdDto();
 		dto.setId(comment.getId());
 		dto.setComments(comment.getComments());
 		dto.setImages(comment.getImages());
-		dto.setIncident(comment.getIncident());
 		return dto;
 	}
+
+
 }
