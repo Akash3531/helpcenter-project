@@ -63,7 +63,6 @@ public class CategoryServiceImpl implements CategoryService {
 			category.getRequestHandler().setCategory(category);
 		}
 		categoryRepository.save(category);
-
 	}
 
 // UPDATE CATEGORY FIELDS
@@ -71,7 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
 	public void updateFields(String code, UpdateCategoryDto Category) {
 		Category category = new Category(Category);
 		Category updateCategory = categoryRepository.findByCode(code.toUpperCase());
-		if (updateCategory == null || updateCategory.isActive()==false) {
+		if (updateCategory == null || updateCategory.isActive() == false) {
 			throw new ResourceNotFoundException(code);
 		}
 		String CategoryName = category.getName();
@@ -82,7 +81,6 @@ public class CategoryServiceImpl implements CategoryService {
 			} else {
 				updateCategory.setName(CategoryName);
 			}
-
 		}
 		if (category.getParent() != null) {
 			String parentName = category.getParent().getName();
@@ -93,12 +91,16 @@ public class CategoryServiceImpl implements CategoryService {
 				updateCategory.setParent(parent);
 			}
 		}
-		if (category.getCode() != null && (category.getCode().toLowerCase().equals(code.toLowerCase())!=true)) {
+		if (category.getCode() != null && (category.getCode().toLowerCase().equals(code.toLowerCase()) != true)) {
 			Category categoryByCode = categoryRepository.findByCode(Category.getCode().toUpperCase());
 			if (categoryByCode != null) {
 				throw new CodeException(code);
 			}
 			updateCategory.setCode(category.getCode().toUpperCase());
+		}
+		if(category.getEtaInMinutes()!=0)
+		{
+			updateCategory.setEtaInMinutes(category.getEtaInMinutes());
 		}
 		categoryRepository.save(updateCategory);
 	}
@@ -110,7 +112,8 @@ public class CategoryServiceImpl implements CategoryService {
 		if (category == null) {
 			throw new ResourceNotFoundException(code);
 		}
-		return new ResponseCategoryDto(category.getName(), category.getCode(), category.getParent(),category.getRequestHandler());
+		return new ResponseCategoryDto(category.getName(), category.getCode(), category.getParent(),
+				category.getRequestHandler());
 	}
 
 // GET ALL CATEGORIES
@@ -140,6 +143,7 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		return childsDto;
 	}
+
 // DELETE CATEGORY BY CODE
 	public void deleteCategory(String code) {
 		Category category = categoryRepository.findByCode(code);

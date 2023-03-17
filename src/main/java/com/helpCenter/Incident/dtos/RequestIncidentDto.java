@@ -48,6 +48,8 @@ public class RequestIncidentDto {
 	public RequestIncidentDto() {
 		super();
 		
-	}	
+	}
+	
+	
  
 }

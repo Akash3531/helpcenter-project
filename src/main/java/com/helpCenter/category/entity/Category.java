@@ -34,6 +34,7 @@ public class Category {
 	@Column(length = 64)
 	private String name;
 	private boolean active = true;
+	private int etaInMinutes;
 	@ManyToOne
 	@JoinColumn(name = "parent_id")
 	private Category parent;
@@ -56,12 +57,13 @@ public class Category {
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "category", fetch = FetchType.EAGER)
 	private RequestHandler requestHandler;
 
-	public Category(Integer id, String name, boolean active, Category parent, String code,
+	public Category(Integer id, String name, boolean active,int etaInMinutes, Category parent, String code,
 			RequestHandler requestHandler) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.active = active;
+		this.etaInMinutes=etaInMinutes;
 		this.parent = parent;
 		this.code = code;
 		this.requestHandler = requestHandler;
@@ -87,6 +89,7 @@ public class Category {
 		this.code = category.getCode();
 		this.name = category.getName();
 		this.parent = category.getParent();
+		this.etaInMinutes=category.getEtaInMinutes();
 		this.requestHandler = category.getRequestHandler();
 
 	}
@@ -96,6 +99,7 @@ public class Category {
 		this.code = category.getCode();
 		this.name = category.getName();
 		this.parent = category.getParent();
+		this.etaInMinutes=category.getEtaInMinutes();
 		this.requestHandler=category.getRequestHandler();
 	}
 
@@ -129,6 +133,14 @@ public class Category {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public int getEtaInMinutes() {
+		return etaInMinutes;
+	}
+
+	public void setEtaInMinutes(int etaInMinutes) {
+		this.etaInMinutes = etaInMinutes;
 	}
 
 	public String getCode() {

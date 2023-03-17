@@ -19,6 +19,7 @@ import com.helpCenter.comment.dto.ResponseCommentDto;
 import com.helpCenter.comment.entity.Comment;
 import com.helpCenter.comment.reposatiory.CommentReposatiory;
 import com.helpCenter.comment.service.CommentsService;
+import com.helpCenter.notificationsEmails.serviceImpl.InformationProviderForEmailServiceImpl;
 import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
@@ -35,6 +36,8 @@ public class CommentServiceimpl implements CommentsService {
 	ResponseCommentDto responseDto;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	InformationProviderForEmailServiceImpl providerForEmailServiceImpl;
 
 	@Override
 	public void createComment(int id, RequestCommentDto commentDto, List<MultipartFile> file) throws IOException {
@@ -62,7 +65,11 @@ public class CommentServiceimpl implements CommentsService {
 		}
 		comment.setUser(user);
 		comment.setIncident(incident);
-		commentReposatiory.save(comment);
+		Comment savedComment = commentReposatiory.save(comment);
+		if(savedComment!=null)
+		{
+			providerForEmailServiceImpl.getCommentDetails(savedComment);
+		}
 
 	}
 

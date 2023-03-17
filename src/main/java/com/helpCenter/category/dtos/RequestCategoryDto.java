@@ -18,7 +18,8 @@ public class RequestCategoryDto {
 	@Pattern(regexp = "^(?=.*[0-9])" + "(?=.*[a-z])" + "(?=.*[@#$%^&+=])" + "(?=\\S+$).{2,20}$")
 	private String code;
 	private Category parent;
-	private boolean Flag;
+	private boolean active;
+	private int etaInMinutes;
 	private RequestHandler requestHandler;
 	public RequestCategoryDto(RequestCategoryDto categoryDto) {
 		super();
@@ -30,12 +31,13 @@ public class RequestCategoryDto {
 		this.name = name;
 		this.code = code;
 	}
-	public boolean getFlag() {
-		return Flag;
+	
+	public boolean isActive() {
+		return active;
 	}
 
-	public void setFlag(boolean b) {
-		Flag = b;
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	public String getName() {
@@ -60,6 +62,13 @@ public class RequestCategoryDto {
 	public void setParent(Category parent) {
 		this.parent = parent;
 	}
+	public int getEtaInMinutes() {
+		return etaInMinutes;
+	}
+
+	public void setEtaInMinutes(int etaInMinutes) {
+		this.etaInMinutes = etaInMinutes;
+	}
 
 	public RequestCategoryDto() {
 		super();
@@ -75,7 +84,7 @@ public class RequestCategoryDto {
 	}
 	@Override
 	public String toString() {
-		return "categoryDto [name=" + name + ", code=" + code + ", parent=" + parent + ", Flag=" + Flag + "]";
+		return "categoryDto [name=" + name + ", code=" + code + ", parent=" + parent + ", Active=" + active + "]";
 	}
 
 }

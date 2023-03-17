@@ -1,0 +1,90 @@
+package com.helpCenter.notificationsEmails.serviceImpl;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.helpCenter.Incident.dtos.UpdateIncidentDto;
+import com.helpCenter.Incident.entity.Incident;
+import com.helpCenter.Incident.serviceImpl.IncidentServiceImpl;
+import com.helpCenter.category.entity.Category;
+import com.helpCenter.comment.entity.Comment;
+import com.helpCenter.notificationsEmails.mailSenderServiceImpl.MailSenderServiceImpl;
+import com.helpCenter.notificationsEmails.service.InformationProviderForEmailService;
+import com.helpCenter.requestHandlers.entity.HandlerDetails;
+import com.helpCenter.requestHandlers.entity.RequestHandler;
+import com.helpCenter.user.repository.UserRepository;
+
+@Service
+public class InformationProviderForEmailServiceImpl implements InformationProviderForEmailService {
+
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	MailSenderServiceImpl mailSenderServiceImpl;
+	@Autowired
+	IncidentServiceImpl incidentServiceImpl;
+
+	@Override
+	public void getIncidentCategoryDetails(Incident incident) {
+
+		int eta = incident.getCategory().getEtaInMinutes();
+		long createdTime = incident.getCreatedDate().getTime();
+		Date currentTimeMillis = new Date();
+		long shedulerRunTime = currentTimeMillis.getTime();
+		long diffBetweenCreatedTimeAndSchedulerRunTime = shedulerRunTime - createdTime;// Difference between created
+																						// time and current time
+		long diffrenceInMinutes = TimeUnit.MILLISECONDS.toMinutes(diffBetweenCreatedTimeAndSchedulerRunTime);
+
+		int handlerLevel = (int) (diffrenceInMinutes / eta);
+		String[] toEmails = null;
+		Map<Integer, List<String>> handlerDetails = new LinkedHashMap<>();
+		List<HandlerDetails> handlers = incident.getCategory().getRequestHandler().getHandler();
+		for (HandlerDetails details : handlers) {
+			handlerDetails.put(details.getLevel(), details.getResources());// put handler details in key
+																			// value pair
+		}
+		if (handlerLevel < handlers.size()) {
+			List<String> handlersName = handlerDetails.get(handlers.size() - handlerLevel);
+			for (String handlerName : handlersName) {
+				toEmails = userRepository.findUserEmail(handlerName);
+				mailSenderServiceImpl.sendEmailForIncident(toEmails, incident.getTitle(), incident.getDescription());
+				Date date = new Date();
+				UpdateIncidentDto incidentDto = new UpdateIncidentDto();
+				incidentDto.setLastmailSendedTime(date);
+				try {
+					incidentServiceImpl.updateIncident(incident.getId(), incidentDto, null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+
+	@Override
+	public void getCommentDetails(Comment comment) {
+		Map<Integer, List<String>> handlersWithLevel = new LinkedHashMap<>();
+		String[] toEmails = null;
+		RequestHandler requestHandler = comment.getIncident().getCategory().getRequestHandler();
+		List<HandlerDetails> handlers = requestHandler.getHandler();
+		// putting handler details into map
+		for (HandlerDetails handlerDetails : handlers) {
+			handlersWithLevel.put(handlerDetails.getLevel(), handlerDetails.getResources());
+		}
+		// fetching email of related handler
+		List<String> list = handlersWithLevel.get(handlers.size());
+		for (String name : list) {
+			toEmails = userRepository.findUserEmail(name);
+		}
+		mailSenderServiceImpl.sendEmailAfterCommentCreation(toEmails, comment.getComments(),
+				comment.getIncident().getTitle());
+	}
+
+}

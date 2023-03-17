@@ -7,7 +7,7 @@ databaseChangeLog:
     - onFail: MARK_RAN
       not:
         tableExists:
-          tableName: user_table
+        tableName: user_table
     changes:
     - createTable:
         tableName: user_table

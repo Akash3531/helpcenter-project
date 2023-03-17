@@ -1,8 +1,12 @@
 package com.helpCenter.Incident.entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -13,6 +17,7 @@ import com.helpCenter.user.entity.User;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +28,7 @@ import jakarta.persistence.OneToMany;
 
 @Component
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Incident {
 
 	@Id
@@ -36,7 +42,11 @@ public class Incident {
 	private String categoryCode;
 
 	private String Status = "In Progress";
-
+	
+	@CreatedDate
+	private Date createdDate;
+	
+	private Date lastmailSendedTime;
 	private String priority;
 
 //	@JsonManagedReference(value = "category")
@@ -108,6 +118,14 @@ public class Incident {
 		Status = status;
 	}
 
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
 	public Category getCategory() {
 		return category;
 	}
@@ -123,14 +141,25 @@ public class Incident {
 	public void setPriority(String priority) {
 		this.priority = priority;
 	}
+	
+	public Date getLastmailSendedTime() {
+		return lastmailSendedTime;
+	}
 
-	public Incident(int id, String title, String description, String categoryCode, String status, Category category) {
+	public void setLastmailSendedTime(Date lastmailSendedTime) {
+		this.lastmailSendedTime = lastmailSendedTime;
+	}
+
+	public Incident(int id, String title, String description, String categoryCode, String status, Date createdDate,Date lastmailSendedTime,
+			Category category) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.categoryCode = categoryCode;
 		Status = status;
+		this.createdDate = createdDate;
+		this.lastmailSendedTime=lastmailSendedTime;
 		this.category = category;
 	}
 
@@ -163,6 +192,7 @@ public class Incident {
 		incident.setTitle(incidentDto.getTitle());
 		incident.setDescription(incidentDto.getDescription());
 		incident.setCategoryCode(incidentDto.getCategoryCode());
+		incident.setLastmailSendedTime(incidentDto.getLastmailSendedTime());
 		incident.setPriority(incidentDto.getPriority());
 		return incident;
 
