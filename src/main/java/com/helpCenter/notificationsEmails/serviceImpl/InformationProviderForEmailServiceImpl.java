@@ -36,8 +36,8 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 
 		int eta = incident.getCategory().getEtaInMinutes();
 		long createdTime = incident.getCreatedDate().getTime();
-		Date currentTimeMillis = new Date();
-		long shedulerRunTime = currentTimeMillis.getTime();
+		Date currentTime = new Date();
+		long shedulerRunTime = currentTime.getTime();
 		long diffBetweenCreatedTimeAndSchedulerRunTime = shedulerRunTime - createdTime;// Difference between created
 																						// time and current time
 		long diffrenceInMinutes = TimeUnit.MILLISECONDS.toMinutes(diffBetweenCreatedTimeAndSchedulerRunTime);
@@ -55,9 +55,8 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 			for (String handlerName : handlersName) {
 				toEmails = userRepository.findUserEmail(handlerName);
 				mailSenderServiceImpl.sendEmailForIncident(toEmails, incident.getTitle(), incident.getDescription());
-				Date date = new Date();
 				UpdateIncidentDto incidentDto = new UpdateIncidentDto();
-				incidentDto.setLastmailSendedTime(date);
+				incidentDto.setLastmailSendedTime(currentTime);
 				try {
 					incidentServiceImpl.updateIncident(incident.getId(), incidentDto, null);
 				} catch (IOException e) {
