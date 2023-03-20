@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.helpCenter.comment.dto.CommentByIncidentIdDto;
 import com.helpCenter.comment.dto.RequestCommentDto;
 import com.helpCenter.comment.dto.ResponseCommentDto;
 import com.helpCenter.comment.service.CommentsService;
@@ -27,6 +28,7 @@ public class CommentController {
 	@Autowired
 	CommentsService commentsService;
 
+// CREATE COMMENT OR POST COMMENT
 	@PostMapping(path = "/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<?> createComment(@PathVariable int id,
 			@RequestPart(value = "comment") RequestCommentDto commentdto,
@@ -35,16 +37,18 @@ public class CommentController {
 		commentsService.createComment(id, commentdto, file);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
-
+	
+// GET ALL COMMENTS 
 	@GetMapping("/")
 	public ResponseEntity<List<ResponseCommentDto>> getAllComments() {
 		List<ResponseCommentDto> comments = commentsService.getAllComments();
 		return new ResponseEntity<List<ResponseCommentDto>>(comments, HttpStatus.OK);
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<List<ResponseCommentDto>> getCommentByIncident(@PathVariable int id) {
-		List<ResponseCommentDto> comments = commentsService.getCommentsByIncident(id);
-		return new ResponseEntity<List<ResponseCommentDto>>(comments, HttpStatus.OK);
+// GET COMMENTS BY INCIDENT
+	@GetMapping(path = "/{id}")
+	public ResponseEntity<List<CommentByIncidentIdDto>> getCommentByIncident(@PathVariable int id) {
+		List<CommentByIncidentIdDto> comments = commentsService.getCommentsByIncident(id);
+		return new ResponseEntity<List<CommentByIncidentIdDto>>(comments, HttpStatus.OK);
 	}
 }

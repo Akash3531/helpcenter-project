@@ -113,10 +113,11 @@ public class IncidentServiceImpl implements IncidentService {
 			String categoryCode = incident.getCategoryCode();
 			if (categoryCode != null) {
 				Category category = categoryRepo.findByCode(categoryCode.toUpperCase());
-				updateIncident.setCategory(category);
 				if (category == null) {
 					throw new CategoryNotFoundException(categoryCode);
 				}
+				updateIncident.setCategory(category);
+				
 			}
 			if(incident.getLastmailSendedTime()!=null)
 			{
@@ -145,7 +146,6 @@ public class IncidentServiceImpl implements IncidentService {
 			}
 			updateIncident.setImages(imageslist);
 		}
-
 		incidentReposatiory.save(updateIncident);
 	}
 }

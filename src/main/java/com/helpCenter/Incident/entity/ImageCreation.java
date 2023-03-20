@@ -3,6 +3,7 @@ package com.helpCenter.Incident.entity;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.helpCenter.comment.entity.Comment;
 
 import jakarta.persistence.Column;
@@ -23,11 +24,11 @@ public class ImageCreation {
 	@Column( length = 32 )
 	private byte[] image;
 
-	@JsonBackReference
+	@JsonBackReference(value="image")
 	@ManyToOne
 	private Incident incident;
 
-	@JsonBackReference
+	@JsonBackReference(value = "images")
 	@ManyToOne
 	private Comment comment;
 

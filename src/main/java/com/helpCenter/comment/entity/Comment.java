@@ -8,6 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.helpCenter.Incident.entity.ImageCreation;
 import com.helpCenter.Incident.entity.Incident;
@@ -27,6 +28,7 @@ import jakarta.persistence.OneToMany;
 
 @Component
 @EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 public class Comment {
 
@@ -39,7 +41,7 @@ public class Comment {
 
 	private String comments;
 
-	@JsonManagedReference
+	@JsonManagedReference(value = "images")
 	@OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ImageCreation> images = new ArrayList<>();
 
@@ -103,11 +105,11 @@ public class Comment {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public String toString() {
-		return "Comment [id=" + id + ", createdDate=" + createdDate + ", comments=" + comments + ", images=" + images
-				+ ", incident=" + incident + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Comment [id=" + id + ", createdDate=" + createdDate + ", comments=" + comments + ", images=" + images
+//				+ ", incident=" + incident + "]";
+//	}
 
 	// Dto Conversion : RequestDto To CommentsClass
 	public Comment dtoToClass(RequestCommentDto commentDto) {

@@ -25,9 +25,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
-@Component
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Component
 public class Incident {
 
 	@Id
@@ -41,10 +41,10 @@ public class Incident {
 	private String categoryCode;
 
 	private String Status = "In Progress";
-	
+
 	@CreatedDate
 	private Date createdDate;
-	
+
 	private Date lastmailSendedTime;
 	private String priority;
 
@@ -53,6 +53,7 @@ public class Incident {
 	@JoinColumn(name = "category_id")
 	private Category category;
 
+	@JsonManagedReference(value = "image")
 	@OneToMany(mappedBy = "incident", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ImageCreation> images = new ArrayList<>();
 
@@ -117,14 +118,6 @@ public class Incident {
 		Status = status;
 	}
 
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
 	public Category getCategory() {
 		return category;
 	}
@@ -140,7 +133,7 @@ public class Incident {
 	public void setPriority(String priority) {
 		this.priority = priority;
 	}
-	
+
 	public Date getLastmailSendedTime() {
 		return lastmailSendedTime;
 	}
@@ -149,8 +142,16 @@ public class Incident {
 		this.lastmailSendedTime = lastmailSendedTime;
 	}
 
-	public Incident(int id, String title, String description, String categoryCode, String status, Date createdDate,Date lastmailSendedTime,
-			Category category) {
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Incident(int id, String title, String description, String categoryCode, String status, Date createdDate,
+			Date lastmailSendedTime, Category category) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -158,7 +159,7 @@ public class Incident {
 		this.categoryCode = categoryCode;
 		Status = status;
 		this.createdDate = createdDate;
-		this.lastmailSendedTime=lastmailSendedTime;
+		this.lastmailSendedTime = lastmailSendedTime;
 		this.category = category;
 	}
 
