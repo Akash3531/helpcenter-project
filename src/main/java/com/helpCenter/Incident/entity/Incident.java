@@ -1,6 +1,5 @@
 package com.helpCenter.Incident.entity;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -181,6 +180,7 @@ public class Incident {
 		incident.setTitle(incidentDto.getTitle());
 		incident.setDescription(incidentDto.getDescription());
 		incident.setCategoryCode(incidentDto.getCategoryCode());
+		incident.setLastmailSendedTime(incidentDto.getLastmailSendedTime());
 		incident.setPriority(incidentDto.getPriority());
 		return incident;
 

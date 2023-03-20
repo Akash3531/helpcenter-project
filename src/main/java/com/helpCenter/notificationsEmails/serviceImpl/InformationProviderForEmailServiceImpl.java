@@ -54,14 +54,14 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 			List<String> handlersName = handlerDetails.get(handlers.size() - handlerLevel);
 			for (String handlerName : handlersName) {
 				toEmails = userRepository.findUserEmail(handlerName);
-				mailSenderServiceImpl.sendEmailForIncident(toEmails, incident.getTitle(), incident.getDescription());
-				UpdateIncidentDto incidentDto = new UpdateIncidentDto();
-				incidentDto.setLastmailSendedTime(currentTime);
-				try {
-					incidentServiceImpl.updateIncident(incident.getId(), incidentDto, null);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			}
+			mailSenderServiceImpl.sendEmailForIncident(toEmails, incident.getTitle(), incident.getDescription());
+			UpdateIncidentDto incidentDto = new UpdateIncidentDto();
+			incidentDto.setLastmailSendedTime(currentTime);
+			try {
+				incidentServiceImpl.updateIncident(incident.getId(), incidentDto, null);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 
