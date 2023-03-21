@@ -29,12 +29,12 @@ public class CommentController {
 	CommentsService commentsService;
 
 // CREATE COMMENT OR POST COMMENT
-	@PostMapping(path = "/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
-	public ResponseEntity<?> createComment(@PathVariable int id,
+	@PostMapping(path = "/{incidentId}", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ResponseEntity<?> createComment(@PathVariable int incidentId,
 			@RequestPart(value = "comment") RequestCommentDto commentdto,
 			@RequestParam(value = "image", required = false) List<MultipartFile> file) throws IOException {
 
-		commentsService.createComment(id, commentdto, file);
+		commentsService.createComment(incidentId, commentdto, file);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
@@ -46,9 +46,9 @@ public class CommentController {
 	}
 
 // GET COMMENTS BY INCIDENT
-	@GetMapping(path = "/{id}")
-	public ResponseEntity<List<CommentByIncidentIdDto>> getCommentByIncident(@PathVariable int id) {
-		List<CommentByIncidentIdDto> comments = commentsService.getCommentsByIncident(id);
+	@GetMapping(path = "/{incidentId}")
+	public ResponseEntity<List<CommentByIncidentIdDto>> getCommentByIncident(@PathVariable int incidentId) {
+		List<CommentByIncidentIdDto> comments = commentsService.getCommentsByIncident(incidentId);
 		return new ResponseEntity<List<CommentByIncidentIdDto>>(comments, HttpStatus.OK);
 	}
 }

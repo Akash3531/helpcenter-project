@@ -7,15 +7,26 @@ import org.springframework.stereotype.Component;
 
 import com.helpCenter.Incident.entity.ImageCreation;
 import com.helpCenter.comment.entity.Comment;
+import com.helpCenter.user.entity.User;
 
 @Component
 public class CommentByIncidentIdDto {
-	
+
 	private int id;
 
 	private String comments;
 
 	private List<ImageCreation> images = new ArrayList<>();
+
+	private User user;
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public int getId() {
 		return id;
@@ -50,16 +61,15 @@ public class CommentByIncidentIdDto {
 	public String toString() {
 		return "CommentByIncidentIdDto [id=" + id + ", comments=" + comments + ", images=" + images + "]";
 	}
-	
+
 	// Dto conversion
-	public CommentByIncidentIdDto dtoConversion(Comment comment)
-	{
+	public CommentByIncidentIdDto dtoConversion(Comment comment) {
 		CommentByIncidentIdDto dto = new CommentByIncidentIdDto();
 		dto.setId(comment.getId());
 		dto.setComments(comment.getComments());
 		dto.setImages(comment.getImages());
+        dto.setUser(comment.getUser());
 		return dto;
 	}
-
 
 }

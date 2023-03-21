@@ -106,9 +106,8 @@ public class IncidentServiceImpl implements IncidentService {
 			Incident incident = incidentClass.UpdateDtoToIncident(incidentdto);
 			// Fetching Category
 			String categoryCode = incident.getCategoryCode();
-			Category category = null;
 			if (categoryCode != null) {
-				category = categoryRepo.findByCode(categoryCode.toUpperCase());
+			Category category = categoryRepo.findByCode(categoryCode.toUpperCase());
 				updateIncident.setCategory(category);
 				if (category == null) {
 					throw new CategoryNotFoundException(categoryCode);
