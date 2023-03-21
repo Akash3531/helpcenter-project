@@ -14,10 +14,10 @@ public class EmailConfiguration {
 	public JavaMailSender mailSender()
 	{
 		JavaMailSenderImpl mailSender=new JavaMailSenderImpl();
-		mailSender.setHost("smpt.com");
-		mailSender.setPort(00);
-		mailSender.setUsername("abc.com");
-		mailSender.setPassword("abc");
+		mailSender.setHost("asmtp.seasiainfotech.com");
+		mailSender.setPort(252);
+		mailSender.setUsername("akash@seasia.in");
+		mailSender.setPassword("kvL%g!ZLXpG2");
 		
 		Properties javaMailProperties = new Properties();
 		javaMailProperties.put("mail.smtp.auth", true);
@@ -26,5 +26,21 @@ public class EmailConfiguration {
 		mailSender.setJavaMailProperties(javaMailProperties);
 		return mailSender;
 	}
-
+	
+//	@Bean
+//	public JavaMailSender mailSender()
+//	{
+//		JavaMailSenderImpl mailSender=new JavaMailSenderImpl();
+//		mailSender.setHost("smtp.gmail.com");
+//		mailSender.setPort(587);
+//		mailSender.setUsername("dingramail000@gmail.com");
+//		mailSender.setPassword("dzdxtgzccoelxueo");
+//		
+//		Properties javaMailProperties = new Properties();
+//		javaMailProperties.put("mail.smtp.auth", true);
+//		javaMailProperties.put("mail.smtp.starttls.enable", true);
+//		
+//		mailSender.setJavaMailProperties(javaMailProperties);
+//		return mailSender;
+//	}
 }
