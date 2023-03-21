@@ -71,14 +71,12 @@ public class CommentServiceimpl implements CommentsService {
 			}
 			comment.setUser(user);
 			comment.setIncident(incident);
-			commentReposatiory.save(comment);
+			Comment savedComment = commentReposatiory.save(comment);
+			if (savedComment != null) {
+				providerForEmailServiceImpl.getCommentDetails(savedComment);
+			}
 		}
-		comment.setUser(user);
-		comment.setIncident(incident);
-		Comment savedComment = commentReposatiory.save(comment);
-		if (savedComment != null) {
-			providerForEmailServiceImpl.getCommentDetails(savedComment);
-		}
+		
 	}
 
 // GET ALL COMMENTS
