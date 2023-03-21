@@ -25,9 +25,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
+@Entity
 @EntityListeners(AuditingEntityListener.class)
 @Component
-@Entity
 public class Incident {
 
 	@Id
@@ -42,17 +42,18 @@ public class Incident {
 
 	private String Status = "In Progress";
 
-	private String priority;
-
 	@CreatedDate
 	private Date createdDate;
+
+	private Date lastmailSendedTime;
+	private String priority;
 
 //	@JsonManagedReference(value = "category")
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
 
-	@JsonManagedReference(value="image")
+	@JsonManagedReference(value = "image")
 	@OneToMany(mappedBy = "incident", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ImageCreation> images = new ArrayList<>();
 
@@ -133,6 +134,14 @@ public class Incident {
 		this.priority = priority;
 	}
 
+	public Date getLastmailSendedTime() {
+		return lastmailSendedTime;
+	}
+
+	public void setLastmailSendedTime(Date lastmailSendedTime) {
+		this.lastmailSendedTime = lastmailSendedTime;
+	}
+
 	public Date getCreatedDate() {
 		return createdDate;
 	}
@@ -141,13 +150,16 @@ public class Incident {
 		this.createdDate = createdDate;
 	}
 
-	public Incident(int id, String title, String description, String categoryCode, String status, Category category) {
+	public Incident(int id, String title, String description, String categoryCode, String status, Date createdDate,
+			Date lastmailSendedTime, Category category) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.categoryCode = categoryCode;
 		Status = status;
+		this.createdDate = createdDate;
+		this.lastmailSendedTime = lastmailSendedTime;
 		this.category = category;
 	}
 
@@ -169,6 +181,7 @@ public class Incident {
 		incident.setTitle(incidentDto.getTitle());
 		incident.setDescription(incidentDto.getDescription());
 		incident.setCategoryCode(incidentDto.getCategoryCode());
+		incident.setLastmailSendedTime(incidentDto.getLastmailSendedTime());
 		incident.setPriority(incidentDto.getPriority());
 		return incident;
 
@@ -180,6 +193,7 @@ public class Incident {
 		incident.setTitle(incidentDto.getTitle());
 		incident.setDescription(incidentDto.getDescription());
 		incident.setCategoryCode(incidentDto.getCategoryCode());
+		incident.setLastmailSendedTime(incidentDto.getLastmailSendedTime());
 		incident.setPriority(incidentDto.getPriority());
 		return incident;
 

@@ -21,6 +21,7 @@ import com.helpCenter.comment.dto.ResponseCommentDto;
 import com.helpCenter.comment.entity.Comment;
 import com.helpCenter.comment.reposatiory.CommentReposatiory;
 import com.helpCenter.comment.service.CommentsService;
+import com.helpCenter.notificationsEmails.serviceImpl.InformationProviderForEmailServiceImpl;
 import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
@@ -37,6 +38,8 @@ public class CommentServiceimpl implements CommentsService {
 	ResponseCommentDto responseDto;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	InformationProviderForEmailServiceImpl providerForEmailServiceImpl;
 	@Autowired
 	CommentByIncidentIdDto commentByIncidentIdDto;
 
@@ -68,9 +71,12 @@ public class CommentServiceimpl implements CommentsService {
 			}
 			comment.setUser(user);
 			comment.setIncident(incident);
-			commentReposatiory.save(comment);
+			Comment savedComment = commentReposatiory.save(comment);
+			if (savedComment != null) {
+				providerForEmailServiceImpl.getCommentDetails(savedComment);
+			}
 		}
-
+		
 	}
 
 // GET ALL COMMENTS
@@ -88,12 +94,12 @@ public class CommentServiceimpl implements CommentsService {
 // GET COMMENTS BY INCIDENT ID
 	@Override
 	public List<CommentByIncidentIdDto> getCommentsByIncident(int id) {
-		List<Comment> comments = commentReposatiory.findCommentByIncidentId(id);	
-		if (comments.size()==0) {
+		List<Comment> comments = commentReposatiory.findCommentByIncidentId(id);
+		if (comments.size() == 0) {
 			throw new IncidentNotFoundException(id);
 		} else {
 			List<CommentByIncidentIdDto> commentsList = comments.stream()
-					.map((comment) ->commentByIncidentIdDto.dtoConversion(comment)).collect(Collectors.toList());
+					.map((comment) -> commentByIncidentIdDto.dtoConversion(comment)).collect(Collectors.toList());
 			return commentsList;
 		}
 	}

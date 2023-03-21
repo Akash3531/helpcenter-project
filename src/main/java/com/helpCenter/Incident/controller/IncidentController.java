@@ -39,8 +39,7 @@ public class IncidentController {
 // CREATE INCIDENT
 	@PostMapping(path = "/", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<?> createIncident(@RequestParam(value = "image", required = false) List<MultipartFile> file,
-		@Valid	@RequestPart(value = "incident") RequestIncidentDto incidentdto) throws IOException {
-
+		@Valid	@RequestPart(value = "incident") RequestIncidentDto incidentdto) throws Exception {
 		incidentService.createIncident(incidentdto, file);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}

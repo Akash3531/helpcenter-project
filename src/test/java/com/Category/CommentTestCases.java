@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +32,8 @@ import com.helpCenter.category.repository.CategoryRepo;
 import com.helpCenter.comment.dto.RequestCommentDto;
 import com.helpCenter.comment.entity.Comment;
 import com.helpCenter.comment.reposatiory.CommentReposatiory;
+import com.helpCenter.requestHandlers.entity.HandlerDetails;
+import com.helpCenter.requestHandlers.entity.RequestHandler;
 import com.helpCenter.user.repository.UserRepository;
 
 @SpringBootTest
@@ -70,11 +73,29 @@ public class CommentTestCases {
 	public void givenCommentObject_whenCreateComment_thenReturnStatus() throws Exception {
 
 		// given - precondition or setup
-		Category category = new Category("hardware", "HARDWARE@33");
+		Category category = new Category();
+		category.setName("software");
+		category.setCode("SOFTWARE@12");
+		category.setEtaInMinutes(5);
+		
+		List<String>resources=new ArrayList<>();
+		resources.add("akash");
+		resources.add("sonu");
+		HandlerDetails detail=new HandlerDetails();
+		detail.setLevel(1);
+		detail.setResources(resources);
+		List<HandlerDetails> details=new ArrayList<>();
+		details.add(detail);
+		RequestHandler requestHandler=new RequestHandler();
+		requestHandler.setHandler(details);
+		requestHandler.setCategory(category);
+		category.setRequestHandler(requestHandler);
+		
 		categoryRepo.save(category);
 
 		Incident incident = new Incident();
-		incident.setCategoryCode(category.getCode());
+		incident.setCategory(category);
+		incident.setLastmailSendedTime(new Date());
 		incident.setTitle("mouse problem");
 		incident.setDescription("mouse is not working");
 		incidentReposatiory.save(incident);
@@ -85,7 +106,7 @@ public class CommentTestCases {
 		String jsonStr = Obj.writeValueAsString(commentDto);
 		MockMultipartFile jsonFile = new MockMultipartFile("comment", "", "application/json", jsonStr.getBytes());
 
-		MockMultipartFile file = new MockMultipartFile("image", "C:\\Users\\salariyaabhishek\\Pictures\\meditation-buddhism-monk-temple",
+		MockMultipartFile file = new MockMultipartFile("image", "C:\\Users\\akash\\Pictures\\bankimage.jpg",
 				MediaType.MULTIPART_FORM_DATA_VALUE, "".getBytes());
 		// when - action or behavior
 		ResultActions response = mockMvc

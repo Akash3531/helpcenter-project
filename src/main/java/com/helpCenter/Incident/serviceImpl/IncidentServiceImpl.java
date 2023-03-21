@@ -22,6 +22,7 @@ import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 import com.helpCenter.Incident.service.IncidentService;
 import com.helpCenter.category.entity.Category;
 import com.helpCenter.category.repository.CategoryRepo;
+import com.helpCenter.notificationsEmails.serviceImpl.InformationProviderForEmailServiceImpl;
 import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
@@ -36,6 +37,8 @@ public class IncidentServiceImpl implements IncidentService {
 	CategoryRepo categoryRepo;
 	@Autowired
 	Incident incidentClass;
+	@Autowired
+	InformationProviderForEmailServiceImpl providerForEmailServiceImpl;
 	@Autowired
 	ResponseIncidentDto responseIncidentDto;
 
@@ -68,7 +71,11 @@ public class IncidentServiceImpl implements IncidentService {
 			}
 			incident.setUser(name);
 			incident.setCategory(category);
-			incidentReposatiory.save(incident);
+			Incident savedincident = incidentReposatiory.save(incident);
+			if(savedincident!=null)
+			{
+				providerForEmailServiceImpl.getIncidentCategoryDetails(savedincident);
+			}
 		}
 	}
 
@@ -90,14 +97,12 @@ public class IncidentServiceImpl implements IncidentService {
 			throw new IncidentNotFoundException(id);
 		}
 		ResponseIncidentDto incidentdto = responseIncidentDto.incidentToIncident_Dto(incident);
-		System.out.println(incidentdto);
 		return incidentdto;
 	}
 
 // UPDATE INCIDENT
 	@Override
 	public void updateIncident(int id, UpdateIncidentDto incidentdto, List<MultipartFile> file) throws IOException {
-
 		// Fetching Incident To be Updated
 		Incident updateIncident = incidentReposatiory.findById(id);
 
@@ -107,11 +112,17 @@ public class IncidentServiceImpl implements IncidentService {
 			// Fetching Category
 			String categoryCode = incident.getCategoryCode();
 			if (categoryCode != null) {
+
 			Category category = categoryRepo.findByCode(categoryCode.toUpperCase());
-				updateIncident.setCategory(category);
 				if (category == null) {
 					throw new CategoryNotFoundException(categoryCode);
 				}
+				updateIncident.setCategory(category);
+				
+			}
+			if(incident.getLastmailSendedTime()!=null)
+			{
+				updateIncident.setLastmailSendedTime(incident.getLastmailSendedTime());
 			}
 			if (incident.getTitle() != null) {
 				updateIncident.setTitle(incident.getTitle());
@@ -125,7 +136,6 @@ public class IncidentServiceImpl implements IncidentService {
 			if (incident.getPriority() != null) {
 				updateIncident.setPriority(incident.getPriority());
 			}
-
 		}
 		if (file != null) {
 			List<ImageCreation> imageslist = new ArrayList<>();

@@ -1,5 +1,7 @@
 package com.helpCenter.Incident.dtos;
 
+import java.util.Date;
+
 public class UpdateIncidentDto {
 
 	private String title;
@@ -7,9 +9,9 @@ public class UpdateIncidentDto {
 	private String description;
 
 	private String categoryCode;
-
 	private String priority;
 
+	private Date lastmailSendedTime;
 	public String getTitle() {
 		return title;
 	}
@@ -42,8 +44,17 @@ public class UpdateIncidentDto {
 		this.priority = priority;
 	}
 
+	public Date getLastmailSendedTime() {
+		return lastmailSendedTime;
+	}
+
+	public void setLastmailSendedTime(Date date) {
+		this.lastmailSendedTime = date;
+	}
+
 	public UpdateIncidentDto() {
 		super();
 		
-	}	
+	}
+	
 }

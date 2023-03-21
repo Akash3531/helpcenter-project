@@ -31,7 +31,7 @@ import com.helpCenter.user.repository.UserRepository;
 
 @ContextConfiguration(classes = CategoryApplication.class)
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc
 @WithMockUser(username = "user", password = "password", roles = "ADMIN")
 public class UserTestCase {
 	@Autowired
@@ -55,7 +55,7 @@ public class UserTestCase {
 
 	// CREATE User
 	@Test
-	public void givenUserObject_whenCreateUser_thenReturnStatus() throws Exception {
+	public void givenUserObject_whenCreateUser_thenReturnStatusCreated() throws Exception {
 
 		// given - precondition or setup
 		RequestUserDTO userDto = new RequestUserDTO("akash", "akash", "prabhjot");
