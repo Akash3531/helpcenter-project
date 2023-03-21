@@ -119,5 +119,4 @@ class CategoryIntegrationTest {
 				.andExpect(jsonPath("$.[1].name", is(category1.getName())));
 
 	}
-
 }

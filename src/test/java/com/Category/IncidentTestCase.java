@@ -61,7 +61,7 @@ public class IncidentTestCase {
 	ObjectMapper objectMapper;
 
 	Date date = new Date();
-
+			
 	@Test
 	void contextLoads() {
 
