@@ -135,7 +135,7 @@ public class IncidentServiceImpl implements IncidentService {
 			if (incident.getCategory() != null) {
 				updateIncident.setCategoryCode(incident.getCategoryCode());
 			}
-			isf (incident.getDescription() != null) {
+			if (incident.getDescription() != null) {
 				updateIncident.setDescription(incident.getDescription());
 			}
 			if (incident.getPriority() != null) {
