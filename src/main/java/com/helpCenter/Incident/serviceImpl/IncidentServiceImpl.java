@@ -6,11 +6,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.helpCenter.Incident.dtos.GetIncidentbyCategory;
 import com.helpCenter.Incident.dtos.RequestIncidentDto;
 import com.helpCenter.Incident.dtos.ResponseIncidentDto;
 import com.helpCenter.Incident.dtos.UpdateIncidentDto;
@@ -41,6 +44,8 @@ public class IncidentServiceImpl implements IncidentService {
 	InformationProviderForEmailServiceImpl providerForEmailServiceImpl;
 	@Autowired
 	ResponseIncidentDto responseIncidentDto;
+	@Autowired
+	GetIncidentbyCategory getIncidentbyCategory;
 
 // CREATE INCIDENT
 	@Override
@@ -148,5 +153,36 @@ public class IncidentServiceImpl implements IncidentService {
 			updateIncident.setImages(imageslist);
 		}
 		incidentReposatiory.save(updateIncident);
+	}
+
+//Get INCIDENT BY USER
+
+	@Override
+	public List<GetIncidentbyCategory> getIncidentbyUser(int user_id,Integer pageNumber , Integer pageSize) {
+		
+		Pageable p = PageRequest.of(pageNumber, pageSize);
+		List<Incident> incidents = incidentReposatiory.findIncidentByUserId(user_id, p);
+		if (incidents == null) {
+			throw new IncidentNotFoundException(user_id);
+		}
+		List<GetIncidentbyCategory> incidentList = incidents.stream()
+				.map((incident) -> getIncidentbyCategory.UserIncident(incident)).collect(Collectors.toList());
+		return incidentList;
+	}
+
+//Get INCIDENT BY CODE
+	@Override
+	public List<GetIncidentbyCategory> getIncidentbyCategoryCode(String code, Integer pageNumber, Integer pageSize) {
+
+		Pageable p = PageRequest.of(pageNumber, pageSize);
+		List<Incident> incidents = incidentReposatiory.findIncidentByCode(code, p);
+
+		if (incidents == null) {
+			throw new IncidentNotFoundException(code);
+		}
+		List<GetIncidentbyCategory> incidentDto = incidents.stream()
+				.map((incident) -> getIncidentbyCategory.UserIncident(incident)).collect(Collectors.toList());
+		return incidentDto;
+
 	}
 }

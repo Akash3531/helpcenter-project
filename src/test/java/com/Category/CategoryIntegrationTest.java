@@ -44,11 +44,12 @@ class CategoryIntegrationTest {
 	private IncidentReposatiory incidentReposatiory;
 	@Autowired
 	private ObjectMapper objectMapper;
+
 	@Test
 	void contextLoads() {
 
 	}
-	
+
 	@BeforeEach
 	void setUp() {
 		incidentReposatiory.deleteAll();
@@ -118,7 +119,5 @@ class CategoryIntegrationTest {
 				.andExpect(jsonPath("$.[1].name", is(category1.getName())));
 
 	}
-	
-	
 
 }
