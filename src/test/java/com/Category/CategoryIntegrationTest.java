@@ -41,7 +41,7 @@ class CategoryIntegrationTest {
 	@Autowired
 	private CategoryRepo categoryRepo;
 	@Autowired
-	private IncidentReposatiory incidentReposatiory;
+	private IncidentReposatiory incidentReposatiory2;
 	@Autowired
 	private ObjectMapper objectMapper;
 	@Test
@@ -52,7 +52,15 @@ class CategoryIntegrationTest {
 	@BeforeEach
 	void setUp() {
 		incidentReposatiory.deleteAll();
+<<<<<<< HEAD:src/test/java/com/Category/CategoryIntegrationTest.java
 		categoryRepo.deleteAll();
+=======
+
+		categoryRepo.deleteAll();
+
+		categoryRepo.deleteAll();	
+
+>>>>>>> 902736a0312fd80444d7efe5dd871e3b10a43fa4:src/test/java/com/Category/categoryIntegrationTest.java
 	}
 
 	// CREATE CATEGORY

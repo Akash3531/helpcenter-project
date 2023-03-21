@@ -40,20 +40,6 @@ public class Category {
 	private Category parent;
 	private String code;
 
-//	@JsonManagedReference(value="Cat")
-//	@JsonIgnore
-//	@JsonBackReference(value = "cat")
-//	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	private List<Incident> incident = new ArrayList<>();
-//
-//	public List<Incident> getIncident() {
-//		return incident;
-//	}
-//
-//	public void setIncident(List<Incident> incident) {
-//		this.incident = incident;
-//	}
-
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "category", fetch = FetchType.EAGER)
 	private RequestHandler requestHandler;
 
