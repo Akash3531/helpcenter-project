@@ -170,7 +170,7 @@ public class IncidentTestCase {
 		incident.setCategoryCode(category.getCode());
 		incident.setTitle("Mouse problem");
 		incident.setDescription("mouse is not working");
-		
+
 		List<Incident> incidents = new ArrayList<>();
 		incidents.add(incidentForKeyboard);
 		incidents.add(incident);
@@ -200,33 +200,31 @@ public class IncidentTestCase {
 		Incident incident1 = new Incident();
 		incident1.setTitle("Slack");
 		incident1.setUser(user);
-		
+
 		Incident incident2 = new Incident();
 		incident2.setTitle("Slackk");
 		incident2.setUser(user);
-		
+
 		List<Incident> incidents = new ArrayList<>();
 		incidents.add(incident1);
 		incidents.add(incident2);
-		
+
 		incidentReposatiory.saveAll(incidents);
 
 		// when - action or behavior
-		ResultActions response = mockMvc
-	    .perform(MockMvcRequestBuilders.get("/incident/byuser/{user_id}", user.getUserId())
-		.param("pageNumber", "0")
-        .param("pageSize", "2"));
+		ResultActions response = mockMvc.perform(MockMvcRequestBuilders
+				.get("/incident/byuser/{user_id}", user.getUserId()).param("pageNumber", "0").param("pageSize", "2"));
 
-		 // then - verify output
-		 response.andDo(print()).andExpect(jsonPath("$.[0].title", is(incident1.getTitle())))
-		.andExpect(jsonPath("$.[1].title", is(incident2.getTitle())));
+		// then - verify output
+		response.andDo(print()).andExpect(jsonPath("$.[0].title", is(incident1.getTitle())))
+				.andExpect(jsonPath("$.[1].title", is(incident2.getTitle())));
 
 	}
-	
-//get incident by Category Code
-		@Test
-		public void gevenIncident_whenGetAllIncidentByCategoryCode_thenReturnSavedIncident() throws Exception {
-	
+
+	// get incident by Category Code
+	@Test
+	public void gevenIncident_whenGetAllIncidentByCategoryCode_thenReturnSavedIncident() throws Exception {
+
 		Category category = new Category("hardware", "HARDWARE@33");
 		categoryRepo.save(category);
 
@@ -237,14 +235,12 @@ public class IncidentTestCase {
 		incident.setCategoryCode(category.getCode());
 		incidentReposatiory.save(incident);
 		// when - action or behavior
-		ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/incident/bycode/{code}", category.getCode())
-		.param("pageNumber", "0")
-	    .param("pageSize", "2"));
+		ResultActions response = mockMvc.perform(MockMvcRequestBuilders
+				.get("/incident/bycode/{code}", category.getCode()).param("pageNumber", "0").param("pageSize", "2"));
 		// then - verify output
-		 response.andDo(print()).andExpect(jsonPath("$.[0].title", is(incident.getTitle())))
-		.andExpect(MockMvcResultMatchers.status().isOk());
+		response.andDo(print()).andExpect(jsonPath("$.[0].title", is(incident.getTitle())))
+				.andExpect(MockMvcResultMatchers.status().isOk());
 
-				
 	}
 
 }
