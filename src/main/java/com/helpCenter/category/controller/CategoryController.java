@@ -36,7 +36,7 @@ public class CategoryController {
 		 categoryService.createCategory(category);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
-
+	
 	//Get Category By name
 	@GetMapping("/{code}")
 	public ResponseEntity<ResponseCategoryDto> GetByName(@PathVariable String code)
