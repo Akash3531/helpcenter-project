@@ -146,7 +146,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 // DELETE CATEGORY BY CODE
 	public void deleteCategory(String code) {
-		Category category = categoryRepository.findByCode(code);
+		Category category = categoryRepository.findByCode(code.toUpperCase());
 		if (category == null) {
 			throw new ResourceNotFoundException(code);
 		} else {

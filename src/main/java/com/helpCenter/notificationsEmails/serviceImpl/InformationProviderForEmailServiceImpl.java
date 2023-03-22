@@ -19,6 +19,7 @@ import com.helpCenter.notificationsEmails.mailSenderServiceImpl.MailSenderServic
 import com.helpCenter.notificationsEmails.service.InformationProviderForEmailService;
 import com.helpCenter.requestHandlers.entity.HandlerDetails;
 import com.helpCenter.requestHandlers.entity.RequestHandler;
+import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
 @Service
@@ -84,6 +85,12 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 		}
 		mailSenderServiceImpl.sendEmailAfterCommentCreation(toEmails, comment.getComments(),
 				comment.getIncident().getTitle());
+	}
+	@Override
+	public void getUserDetailAfterStatusUpdate(Incident updateIncident) {
+		String email = updateIncident.getUser().getEmail();
+		String title = updateIncident.getTitle();
+		mailSenderServiceImpl.sendEmailAfterStatusUpdate(email,title);
 	}
 
 }

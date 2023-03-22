@@ -50,5 +50,20 @@ public class MailSenderServiceImpl implements EmailSenderService {
 		
 	}
 
+	public void sendEmailAfterStatusUpdate(String email, String title) {
+		try {
+			MimeMessage mimeMessage=mailSender.createMimeMessage();
+			MimeMessageHelper helper=new MimeMessageHelper(mimeMessage,true);
+			helper.setTo(email);
+			helper.setSubject("Regarding || StatusUpdate");
+			helper.setText("Dear user Your status is updated for your:"+title);
+			mailSender.send(mimeMessage);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 
 }

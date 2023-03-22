@@ -7,5 +7,6 @@ public interface InformationProviderForEmailService {
 
 	void getIncidentCategoryDetails(Incident incident);
 	void getCommentDetails(Comment comment);
+	void getUserDetailAfterStatusUpdate(Incident updateIncident);
 	
 }

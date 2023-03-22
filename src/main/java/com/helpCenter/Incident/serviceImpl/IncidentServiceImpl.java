@@ -125,6 +125,11 @@ public class IncidentServiceImpl implements IncidentService {
 				updateIncident.setCategory(category);
 				
 			}
+			if(incident.getStatus()!=null)
+			{
+				updateIncident.setStatus(incident.getStatus());
+				providerForEmailServiceImpl.getUserDetailAfterStatusUpdate(updateIncident);
+			}
 			if(incident.getLastmailSendedTime()!=null)
 			{
 				updateIncident.setLastmailSendedTime(incident.getLastmailSendedTime());
