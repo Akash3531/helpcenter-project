@@ -12,6 +12,7 @@ public class UpdateCategoryDto {
 	@Pattern(regexp = "^(?=.*[0-9])" + "(?=.*[a-z])" + "(?=.*[@#$%^&+=])" + "(?=\\S+$).{2,20}$")
 	private String code;
 	private Category parent;
+	private int etaInMinutes;
 	private int Flag;
 	private RequestHandler requestHandler;
 	public UpdateCategoryDto(String name, String code) {
@@ -52,6 +53,14 @@ public class UpdateCategoryDto {
 		this.parent = parent;
 	}
 	
+
+	public int getEtaInMinutes() {
+		return etaInMinutes;
+	}
+
+	public void setEtaInMinutes(int etaInMinutes) {
+		this.etaInMinutes = etaInMinutes;
+	}
 
 	public RequestHandler getRequestHandler() {
 		return requestHandler;

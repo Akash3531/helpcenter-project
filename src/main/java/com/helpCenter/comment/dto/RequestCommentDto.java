@@ -12,4 +12,15 @@ public class RequestCommentDto {
 		this.comments = comments;
 	}
 
+	
+	public RequestCommentDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public RequestCommentDto(String comments) {
+		super();
+		this.comments = comments;
+	}
+
 }

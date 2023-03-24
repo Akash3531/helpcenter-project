@@ -6,11 +6,11 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.helpCenter.Incident.entity.ImageCreation;
-import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.comment.entity.Comment;
+import com.helpCenter.user.entity.User;
 
 @Component
-public class ResponseCommentDto {
+public class CommentByIncidentIdDto {
 
 	private int id;
 
@@ -18,7 +18,15 @@ public class ResponseCommentDto {
 
 	private List<ImageCreation> images = new ArrayList<>();
 
-	private Incident incident;
+	private User user;
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public int getId() {
 		return id;
@@ -44,22 +52,24 @@ public class ResponseCommentDto {
 		this.images = images;
 	}
 
-	public Incident getIncident() {
-		return incident;
+	public CommentByIncidentIdDto() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public void setIncident(Incident incident) {
-		this.incident = incident;
+	@Override
+	public String toString() {
+		return "CommentByIncidentIdDto [id=" + id + ", comments=" + comments + ", images=" + images + "]";
 	}
 
-
-// Dto Conversion Commentclass To Dto
-	public ResponseCommentDto commentToResponsedto(Comment comment) {
-		ResponseCommentDto dto = new ResponseCommentDto();
+	// Dto conversion
+	public CommentByIncidentIdDto dtoConversion(Comment comment) {
+		CommentByIncidentIdDto dto = new CommentByIncidentIdDto();
 		dto.setId(comment.getId());
 		dto.setComments(comment.getComments());
 		dto.setImages(comment.getImages());
-		dto.setIncident(comment.getIncident());
+        dto.setUser(comment.getUser());
 		return dto;
 	}
+
 }

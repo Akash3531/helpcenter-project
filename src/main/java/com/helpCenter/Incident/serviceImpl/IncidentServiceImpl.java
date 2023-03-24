@@ -25,6 +25,7 @@ import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 import com.helpCenter.Incident.service.IncidentService;
 import com.helpCenter.category.entity.Category;
 import com.helpCenter.category.repository.CategoryRepo;
+import com.helpCenter.notificationsEmails.serviceImpl.InformationProviderForEmailServiceImpl;
 import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
@@ -39,6 +40,8 @@ public class IncidentServiceImpl implements IncidentService {
 	CategoryRepo categoryRepo;
 	@Autowired
 	Incident incidentClass;
+	@Autowired
+	InformationProviderForEmailServiceImpl providerForEmailServiceImpl;
 	@Autowired
 	ResponseIncidentDto responseIncidentDto;
 	@Autowired
@@ -73,7 +76,11 @@ public class IncidentServiceImpl implements IncidentService {
 			}
 			incident.setUser(name);
 			incident.setCategory(category);
-			incidentReposatiory.save(incident);
+			Incident savedincident = incidentReposatiory.save(incident);
+			if(savedincident!=null)
+			{
+				providerForEmailServiceImpl.getIncidentCategoryDetails(savedincident);
+			}
 		}
 	}
 
@@ -95,19 +102,12 @@ public class IncidentServiceImpl implements IncidentService {
 			throw new IncidentNotFoundException(id);
 		}
 		ResponseIncidentDto incidentdto = responseIncidentDto.incidentToIncident_Dto(incident);
-		System.out.println(incidentdto);
 		return incidentdto;
 	}
 
 // UPDATE INCIDENT
 	@Override
 	public void updateIncident(int id, UpdateIncidentDto incidentdto, List<MultipartFile> file) throws IOException {
-
-		// Getting User from authentication
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String createrName = authentication.getName();
-		User name = userRepository.findByuserName(createrName);
-
 		// Fetching Incident To be Updated
 		Incident updateIncident = incidentReposatiory.findById(id);
 
@@ -116,19 +116,31 @@ public class IncidentServiceImpl implements IncidentService {
 			Incident incident = incidentClass.UpdateDtoToIncident(incidentdto);
 			// Fetching Category
 			String categoryCode = incident.getCategoryCode();
-			Category category = null;
 			if (categoryCode != null) {
-				category = categoryRepo.findByCode(categoryCode.toUpperCase());
+
+			Category category = categoryRepo.findByCode(categoryCode.toUpperCase());
 				if (category == null) {
 					throw new CategoryNotFoundException(categoryCode);
 				}
+				updateIncident.setCategory(category);
+				
 			}
-			updateIncident.setUser(name);
-			updateIncident.setTitle(incident.getTitle());
-			updateIncident.setCategoryCode(incident.getCategoryCode());
-			updateIncident.setDescription(incident.getDescription());
-			updateIncident.setPriority(incident.getPriority());
-			updateIncident.setCategory(category);
+			if(incident.getLastmailSendedTime()!=null)
+			{
+				updateIncident.setLastmailSendedTime(incident.getLastmailSendedTime());
+			}
+			if (incident.getTitle() != null) {
+				updateIncident.setTitle(incident.getTitle());
+			}
+			if (incident.getCategory() != null) {
+				updateIncident.setCategoryCode(incident.getCategoryCode());
+			}
+			if (incident.getDescription() != null) {
+				updateIncident.setDescription(incident.getDescription());
+			}
+			if (incident.getPriority() != null) {
+				updateIncident.setPriority(incident.getPriority());
+			}
 		}
 		if (file != null) {
 			List<ImageCreation> imageslist = new ArrayList<>();

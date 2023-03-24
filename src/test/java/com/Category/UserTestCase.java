@@ -8,8 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +31,7 @@ import com.helpCenter.user.repository.UserRepository;
 
 @ContextConfiguration(classes = CategoryApplication.class)
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc
 @WithMockUser(username = "user", password = "password", roles = "ADMIN")
 public class UserTestCase {
 	@Autowired
@@ -54,10 +52,10 @@ public class UserTestCase {
 	void setup() {
 		userRepository.deleteAll();
 	}
-	
+
 	// CREATE User
 	@Test
-	public void givenUserObject_whenCreateUser_thenReturnStatus() throws Exception {
+	public void givenUserObject_whenCreateUser_thenReturnStatusCreated() throws Exception {
 
 		// given - precondition or setup
 		RequestUserDTO userDto = new RequestUserDTO("akash", "akash", "prabhjot");
@@ -120,19 +118,17 @@ public class UserTestCase {
 				.andExpect(jsonPath("$.[1].userName", is(user1.getUsername())))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
-	
-	//Delete user
+
+	// Delete user
 	@Test
-	public void givenUserObject_whenDeleteUser_returnStatus() throws Exception
-	{
-		//given -precondition 
-		User user=new  User("akash","akash");
+	public void givenUserObject_whenDeleteUser_returnStatus() throws Exception {
+		// given -precondition
+		User user = new User("akash", "akash");
 		userRepository.save(user);
 		// then - action or behavior that we are going to test
-		ResultActions response = mockMvc.perform(MockMvcRequestBuilders.delete("/user/{userName}",user.getUsername()));
-		//then - verify output
-		response.andDo(print())
-		.andExpect(MockMvcResultMatchers.status().isOk());
+		ResultActions response = mockMvc.perform(MockMvcRequestBuilders.delete("/user/{userName}", user.getUsername()));
+		// then - verify output
+		response.andDo(print()).andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,16 +40,22 @@ public class UserServiceImpl implements UserService {
 // create user
 	@Override
 	public void createUser(RequestUserDTO userDto) {
+
+		// Getting User from authentication
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String created_by = authentication.getName();
+	
 		User user = new User(userDto);
 		String userName = user.getUserName();
 		User byuserName = userRepository.findByuserName(userName);
 		if (byuserName != null) {
 			throw new UserAlreadyExist(userName);
 		}
-		Role roleById = roleRepository.findById(Constants.ROLE_NORMAL).get();
+		Role roleById = roleRepository.findById(Constants.ROLE_ADMIN).get();
 		List<Role> role = new ArrayList<>();
 		role.add(roleById);
 		user.setRole(role);
+		user.setCreatedBy(created_by);
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 	}

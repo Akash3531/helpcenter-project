@@ -1,5 +1,7 @@
 package com.helpCenter.Incident.dtos;
 
+import java.util.Date;
+
 import jakarta.validation.constraints.NotNull;
 
 public class RequestIncidentDto {
@@ -10,6 +12,7 @@ public class RequestIncidentDto {
 
 	@NotNull
 	private String categoryCode;
+	private Date lastmailSendedTime;
 
 	private String priority;
 
@@ -41,13 +44,21 @@ public class RequestIncidentDto {
 		return priority;
 	}
 
+	public Date getLastmailSendedTime() {
+		return lastmailSendedTime;
+	}
+
+	public void setLastmailSendedTime(Date lastmailSendedTime) {
+		this.lastmailSendedTime = lastmailSendedTime;
+	}
+
 	public void setPriority(String priority) {
 		this.priority = priority;
 	}
 
 	public RequestIncidentDto() {
 		super();
-		
-	}	
- 
+
+	}
+
 }

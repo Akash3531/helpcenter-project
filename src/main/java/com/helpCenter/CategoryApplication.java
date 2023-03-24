@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.helpCenter.user.entity.Constants;
 import com.helpCenter.user.entity.Role;
@@ -14,6 +15,7 @@ import com.helpCenter.user.repository.RoleRepository;
 
 @SpringBootApplication
 @EnableJpaAuditing
+@EnableScheduling
 public class CategoryApplication implements CommandLineRunner {
 
 	@Autowired

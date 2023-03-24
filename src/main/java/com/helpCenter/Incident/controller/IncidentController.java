@@ -40,7 +40,7 @@ public class IncidentController {
 // CREATE INCIDENT
 	@PostMapping(path = "/", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<?> createIncident(@RequestParam(value = "image", required = false) List<MultipartFile> file,
-			@Valid @RequestPart(value = "incident") RequestIncidentDto incidentdto) throws IOException {
+			@Valid @RequestPart(value = "incident") RequestIncidentDto incidentdto) throws Exception {
 
 		incidentService.createIncident(incidentdto, file);
 		return new ResponseEntity<>(HttpStatus.CREATED);
@@ -72,9 +72,10 @@ public class IncidentController {
 
 //Get INCIDENT BY USER ID	
 	@GetMapping("/byuser/{user_id}")
-	public ResponseEntity<List<GetIncidentbyCategory>> getIncidentbyUser(@PathVariable int user_id,@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+	public ResponseEntity<List<GetIncidentbyCategory>> getIncidentbyUser(@PathVariable int user_id,
+			@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
 			@RequestParam(value = "pageSize", required = false) Integer pageSize) {
-		List<GetIncidentbyCategory> incidents = incidentService.getIncidentbyUser(user_id,pageNumber, pageSize);
+		List<GetIncidentbyCategory> incidents = incidentService.getIncidentbyUser(user_id, pageNumber, pageSize);
 		return new ResponseEntity<List<GetIncidentbyCategory>>(incidents, HttpStatus.OK);
 	}
 

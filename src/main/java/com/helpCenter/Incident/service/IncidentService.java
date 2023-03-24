@@ -12,7 +12,7 @@ import com.helpCenter.Incident.dtos.UpdateIncidentDto;
 
 public interface IncidentService {
 
-	void createIncident(RequestIncidentDto incident, List<MultipartFile> file) throws IOException;
+	void createIncident(RequestIncidentDto incident, List<MultipartFile> file) throws Exception;
 
 	List<ResponseIncidentDto> getAllIncidents();
 

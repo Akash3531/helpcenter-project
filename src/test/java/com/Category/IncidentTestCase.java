@@ -1,5 +1,6 @@
 package com.Category;
 
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -7,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -17,8 +19,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -36,7 +36,9 @@ import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 import com.helpCenter.category.entity.Category;
 import com.helpCenter.category.repository.CategoryRepo;
-import com.helpCenter.user.dto.RequestUserDTO;
+import com.helpCenter.comment.reposatiory.CommentReposatiory;
+import com.helpCenter.requestHandlers.entity.HandlerDetails;
+import com.helpCenter.requestHandlers.entity.RequestHandler;
 import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
@@ -54,9 +56,13 @@ public class IncidentTestCase {
 	@Autowired
 	IncidentReposatiory incidentReposatiory;
 	@Autowired
+	CommentReposatiory commentReposatiory;
+	@Autowired
 	private MockMvc mockMvc;
 	@Autowired
 	ObjectMapper objectMapper;
+
+	Date date = new Date();
 
 	@Test
 	void contextLoads() {
@@ -65,7 +71,7 @@ public class IncidentTestCase {
 
 	@BeforeEach
 	void setup() {
-
+		commentReposatiory.deleteAll();
 		incidentReposatiory.deleteAll();
 		categoryRepo.deleteAll();
 		userRepository.deleteAll();
@@ -75,18 +81,37 @@ public class IncidentTestCase {
 	@Test
 	public void givenIncidentObject_whenCreateIncident_thenReturnStatusCreated() throws Exception {
 		// given - precondition
-
-		Category category = new Category("software", "SOFTWARE@12");
+		
+		Category category = new Category();
+		category.setName("software");
+		category.setCode("SOFTWARE@12");
+		category.setEtaInMinutes(5);
+		
+		List<String>resources=new ArrayList<>();
+		resources.add("akash");
+		resources.add("sonu");
+		HandlerDetails detail=new HandlerDetails();
+		detail.setLevel(1);
+		detail.setResources(resources);
+		List<HandlerDetails> details=new ArrayList<>();
+		details.add(detail);
+		RequestHandler requestHandler=new RequestHandler();
+		requestHandler.setHandler(details);
+		requestHandler.setCategory(category);
+		category.setRequestHandler(requestHandler);
+		
 		categoryRepo.save(category);
-
+		
 		RequestIncidentDto incidentDto = new RequestIncidentDto();
 		incidentDto.setTitle("Software failure");
-		incidentDto.setDescription("postman is need adminstration user name and password");
+		incidentDto.setDescription("postman is not working");
 		incidentDto.setCategoryCode("SOFTWARE@12");
+		incidentDto.setLastmailSendedTime(date);
 
 		ObjectMapper Obj = new ObjectMapper();
 		String jsonStr = Obj.writeValueAsString(incidentDto);
 		MockMultipartFile jsonFile = new MockMultipartFile("incident", "", "application/json", jsonStr.getBytes());
+
 
 		MockMultipartFile file = new MockMultipartFile("image", "C:\\Users\\sahotahitesh\\Downloads\\w.jpg",
 				MediaType.MULTIPART_FORM_DATA_VALUE, "".getBytes());

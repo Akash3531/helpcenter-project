@@ -38,6 +38,7 @@ public class User implements UserDetails {
 	private int userId;
 	private String userName;
 	private String password;
+	private String email;
 	private int failureAttempes = 0;
 	private boolean active = false;
 	private String createdBy;
@@ -98,6 +99,15 @@ public class User implements UserDetails {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public int getFailureAttempes() {
@@ -190,6 +200,7 @@ public class User implements UserDetails {
 		super();
 		this.userName = userDto.getUserName();
 		this.password = userDto.getPassword();
+		this.email=userDto.getEmail();
 		this.failureAttempes = userDto.getFailureAttempes();
 		this.active = userDto.isActive();
 		this.createdBy = userDto.getCreatedBy();
