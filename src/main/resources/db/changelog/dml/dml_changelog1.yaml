@@ -1,4 +1,4 @@
-#insertion
+#UserRoleinsertion
 databaseChangeLog:
       - changeSet:
           id: user_table
@@ -6,7 +6,6 @@ databaseChangeLog:
           author: abh (generated)
           tableName: user
           changes:
-          - sql:UPDATE databasechangelog SET MD5SUM = NULL
           - insert:
                 tableName: user_role
                 columns:

@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.helpCenter.user.entity.Constants;
 import com.helpCenter.user.entity.Role;
@@ -24,6 +25,7 @@ public class CategoryApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(CategoryApplication.class, args);
 	}
+
 	@Override
 	public void run(String... args) throws Exception {
 		Role role1 = new Role();

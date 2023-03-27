@@ -1,4 +1,4 @@
-#Creation
+#UserCreation
 databaseChangeLog:
       - changeSet:
           id: user_table
