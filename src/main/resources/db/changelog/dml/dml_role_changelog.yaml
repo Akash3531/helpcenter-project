@@ -1,0 +1,17 @@
+#insertion
+databaseChangeLog:
+      - changeSet:
+          id: user_table
+          runOnChange: true
+          author: abh (generated)
+          tableName: user
+          changes:
+          - insert:
+                tableName: user_role
+                columns:
+                - column:
+                    name: user
+                    value: "12"
+                - column:
+                    name: role
+                    value: "101"

@@ -13,8 +13,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.user.dto.RequestUserDTO;
 import com.helpCenter.user.dto.UpdateUserDto;
 
@@ -28,7 +26,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 
 @Where(clause = "active=false")
 @EntityListeners(AuditingEntityListener.class)
@@ -41,6 +38,7 @@ public class User implements UserDetails {
 	private int userId;
 	private String userName;
 	private String password;
+	private String email;
 	private int failureAttempes = 0;
 	private boolean active = false;
 	private String createdBy;
@@ -101,6 +99,15 @@ public class User implements UserDetails {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public int getFailureAttempes() {
@@ -193,6 +200,7 @@ public class User implements UserDetails {
 		super();
 		this.userName = userDto.getUserName();
 		this.password = userDto.getPassword();
+		this.email=userDto.getEmail();
 		this.failureAttempes = userDto.getFailureAttempes();
 		this.active = userDto.isActive();
 		this.createdBy = userDto.getCreatedBy();

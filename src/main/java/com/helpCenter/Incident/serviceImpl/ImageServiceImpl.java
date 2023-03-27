@@ -17,23 +17,20 @@ public class ImageServiceImpl implements ImageService {
 
 	@Autowired
 	ImageUtils imageUtils;
-	
 	@Autowired
 	ImageReposatiory imageReposatiory;
-	
+
 	@Override
 	public ImageCreation uploadImage(MultipartFile file) throws IOException {
-		  ImageCreation image= new ImageCreation();
-		  image.setImage(ImageUtils.compressImage(file.getBytes()));
-		  return imageReposatiory.save(image);
-		
+		ImageCreation image = new ImageCreation();
+		image.setImage(ImageUtils.compressImage(file.getBytes()));
+		return imageReposatiory.save(image);
+
 	}
-	
-	public byte[] downloadImage(int  fileName) {
+
+	public byte[] downloadImage(int fileName) {
 		Optional<ImageCreation> imageData = imageReposatiory.findById(fileName);
 		return ImageUtils.decompressImage(imageData.get().getImage());
 	}
-	
-	
 
 }

@@ -111,4 +111,14 @@ public class ResponseIncidentDto {
 		return dto;
 
 	}
+
+// Conversion for show id and title
+	public ResponseIncidentDto UserIncident(Incident incident) {
+		ResponseIncidentDto dto = new ResponseIncidentDto();
+		dto.setId(incident.getId());
+		dto.setTitle(incident.getTitle());
+		return dto;
+
+	}
+
 }

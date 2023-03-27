@@ -34,7 +34,7 @@ import com.helpCenter.category.repository.CategoryRepo;
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser(username = "user", password = "password", roles = "ADMIN")
-class categoryIntegrationTest {
+class CategoryIntegrationTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -44,17 +44,22 @@ class categoryIntegrationTest {
 	private IncidentReposatiory incidentReposatiory;
 	@Autowired
 	private ObjectMapper objectMapper;
-
 	@Test
 	void contextLoads() {
 
 	}
 	
-
 	@BeforeEach
 	void setUp() {
 		incidentReposatiory.deleteAll();
+
 		categoryRepo.deleteAll();
+
+		categoryRepo.deleteAll();	
+
+
+		categoryRepo.deleteAll();
+
 	}
 
 	// CREATE CATEGORY

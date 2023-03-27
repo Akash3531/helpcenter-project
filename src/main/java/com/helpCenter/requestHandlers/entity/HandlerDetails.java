@@ -9,7 +9,6 @@ public class HandlerDetails {
 
 	public HandlerDetails() {
 		super();
-
 	}
 
 	public int getLevel() {
