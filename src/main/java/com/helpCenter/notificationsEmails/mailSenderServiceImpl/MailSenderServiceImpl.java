@@ -16,7 +16,7 @@ public class MailSenderServiceImpl implements EmailSenderService {
 
 	@Autowired
 	JavaMailSender mailSender;
-
+ 
 	@Override
 	public void sendEmailForIncident(String[] toEmail, String title, String description) {
 		try {
@@ -57,7 +57,8 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			helper.setFrom("jbawa@seasia.in");
 			helper.setTo(email);
 			helper.setSubject("status updation");
-			helper.setText("your incident staus is:"+status.toUpperCase()+" "+"for incident:"+title.toUpperCase());
+			helper.setText(
+					"your incident staus is:" + status.toUpperCase() + " " + "for incident:" + title.toUpperCase());
 			mailSender.send(mimeMessage);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
