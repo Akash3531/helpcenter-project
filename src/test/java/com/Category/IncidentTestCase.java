@@ -38,6 +38,7 @@ import com.helpCenter.category.repository.CategoryRepo;
 import com.helpCenter.comment.reposatiory.CommentReposatiory;
 import com.helpCenter.requestHandlers.entity.HandlerDetails;
 import com.helpCenter.requestHandlers.entity.RequestHandler;
+import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
 @WebAppConfiguration
@@ -123,6 +124,8 @@ public class IncidentTestCase {
 	@Test
 	public void givenUpdatedIncident_whenUpdateIncident_thenReturnStatusOk() throws Exception {
 		// given - precondition
+		User  user=new User("xyz","xyz");
+		userRepository.save(user);
 		Category category = new Category("hardware", "HARDWARE@33");
 		categoryRepo.save(category);
 
@@ -130,6 +133,7 @@ public class IncidentTestCase {
 		incident.setCategoryCode(category.getCode());
 		incident.setTitle("mouse problem");
 		incident.setDescription("mouse is not working");
+		incident.setUser(user);
 		incidentReposatiory.save(incident);
 
 		RequestIncidentDto incidentDto = new RequestIncidentDto();

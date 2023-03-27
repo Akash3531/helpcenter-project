@@ -55,8 +55,9 @@ public class Category {
 		this.requestHandler = requestHandler;
 	}
 
-	public Category(String name, Category parent) {
+	public Category(String name,String code, Category parent) {
 		this.name = name;
+		this.code=code;
 		this.parent = parent;
 	}
 

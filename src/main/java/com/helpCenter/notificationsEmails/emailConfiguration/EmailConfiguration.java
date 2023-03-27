@@ -14,14 +14,14 @@ public class EmailConfiguration {
 	public JavaMailSender mailSender()
 	{
 		JavaMailSenderImpl mailSender=new JavaMailSenderImpl();
-		mailSender.setHost("asmtp.seasiainfotech.com");
-		mailSender.setPort(252);
-		mailSender.setUsername("akash@seasia.in");
-		mailSender.setPassword("kvL%g!ZLXpG2");
+		mailSender.setHost("10.8.14.41");
+		mailSender.setPort(2525);
+		mailSender.setUsername("jbawa@seasia.in");
+		mailSender.setPassword("SinghSahib#7512");
 		
 		Properties javaMailProperties = new Properties();
 		javaMailProperties.put("mail.smtp.auth", true);
-		javaMailProperties.put("mail.smtp.ssl.enable", false);
+		javaMailProperties.put("mail.smtp.starttls.enable", false);
 		
 		mailSender.setJavaMailProperties(javaMailProperties);
 		return mailSender;
