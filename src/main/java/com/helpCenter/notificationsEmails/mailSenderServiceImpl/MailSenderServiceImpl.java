@@ -16,7 +16,7 @@ public class MailSenderServiceImpl implements EmailSenderService {
 
 	@Autowired
 	JavaMailSender mailSender;
- 
+
 	@Override
 	public void sendEmailForIncident(String[] toEmail, String title, String description) {
 		try {
@@ -25,7 +25,7 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 			helper.setFrom("jbawa@seasia.in");
 			helper.setTo("springtest@yopmail.com");
-			helper.setSubject(title);
+			helper.setSubject("Regarding ||" + title);
 			helper.setText(description);
 			mailSender.send(mimeMessage);
 			System.out.println("done");
@@ -39,8 +39,9 @@ public class MailSenderServiceImpl implements EmailSenderService {
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-			helper.setTo(toEmails);
-			helper.setSubject(incidentTitle);
+			helper.setFrom("jbawa@seasia.in");
+			helper.setTo("springtest@yopmail.com");
+			helper.setSubject("Comment ||" + incidentTitle);
 			helper.setText(comment);
 			mailSender.send(mimeMessage);
 		} catch (Exception e) {

@@ -25,7 +25,7 @@ import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 import com.helpCenter.Incident.service.IncidentService;
 import com.helpCenter.category.entity.Category;
 import com.helpCenter.category.repository.CategoryRepo;
-import com.helpCenter.notificationsEmails.serviceImpl.InformationProviderForEmailServiceImpl;
+import com.helpCenter.notificationsEmails.informationProviderServiceImpl.InformationProviderForEmailServiceImpl;
 import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 

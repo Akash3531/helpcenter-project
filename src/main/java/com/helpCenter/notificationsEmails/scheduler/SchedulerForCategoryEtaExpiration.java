@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
+import com.helpCenter.notificationsEmails.informationProviderServiceImpl.InformationProviderForEmailServiceImpl;
 import com.helpCenter.notificationsEmails.mailSenderServiceImpl.MailSenderServiceImpl;
-import com.helpCenter.notificationsEmails.serviceImpl.InformationProviderForEmailServiceImpl;
 import com.helpCenter.user.repository.UserRepository;
 
 @Component

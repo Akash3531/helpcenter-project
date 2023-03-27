@@ -21,7 +21,7 @@ import com.helpCenter.comment.dto.ResponseCommentDto;
 import com.helpCenter.comment.entity.Comment;
 import com.helpCenter.comment.reposatiory.CommentReposatiory;
 import com.helpCenter.comment.service.CommentsService;
-import com.helpCenter.notificationsEmails.serviceImpl.InformationProviderForEmailServiceImpl;
+import com.helpCenter.notificationsEmails.informationProviderServiceImpl.InformationProviderForEmailServiceImpl;
 import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
