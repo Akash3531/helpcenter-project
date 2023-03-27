@@ -31,8 +31,10 @@ public class SecurityConfiguration {
 		http.authorizeHttpRequests().requestMatchers(HttpMethod.GET, "/user/{name}").hasAnyRole("ADMIN", "NORMAL")
 				.requestMatchers(HttpMethod.PATCH, "/user/{userName}").hasAnyRole("ADMIN", "NORMAL")
 				.requestMatchers(HttpMethod.POST, "/incident/").hasAnyRole("ADMIN", "NORMAL")
-				.requestMatchers("/user/**", "/category/**", "/iamge/**", "/incident/**", "/comment/**").permitAll()
-				.anyRequest().authenticated().and().httpBasic();
+				.requestMatchers(HttpMethod.GET, "/byuser/{user_id}").hasAnyRole("ADMIN", "NORMAL")
+				.requestMatchers(HttpMethod.GET, "/category/").hasAnyRole("ADMIN", "NORMAL")
+				.requestMatchers("/user/**", "/category/**", "/iamge/**", "/incident/**", "/comment/**")
+				.hasRole("ADMIN").anyRequest().authenticated().and().httpBasic();
 
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authenticationProvider(authenticationProvider());

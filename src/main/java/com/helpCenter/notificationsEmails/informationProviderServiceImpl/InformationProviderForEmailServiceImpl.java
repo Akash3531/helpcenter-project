@@ -1,4 +1,4 @@
-package com.helpCenter.notificationsEmails.serviceImpl;
+package com.helpCenter.notificationsEmails.informationProviderServiceImpl;
 
 import java.io.IOException;
 import java.util.Date;
@@ -13,13 +13,11 @@ import org.springframework.stereotype.Service;
 import com.helpCenter.Incident.dtos.UpdateIncidentDto;
 import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.Incident.serviceImpl.IncidentServiceImpl;
-import com.helpCenter.category.entity.Category;
 import com.helpCenter.comment.entity.Comment;
+import com.helpCenter.notificationsEmails.informationProviderService.InformationProviderForEmailService;
 import com.helpCenter.notificationsEmails.mailSenderServiceImpl.MailSenderServiceImpl;
-import com.helpCenter.notificationsEmails.service.InformationProviderForEmailService;
 import com.helpCenter.requestHandlers.entity.HandlerDetails;
 import com.helpCenter.requestHandlers.entity.RequestHandler;
-import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
 @Service
@@ -86,11 +84,13 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 		mailSenderServiceImpl.sendEmailAfterCommentCreation(toEmails, comment.getComments(),
 				comment.getIncident().getTitle());
 	}
+	
 	@Override
-	public void getUserDetailAfterStatusUpdate(Incident updateIncident) {
+	public void getDetailOfStatusUpdate(Incident updateIncident) {
 		String email = updateIncident.getUser().getEmail();
 		String title = updateIncident.getTitle();
-		mailSenderServiceImpl.sendEmailAfterStatusUpdate(email,title);
+		String status = updateIncident.getStatus();
+		mailSenderServiceImpl.sendEmailAfterStatusUpdate(email, title, status);
 	}
 
 }
