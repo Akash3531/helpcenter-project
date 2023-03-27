@@ -3,9 +3,9 @@ package com.helpCenter.Incident.controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -38,10 +38,10 @@ public class IncidentController {
 	ResponseIncidentDto getIncidentDto;
 
 // CREATE INCIDENT
-	@PostMapping(path = "/", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+	@PostMapping(path = "/", consumes = { org.springframework.http.MediaType.APPLICATION_JSON_VALUE,
+			MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<?> createIncident(@RequestParam(value = "image", required = false) List<MultipartFile> file,
 			@Valid @RequestPart(value = "incident") RequestIncidentDto incidentdto) throws Exception {
-
 		incidentService.createIncident(incidentdto, file);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}

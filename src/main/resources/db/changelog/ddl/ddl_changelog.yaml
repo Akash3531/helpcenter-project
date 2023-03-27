@@ -1,4 +1,8 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 260b8e37d221d9d2f2aa039f9b7735cde3addee8
 databaseChangeLog:
 - changeSet:
     id: user_table
@@ -36,6 +40,7 @@ databaseChangeLog:
               nullable: false
             name: role
             type: varchar(50)
+<<<<<<< HEAD
 =======
 #Creation
 #databaseChangeLog:
@@ -85,3 +90,8 @@ databaseChangeLog:
 
 
 >>>>>>> 902736a0312fd80444d7efe5dd871e3b10a43fa4
+=======
+
+                
+              
+>>>>>>> 260b8e37d221d9d2f2aa039f9b7735cde3addee8
