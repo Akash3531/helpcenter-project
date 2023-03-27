@@ -29,6 +29,13 @@ public class UsersController {
 	@Autowired
 	UserServiceImpl userServiceImpl;
 
+	@PostMapping("/admin")
+	public ResponseEntity<?>createAdmin(@Valid @RequestBody RequestUserDTO requestUserDTO)
+	{
+		userServiceImpl.createAdmin(requestUserDTO);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+	
 	@PostMapping("/")
 	public ResponseEntity<?> Create(@Valid @RequestBody RequestUserDTO userDto) {
 		userServiceImpl.createUser(userDto);

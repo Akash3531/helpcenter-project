@@ -26,7 +26,7 @@ databaseChangeLog:
                     value:  "abhi"
                 - column:
                     name: password
-                    value: "Mind@123"
+                    value: "$2a$10$XBYf3xxxIoZ8Q6x.PFTOZum2/q19W25yvA4JOrEum2Gk/ETFXtiSG"
                 - column:
                     name: active
                     value: "false"

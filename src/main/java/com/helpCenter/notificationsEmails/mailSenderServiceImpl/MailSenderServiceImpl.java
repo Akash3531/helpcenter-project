@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.helpCenter.Incident.serviceImpl.IncidentServiceImpl;
 import com.helpCenter.notificationsEmails.mailSenderService.EmailSenderService;
 
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 @Component
@@ -15,7 +16,6 @@ public class MailSenderServiceImpl implements EmailSenderService {
 
 	@Autowired
 	JavaMailSender mailSender;
-	
 
 	@Override
 	public void sendEmailForIncident(String[] toEmail, String title, String description) {
@@ -23,8 +23,9 @@ public class MailSenderServiceImpl implements EmailSenderService {
 
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+			helper.setFrom("jbawa@seasia.in");
 			helper.setTo("springtest@yopmail.com");
-			helper.setSubject(title);
+			helper.setSubject("Regarding ||" + title);
 			helper.setText(description);
 			mailSender.send(mimeMessage);
 			System.out.println("done");
@@ -36,19 +37,35 @@ public class MailSenderServiceImpl implements EmailSenderService {
 	@Override
 	public void sendEmailAfterCommentCreation(String[] toEmails, String comment, String incidentTitle) {
 		try {
-			MimeMessage mimeMessage=mailSender.createMimeMessage();
-			MimeMessageHelper helper=new MimeMessageHelper(mimeMessage,true);
-			helper.setTo(toEmails);
-			helper.setSubject(incidentTitle);
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+			helper.setFrom("jbawa@seasia.in");
+			helper.setTo("springtest@yopmail.com");
+			helper.setSubject("Comment ||" + incidentTitle);
 			helper.setText(comment);
 			mailSender.send(mimeMessage);
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
+	public void sendMailOnStatusUpdate(String email, String title, String status) {
+
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+			helper.setFrom("jbawa@seasia.in");
+			helper.setTo(email);
+			helper.setSubject("status updation");
+			helper.setText(
+					"your incident staus is:" + status.toUpperCase() + " " + "for incident:" + title.toUpperCase());
+			mailSender.send(mimeMessage);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 
 }

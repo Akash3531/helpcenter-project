@@ -44,18 +44,23 @@ class CategoryIntegrationTest {
 	private IncidentReposatiory incidentReposatiory;
 	@Autowired
 	private ObjectMapper objectMapper;
+
 	@Test
 	void contextLoads() {
 
 	}
-	
+
 	@BeforeEach
 	void setUp() {
 		incidentReposatiory.deleteAll();
 
+
 		categoryRepo.deleteAll();
 
 		categoryRepo.deleteAll();	
+
+
+		categoryRepo.deleteAll();
 
 
 		categoryRepo.deleteAll();
@@ -125,7 +130,18 @@ class CategoryIntegrationTest {
 				.andExpect(jsonPath("$.[1].name", is(category1.getName())));
 
 	}
-	
-	
 
+	// delete category by code
+	@Test
+	public void givenCategoryObject_whenDeleteCategory_thenReturnStatusNo_content() throws Exception {
+		// given - precondition
+		Category category = new Category("seasia", "SEASIA@2");
+		categoryRepo.save(category);
+		Category categoryWithParent = new Category("it", "IT@2", category);
+		categoryRepo.save(categoryWithParent);
+		// when - action or behavior
+		ResultActions perform = mockMvc.perform(MockMvcRequestBuilders.delete("/category/{code}", category.getCode()));
+		// then - verify output
+		perform.andDo(print()).andExpect(MockMvcResultMatchers.status().isNoContent());
+	}
 }

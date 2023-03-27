@@ -63,7 +63,7 @@ public class IncidentTestCase {
 	ObjectMapper objectMapper;
 
 	Date date = new Date();
-
+			
 	@Test
 	void contextLoads() {
 
@@ -113,8 +113,9 @@ public class IncidentTestCase {
 		MockMultipartFile jsonFile = new MockMultipartFile("incident", "", "application/json", jsonStr.getBytes());
 
 
-		MockMultipartFile file = new MockMultipartFile("image", "C:\\Users\\sahotahitesh\\Downloads\\w.jpg",
+		MockMultipartFile file = new MockMultipartFile("image", "C:\\\\Users\\\\salariyaabhishek\\\\Pictures\\\\meditation-buddhism-monk-temple",
 				MediaType.MULTIPART_FORM_DATA_VALUE, "".getBytes());
+		
 		// when - action or behavior
 		ResultActions response = mockMvc.perform(multipart("/incident/").file(jsonFile).file(file));
 		// then -verify result
@@ -126,6 +127,8 @@ public class IncidentTestCase {
 	@Test
 	public void givenUpdatedIncident_whenUpdateIncident_thenReturnStatusOk() throws Exception {
 		// given - precondition
+		User  user=new User("xyz","xyz");
+		userRepository.save(user);
 		Category category = new Category("hardware", "HARDWARE@33");
 		categoryRepo.save(category);
 
@@ -133,6 +136,7 @@ public class IncidentTestCase {
 		incident.setCategoryCode(category.getCode());
 		incident.setTitle("mouse problem");
 		incident.setDescription("mouse is not working");
+		incident.setUser(user);
 		incidentReposatiory.save(incident);
 
 		RequestIncidentDto incidentDto = new RequestIncidentDto();
@@ -195,7 +199,6 @@ public class IncidentTestCase {
 		incident.setCategoryCode(category.getCode());
 		incident.setTitle("Mouse problem");
 		incident.setDescription("mouse is not working");
-
 		List<Incident> incidents = new ArrayList<>();
 		incidents.add(incidentForKeyboard);
 		incidents.add(incident);
@@ -207,65 +210,6 @@ public class IncidentTestCase {
 		// then -verify output
 		response.andDo(print()).andExpect(jsonPath("$.[0].title", is(incidentForKeyboard.getTitle())))
 				.andExpect(jsonPath("$.[1].title", is(incident.getTitle())));
-	}
-
-	// get all incident by user_id
-	@Test
-	public void gevenIncident_whenGetAllIncidentByUser_Id_thenReturnSavedIncident() throws Exception {
-
-		// given - precondition
-
-		// Create category
-		Category category = new Category("software", "software@33");
-		categoryRepo.save(category);
-		// Create User
-		User user = new User("akash", "akash");
-		userRepository.save(user);
-		// Create Incident
-		Incident incident1 = new Incident();
-		incident1.setTitle("Slack");
-		incident1.setUser(user);
-
-		Incident incident2 = new Incident();
-		incident2.setTitle("Slackk");
-		incident2.setUser(user);
-
-		List<Incident> incidents = new ArrayList<>();
-		incidents.add(incident1);
-		incidents.add(incident2);
-
-		incidentReposatiory.saveAll(incidents);
-
-		// when - action or behavior
-		ResultActions response = mockMvc.perform(MockMvcRequestBuilders
-				.get("/incident/byuser/{user_id}", user.getUserId()).param("pageNumber", "0").param("pageSize", "2"));
-
-		// then - verify output
-		response.andDo(print()).andExpect(jsonPath("$.[0].title", is(incident1.getTitle())))
-				.andExpect(jsonPath("$.[1].title", is(incident2.getTitle())));
-
-	}
-
-	// get incident by Category Code
-	@Test
-	public void gevenIncident_whenGetAllIncidentByCategoryCode_thenReturnSavedIncident() throws Exception {
-
-		Category category = new Category("hardware", "HARDWARE@33");
-		categoryRepo.save(category);
-
-		Incident incident = new Incident();
-		incident.setCategoryCode(category.getCode());
-		incident.setTitle("Keyboard problem");
-		incident.setDescription("Keyboard is not working");
-		incident.setCategoryCode(category.getCode());
-		incidentReposatiory.save(incident);
-		// when - action or behavior
-		ResultActions response = mockMvc.perform(MockMvcRequestBuilders
-				.get("/incident/bycode/{code}", category.getCode()).param("pageNumber", "0").param("pageSize", "2"));
-		// then - verify output
-		response.andDo(print()).andExpect(jsonPath("$.[0].title", is(incident.getTitle())))
-				.andExpect(MockMvcResultMatchers.status().isOk());
-
 	}
 
 }

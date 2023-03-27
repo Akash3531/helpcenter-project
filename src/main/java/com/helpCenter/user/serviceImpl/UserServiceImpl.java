@@ -37,6 +37,28 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	ResponseUserDto responseUserDto;
 
+// create Admin
+	@Override
+	public void createAdmin(RequestUserDTO requestUserDTO) {
+		// Getting User from authentication
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String created_by = authentication.getName();
+		User user = new User(requestUserDTO);
+		String userName = user.getUserName();
+		User byuserName = userRepository.findByuserName(userName);
+		if (byuserName != null) {
+			throw new UserAlreadyExist(userName);
+		}
+		Role roleById = roleRepository.findById(Constants.ROLE_ADMIN).get();
+		List<Role> role = new ArrayList<>();
+		role.add(roleById);
+		user.setRole(role);
+		user.setCreatedBy(created_by);
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		userRepository.save(user);
+
+	}
+
 // create user
 	@Override
 	public void createUser(RequestUserDTO userDto) {
@@ -51,7 +73,7 @@ public class UserServiceImpl implements UserService {
 		if (byuserName != null) {
 			throw new UserAlreadyExist(userName);
 		}
-		Role roleById = roleRepository.findById(Constants.ROLE_ADMIN).get();
+		Role roleById = roleRepository.findById(Constants.ROLE_NORMAL).get();
 		List<Role> role = new ArrayList<>();
 		role.add(roleById);
 		user.setRole(role);
