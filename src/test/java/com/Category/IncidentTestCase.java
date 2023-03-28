@@ -100,7 +100,7 @@ public class IncidentTestCase {
 		category.setRequestHandler(requestHandler);
 		
 		categoryRepo.save(category);
-		
+		 
 		RequestIncidentDto incidentDto = new RequestIncidentDto();
 		incidentDto.setTitle("Software failure");
 		incidentDto.setDescription("postman is not working");
