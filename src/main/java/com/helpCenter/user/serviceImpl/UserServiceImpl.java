@@ -134,6 +134,7 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(user);
 	}
 
+// only users name
 	@Override
 	public List<ResponseUsersNameDto> usersName() {
 		List<User> users = userRepository.findAll();

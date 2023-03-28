@@ -1,9 +1,9 @@
-#insertion
+#UserRoleinsertion
 databaseChangeLog:
       - changeSet:
           id: user_table
           runOnChange: true
-          author: ab (generated)
+          author: abh (generated)
           tableName: user
           changes:
           - insert:

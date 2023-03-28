@@ -28,46 +28,46 @@ public class UsersController {
 
 	@Autowired
 	UserServiceImpl userServiceImpl;
-
+// Create admin
 	@PostMapping("/admin")
 	public ResponseEntity<?>createAdmin(@Valid @RequestBody RequestUserDTO requestUserDTO)
 	{
 		userServiceImpl.createAdmin(requestUserDTO);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
-	
+// Create user	
 	@PostMapping("/")
 	public ResponseEntity<?> Create(@Valid @RequestBody RequestUserDTO userDto) {
 		userServiceImpl.createUser(userDto);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
-
+// update User
 	@PatchMapping("/{userName}")
 	public ResponseEntity<?> updateUser(@Valid @PathVariable String userName,
 			@RequestBody UpdateUserDto updateUserDto) {
 		userServiceImpl.updateUser(userName, updateUserDto);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-
+// get user by name
 	@GetMapping("/{userName}")
 	public ResponseEntity<ResponseUserDto> userByName(@PathVariable String userName) {
 		ResponseUserDto userByName = userServiceImpl.userByName(userName);
 		return new ResponseEntity<ResponseUserDto>(userByName, HttpStatus.OK);
 	}
-
+//get only users name
 	@GetMapping("/usersName")
 	public ResponseEntity<List<ResponseUsersNameDto>> usersName() {
 		List<ResponseUsersNameDto> usersName = userServiceImpl.usersName();
 		return new ResponseEntity<List<ResponseUsersNameDto>>(usersName, HttpStatus.OK);
 	}
-
+// get all user
 	@GetMapping("/")
 	public ResponseEntity<List<ResponseUserDto>> getAllUsers() {
 		List<ResponseUserDto> allUser = userServiceImpl.allUser();
 
 		return new ResponseEntity<List<ResponseUserDto>>(allUser, HttpStatus.OK);
 	}
-
+// Delete user by name
 	@DeleteMapping("/{userName}")
 	public ResponseEntity<?> deleteUser(@PathVariable String userName) {
 		userServiceImpl.deleteUser(userName);
