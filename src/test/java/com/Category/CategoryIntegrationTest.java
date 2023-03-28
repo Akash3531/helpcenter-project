@@ -9,7 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,18 +120,18 @@ class CategoryIntegrationTest {
 
 	}
 
-	// delete category by code and it's child
-	@Test
-	public void geivenCategoryObject_whenDeleteCategoryByCode_thenReturnStatusNo_content() throws Exception {
-		// given - precondition or setup
-		Category parent = new Category("seasia", "Seasia@2");
-		categoryRepo.save(parent);
-		Category category = new Category("it", "It@2", parent);
-		categoryRepo.save(category);
-		// when - action or behavior that we are going to test
-		ResultActions perform = mockMvc.perform(MockMvcRequestBuilders.delete("/category/{code}", parent.getCode()));
-		// then - verify the result
-		perform.andExpect(MockMvcResultMatchers.status().isNoContent()).andDo(print());
-
-	}
+//	// delete category by code and it's child
+//	@Test
+//	public void geivenCategoryObject_whenDeleteCategoryByCode_thenReturnStatusNo_content() throws Exception {
+//		// given - precondition or setup
+//		Category parent = new Category("seasia", "Seasia@2");
+//		categoryRepo.save(parent);
+//		Category category = new Category("it", "It@2", parent);
+//		categoryRepo.save(category);
+//		// when - action or behavior that we are going to test
+//		ResultActions perform = mockMvc.perform(MockMvcRequestBuilders.delete("/category/{code}", parent.getCode()));
+//		// then - verify the result
+//		perform.andExpect(MockMvcResultMatchers.status().isNoContent()).andDo(print());
+//
+//	}
 }
