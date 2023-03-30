@@ -38,7 +38,7 @@ public class MailSenderServiceImpl implements EmailSenderService {
 		try {
 			MimeMessage mimeMessage=mailSender.createMimeMessage();
 			MimeMessageHelper helper=new MimeMessageHelper(mimeMessage,true);
-			helper.setTo(toEmails);
+			helper.setTo("springtest@yopmail.com");
 			helper.setSubject(incidentTitle);
 			helper.setText(comment);
 			mailSender.send(mimeMessage);

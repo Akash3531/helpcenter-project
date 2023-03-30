@@ -1,13 +1,13 @@
 #UserCreation
 databaseChangeLog:
       - changeSet:
-          id: user_table
+          id: hitesh_2.0
           runOnChange: true
-          author: abhi 
+          author: author (generated)
           preConditions:
             - onFail: MARK_RAN
               not:
-                tableExists:
+                 tableExists:
                   tableName: user
           changes:
             - createTable:

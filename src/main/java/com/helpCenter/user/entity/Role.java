@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Role {
+	
 	@Id
 	private int roleId;
 

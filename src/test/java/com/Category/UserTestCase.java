@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.helpCenter.CategoryApplication;
+import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 import com.helpCenter.user.dto.RequestUserDTO;
 import com.helpCenter.user.dto.UpdateUserDto;
 import com.helpCenter.user.entity.User;
@@ -39,7 +40,8 @@ public class UserTestCase {
 
 	@Autowired
 	private UserRepository userRepository;
-
+	@Autowired
+	IncidentReposatiory incidentReposatiory;
 	@Autowired
 	private ObjectMapper objectMapper;
 
@@ -50,6 +52,7 @@ public class UserTestCase {
 
 	@BeforeEach
 	void setup() {
+		incidentReposatiory.deleteAll();
 		userRepository.deleteAll();
 	}
 
