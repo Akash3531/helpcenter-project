@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 		if (byuserName != null) {
 			throw new UserAlreadyExist(userName);
 		}
-		Role roleById = roleRepository.findById(Constants.ROLE_ADMIN).get();
+		Role roleById = roleRepository.findById(Constants.ROLE_NORMAL).get();
 		List<Role> role = new ArrayList<>();
 		role.add(roleById);
 		user.setRole(role);
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
 		if (user == null) {
 			throw new UserNotFound(userName);
 		}
-		user.setActive(false);
+		user.setActive(true);
 		userRepository.save(user);
 	}
 

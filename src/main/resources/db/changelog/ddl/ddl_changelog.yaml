@@ -1,97 +1,83 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> 260b8e37d221d9d2f2aa039f9b7735cde3addee8
-databaseChangeLog:
-- changeSet:
-    id: user_table
-    runOnChange: true
-    author: abhi
-    preConditions:
-    - onFail: MARK_RAN
-      not:
-        tableExists:
-        tableName: user_table
-    changes:
-    - createTable:
-        tableName: user_table
-        columns:
-        - column:
-            autoIncrement: true
-            constraints:
-              nullable: false
-              primaryKey: true
-              primaryKeyName: user_table_pkey
-            name: id
-            type: BIGINT
-        - column:
-            constraints:
-              nullable: false
-            name: username
-            type: varchar(50)
-        - column:
-            constraints:
-              nullable: false
-            name: password
-            type: varchar(50)
-        - column:
-            constraints:
-              nullable: false
-            name: role
-            type: varchar(50)
-<<<<<<< HEAD
-=======
 #Creation
-#databaseChangeLog:
-#      - changeSet:
-#          id: user_table
-#          runOnChange: true
-#          author: abhi 
-#          preConditions:
-#            - onFail: MARK_RAN
-#              not:
-#                tableExists:
-#                  tableName: user_table
-#          changes:
-#            - createTable:
-#                tableName: user_table            
-#                columns:
-#                  - column:
-#                      autoIncrement: true
-#                      constraints:
-#                        nullable: false
-#                        primaryKey: true
-#                        primaryKeyName: user_table_pkey
-#                      name: id
-#                      type: BIGINT
-#                      
-#              
-#                  - column:
-#                      constraints:
-#                        nullable: false
-#                      name: username
-#                      type: varchar(50)
-#
-#                  - column:
-#                      constraints:
-#                        nullable: false
-#                      name: password
-#                      type: varchar(50)
-#                      
-#                  - column:
-#                      constraints:
-#                        nullable: false
-#                      name: role
-#                      type: varchar(50)
-                
-                
-                
-
-
->>>>>>> 902736a0312fd80444d7efe5dd871e3b10a43fa4
-=======
-
-                
+databaseChangeLog:
+      - changeSet:
+          id: user_table
+          runOnChange: true
+          author: abhi 
+          preConditions:
+            - onFail: MARK_RAN
+              not:
+                tableExists:
+                  tableName: user
+          changes:
+            - createTable:
+                tableName: user            
+                columns:
+                  - column:
+                      autoIncrement: true
+                      constraints:
+                        nullable: false
+                        primaryKey: true
+                        primaryKeyName: user_table_pkey
+                      name: user_id
+                      type: BIGINT
+                  
+                  - column:
+                      constraints:
+                        nullable: false
+                      name: active
+                      type: boolean
+                  
+                  - column:
+                      constraints:
+                        nullable: false
+                      name: created_by
+                      type: varchar(255)
+                   
+                  - column:
+                      constraints:
+                        nullable: false
+                      name: created_date
+                      type: timestamp without time zone
+                      
+                  - column:
+                      constraints:
+                        nullable: false
+                      name: failure_attempes
+                      type: integer
+                  
+                  - column:
+                      constraints:
+                        nullable: false
+                      name: email
+                      type: varchar(255)
+                            
               
->>>>>>> 260b8e37d221d9d2f2aa039f9b7735cde3addee8
+                  - column:
+                      constraints:
+                        nullable: false
+                      name: password
+                      type: varchar(255)
+                  
+                  - column:
+                      constraints:
+                        nullable: false
+                      name: user_name
+                      type: varchar(255)    
+                      
+                  
+                  
+                 
+                  
+                 
+                  
+                
+                
+                 
+                       
+                
+                
+                
+
+
+

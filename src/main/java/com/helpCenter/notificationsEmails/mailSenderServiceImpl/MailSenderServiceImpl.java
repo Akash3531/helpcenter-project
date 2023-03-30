@@ -5,7 +5,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-import com.helpCenter.Incident.serviceImpl.IncidentServiceImpl;
 import com.helpCenter.notificationsEmails.mailSenderService.EmailSenderService;
 
 import jakarta.mail.MessagingException;
@@ -39,8 +38,9 @@ public class MailSenderServiceImpl implements EmailSenderService {
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-			helper.setTo(toEmails);
-			helper.setSubject(incidentTitle);
+			helper.setFrom("jbawa@seasia.in");
+			helper.setTo("springtest@yopmail.com");
+			helper.setSubject("Regarding ||"+incidentTitle);
 			helper.setText(comment);
 			mailSender.send(mimeMessage);
 		} catch (Exception e) {
@@ -55,8 +55,8 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 			helper.setFrom("jbawa@seasia.in");
-			helper.setTo(email);
-			helper.setSubject("status updation");
+			helper.setTo("springtest@yopmail.com");
+			helper.setSubject("Regarding ||Status Updation");
 			helper.setText(
 					"your incident staus is:" + status.toUpperCase() + " " + "for incident:" + title.toUpperCase());
 			mailSender.send(mimeMessage);
