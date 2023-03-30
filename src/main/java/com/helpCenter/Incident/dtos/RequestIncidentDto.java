@@ -13,7 +13,7 @@ public class RequestIncidentDto {
 	@NotNull
 	private String categoryCode;
 	private Date lastmailSendedTime;
-
+	private String status;
 	private String priority;
 
 	public String getTitle() {
@@ -50,6 +50,14 @@ public class RequestIncidentDto {
 
 	public void setLastmailSendedTime(Date lastmailSendedTime) {
 		this.lastmailSendedTime = lastmailSendedTime;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public void setPriority(String priority) {

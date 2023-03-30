@@ -54,10 +54,6 @@ class CategoryIntegrationTest {
 	void setUp() {
 		incidentReposatiory.deleteAll();
 		categoryRepo.deleteAll();
-		categoryRepo.deleteAll();
-		categoryRepo.deleteAll();
-		categoryRepo.deleteAll();
-		categoryRepo.deleteAll();
 	}
 
 	// CREATE CATEGORY

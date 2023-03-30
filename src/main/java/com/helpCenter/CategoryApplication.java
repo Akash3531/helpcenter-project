@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJpaAuditing
 @EnableScheduling
 
+<<<<<<< HEAD
 public class CategoryApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
@@ -19,6 +20,12 @@ public class CategoryApplication extends SpringBootServletInitializer {
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(CategoryApplication.class);
+=======
+	public static void main(String[] args) {
+		SpringApplication.run(CategoryApplication.class, args);
+	}
+
+>>>>>>> 8c7a6c42ee09bee915404cdeaa38678199017722
 
 }
 }

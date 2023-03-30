@@ -167,7 +167,6 @@ public class IncidentServiceImpl implements IncidentService {
 	}
 
 //Get INCIDENT BY USER
-
 	@Override
 	public List<GetIncidentbyCategory> getIncidentbyUser(int user_id,Integer pageNumber , Integer pageSize) {
 		

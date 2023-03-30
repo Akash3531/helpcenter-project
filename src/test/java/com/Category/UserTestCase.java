@@ -42,8 +42,6 @@ public class UserTestCase {
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
-	IncidentReposatiory incidentReposatiory;
-	@Autowired
 	private ObjectMapper objectMapper;
 
 	@Test
