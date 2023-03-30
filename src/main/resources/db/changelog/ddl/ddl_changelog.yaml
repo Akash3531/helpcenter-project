@@ -1,4 +1,4 @@
-#Creation
+#UserCreation
 databaseChangeLog:
       - changeSet:
           id: user_table
@@ -7,7 +7,7 @@ databaseChangeLog:
           preConditions:
             - onFail: MARK_RAN
               not:
-                tableExists:
+                 tableExists:
                   tableName: user
           changes:
             - createTable:

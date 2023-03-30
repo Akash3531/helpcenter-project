@@ -1,4 +1,4 @@
-#insertion
+#Userinsertion
 databaseChangeLog:
       - changeSet:
           id: user_table
@@ -23,7 +23,7 @@ databaseChangeLog:
                     value: "aksh@gmail.com"
                 - column:
                     name: user_name
-                    value:  "abhi"
+                    value:  "admin"
                 - column:
                     name: password
                     value: "$2a$10$XBYf3xxxIoZ8Q6x.PFTOZum2/q19W25yvA4JOrEum2Gk/ETFXtiSG"
