@@ -1,0 +1,45 @@
+#UserRoleCreation
+databaseChangeLog:
+      - changeSet:
+          id: user_tablee
+          runOnChange: true
+          author: abhii 
+          preConditions:
+            - onFail: MARK_RAN
+              not:
+                tableExists:
+                  tableName: role
+          changes:
+            - createTable:
+                tableName: role            
+                columns:                   
+                  - column:
+                      autoIncrement: true
+                      constraints:
+                        nullable: false
+                        primaryKey: true
+                        primaryKeyName: role_pkeyy
+                      name: role_id
+                      type: integer
+                  - column:
+                      name: role
+                      type: varchar(255)
+                  
+                
+                      
+                  
+                  
+                 
+                  
+                 
+                  
+                
+                
+                 
+                       
+                
+                
+                
+
+
+

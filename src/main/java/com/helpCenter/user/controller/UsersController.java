@@ -31,13 +31,12 @@ public class UsersController {
 
 // CREATE ADMIN USER
 	@PostMapping("/admin")
-	public ResponseEntity<?>createAdmin(@Valid @RequestBody RequestUserDTO requestUserDTO)
-	{
+	public ResponseEntity<?> createAdmin(@Valid @RequestBody RequestUserDTO requestUserDTO) {
 		userServiceImpl.createAdmin(requestUserDTO);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-// CREATE NON-ADMIN USER
+// CREATE NON ADMIN
 	@PostMapping("/")
 	public ResponseEntity<?> Create(@Valid @RequestBody RequestUserDTO userDto) {
 		userServiceImpl.createUser(userDto);

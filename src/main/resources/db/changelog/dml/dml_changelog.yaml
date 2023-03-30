@@ -1,0 +1,35 @@
+#Userinsertion
+databaseChangeLog:
+      - changeSet:
+          id: hitesh_2.0
+          runOnChange: true
+          author: author (generated)
+          tableName: user
+          changes:
+          - insert:
+                tableName: user
+                columns:
+                - column:
+                    name: user_id
+                    value: "12"
+                - column:
+                    name: created_by
+                    value: "akash"
+                - column:
+                    name: created_date
+                    value: "12/03/2023"
+                - column:
+                    name: email
+                    value: "aksh@gmail.com"            
+                - column:
+                    name: user_name
+                    value:  "admin"
+                - column:
+                    name: password
+                    value: "$2a$10$XBYf3xxxIoZ8Q6x.PFTOZum2/q19W25yvA4JOrEum2Gk/ETFXtiSG"
+                - column:
+                    name: active
+                    value: "false"
+                - column:
+                    name: failure_attempes
+                    value: "0"

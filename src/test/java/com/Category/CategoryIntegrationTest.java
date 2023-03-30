@@ -56,6 +56,7 @@ class CategoryIntegrationTest {
 		categoryRepo.deleteAll();
 		categoryRepo.deleteAll();
 		categoryRepo.deleteAll();	
+		categoryRepo.deleteAll();
 	}
 
 	// CREATE CATEGORY
