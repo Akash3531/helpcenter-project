@@ -3,8 +3,22 @@ databaseChangeLog:
   - include:
       file: db/changelog/ddl/ddl_changelog.yaml
   - include:
+<<<<<<< HEAD
       file: db/changelog/ddl/ddl_changelog1.yaml
   - include:
       file: db/changelog/dml/dml_changelog.yaml
   - include:
       file: db/changelog/dml/dml_changelog1.yaml
+=======
+      file: db/changelog/ddl/ddl_changelog2.yaml       
+  - include:
+      file: db/changelog/ddl/ddl_changelog1.yaml  
+  - include:
+      file: db/changelog/dml/dml_changelog.yaml
+  - include:
+      file: db/changelog/dml/dml_changelog1.yaml
+  - include:
+      file: db/changelog/dml/dml_changelog2.yaml          
+ 
+  
+>>>>>>> 91ad62fbd64d7b5bf4eb940150f454d712a625f5

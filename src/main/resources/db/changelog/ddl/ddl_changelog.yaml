@@ -1,9 +1,13 @@
 #UserCreation
 databaseChangeLog:
       - changeSet:
-          id: user_table
+          id: hitesh_2.0
           runOnChange: true
+<<<<<<< HEAD
           author: abhi
+=======
+          author: author (generated)
+>>>>>>> 91ad62fbd64d7b5bf4eb940150f454d712a625f5
           preConditions:
             - onFail: MARK_RAN
               not:
@@ -55,4 +59,20 @@ databaseChangeLog:
                       constraints:
                         nullable: false
                       name: user_name
+<<<<<<< HEAD
                       type: varchar(255)
+=======
+                      type: varchar(255)    
+                      
+                  
+                  
+                 
+                  
+                 
+                  
+                
+                
+                 
+                       
+
+>>>>>>> 91ad62fbd64d7b5bf4eb940150f454d712a625f5

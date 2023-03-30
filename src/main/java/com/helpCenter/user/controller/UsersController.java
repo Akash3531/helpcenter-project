@@ -29,13 +29,14 @@ public class UsersController {
 	@Autowired
 	UserServiceImpl userServiceImpl;
 
+// CREATE ADMIN USER
 	@PostMapping("/admin")
-	public ResponseEntity<?>createAdmin(@Valid @RequestBody RequestUserDTO requestUserDTO)
-	{
+	public ResponseEntity<?> createAdmin(@Valid @RequestBody RequestUserDTO requestUserDTO) {
 		userServiceImpl.createAdmin(requestUserDTO);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
+// CQREATE NON ADMIN
 	@PostMapping("/")
 	public ResponseEntity<?> Create(@Valid @RequestBody RequestUserDTO userDto) {
 		userServiceImpl.createUser(userDto);

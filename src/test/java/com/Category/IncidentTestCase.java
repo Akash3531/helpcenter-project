@@ -1,6 +1,5 @@
 package com.Category;
 
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -63,7 +62,7 @@ public class IncidentTestCase {
 	ObjectMapper objectMapper;
 
 	Date date = new Date();
-			
+
 	@Test
 	void contextLoads() {
 
@@ -81,27 +80,27 @@ public class IncidentTestCase {
 	@Test
 	public void givenIncidentObject_whenCreateIncident_thenReturnStatusCreated() throws Exception {
 		// given - precondition
-		
+
 		Category category = new Category();
 		category.setName("software");
 		category.setCode("SOFTWARE@12");
 		category.setEtaInMinutes(5);
-		
-		List<String>resources=new ArrayList<>();
+
+		List<String> resources = new ArrayList<>();
 		resources.add("akash");
 		resources.add("sonu");
-		HandlerDetails detail=new HandlerDetails();
+		HandlerDetails detail = new HandlerDetails();
 		detail.setLevel(1);
 		detail.setResources(resources);
-		List<HandlerDetails> details=new ArrayList<>();
+		List<HandlerDetails> details = new ArrayList<>();
 		details.add(detail);
-		RequestHandler requestHandler=new RequestHandler();
+		RequestHandler requestHandler = new RequestHandler();
 		requestHandler.setHandler(details);
 		requestHandler.setCategory(category);
 		category.setRequestHandler(requestHandler);
-		
+
 		categoryRepo.save(category);
-		
+
 		RequestIncidentDto incidentDto = new RequestIncidentDto();
 		incidentDto.setTitle("Software failure");
 		incidentDto.setDescription("postman is not working");
@@ -112,10 +111,10 @@ public class IncidentTestCase {
 		String jsonStr = Obj.writeValueAsString(incidentDto);
 		MockMultipartFile jsonFile = new MockMultipartFile("incident", "", "application/json", jsonStr.getBytes());
 
-
-		MockMultipartFile file = new MockMultipartFile("image", "C:\\\\Users\\\\salariyaabhishek\\\\Pictures\\\\meditation-buddhism-monk-temple",
+		MockMultipartFile file = new MockMultipartFile("image",
+				"C:\\\\Users\\\\salariyaabhishek\\\\Pictures\\\\meditation-buddhism-monk-temple",
 				MediaType.MULTIPART_FORM_DATA_VALUE, "".getBytes());
-		
+
 		// when - action or behavior
 		ResultActions response = mockMvc.perform(multipart("/incident/").file(jsonFile).file(file));
 		// then -verify result
@@ -127,7 +126,7 @@ public class IncidentTestCase {
 	@Test
 	public void givenUpdatedIncident_whenUpdateIncident_thenReturnStatusOk() throws Exception {
 		// given - precondition
-		User  user=new User("xyz","xyz");
+		User user = new User("xyz", "xyz");
 		userRepository.save(user);
 		Category category = new Category("hardware", "HARDWARE@33");
 		categoryRepo.save(category);

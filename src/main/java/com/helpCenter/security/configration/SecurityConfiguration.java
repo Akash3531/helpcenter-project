@@ -33,7 +33,7 @@ public class SecurityConfiguration {
 				.requestMatchers(HttpMethod.GET, "/byuser/{user_id}").hasAnyRole("ADMIN", "NORMAL")
 				.requestMatchers(HttpMethod.GET, "/category/").hasAnyRole("ADMIN", "NORMAL")
 				.requestMatchers("/user/**", "/category/**", "/iamge/**", "/incident/**", "/comment/**")
-				.permitAll().anyRequest().authenticated().and().httpBasic();
+				.hasRole("ADMIN").anyRequest().authenticated().and().httpBasic();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authenticationProvider(authenticationProvider());
 		DefaultSecurityFilterChain defaultSecurityFilterChain = http.build();

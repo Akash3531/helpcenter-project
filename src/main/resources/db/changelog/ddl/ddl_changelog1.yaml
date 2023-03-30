@@ -3,21 +3,60 @@ databaseChangeLog:
       - changeSet:
           id: user_tablee
           runOnChange: true
+<<<<<<< HEAD
           author: abhii
+=======
+          author: abhii 
+>>>>>>> 91ad62fbd64d7b5bf4eb940150f454d712a625f5
           preConditions:
             - onFail: MARK_RAN
               not:
                 tableExists:
+<<<<<<< HEAD
                  tableName: user_role
           changes:
             - createTable:
                 tableName: user_role
                 columns:
+=======
+                  tableName: user_role
+          changes:
+            - createTable:
+                tableName: user_role            
+                columns:                   
+>>>>>>> 91ad62fbd64d7b5bf4eb940150f454d712a625f5
                   - column:
                       constraints:
                       name: role
                       type: integer
+<<<<<<< HEAD
                   - column:
                       constraints:
                       name: user
                       type: integer
+=======
+                      
+                  - column:
+                      constraints:
+                      name: user
+                      type: integer
+                  
+                
+                      
+                  
+                  
+                 
+                  
+                 
+                  
+                
+                
+                 
+                       
+                
+                
+                
+
+
+
+>>>>>>> 91ad62fbd64d7b5bf4eb940150f454d712a625f5

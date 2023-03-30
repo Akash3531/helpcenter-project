@@ -42,12 +42,12 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			helper.setFrom("jbawa@seasia.in");
 			helper.setTo("springtest@yopmail.com");
 			helper.setSubject("Comment ||" + incidentTitle);
+			helper.setSubject("Regarding ||" + incidentTitle);
 			helper.setText(comment);
 			mailSender.send(mimeMessage);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void sendMailOnStatusUpdate(String email, String title, String status) {

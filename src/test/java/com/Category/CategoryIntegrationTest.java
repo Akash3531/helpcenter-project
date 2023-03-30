@@ -53,18 +53,11 @@ class CategoryIntegrationTest {
 	@BeforeEach
 	void setUp() {
 		incidentReposatiory.deleteAll();
-
-
 		categoryRepo.deleteAll();
-
-		categoryRepo.deleteAll();	
-
-
 		categoryRepo.deleteAll();
-
-
 		categoryRepo.deleteAll();
-
+		categoryRepo.deleteAll();
+		categoryRepo.deleteAll();
 	}
 
 	// CREATE CATEGORY
