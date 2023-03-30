@@ -9,6 +9,7 @@ public class UpdateIncidentDto {
 	private String description;
 
 	private String categoryCode;
+	private String status;
 	private String priority;
 
 	private Date lastmailSendedTime;
@@ -38,6 +39,15 @@ public class UpdateIncidentDto {
 
 	public String getPriority() {
 		return priority;
+	}
+
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public void setPriority(String priority) {

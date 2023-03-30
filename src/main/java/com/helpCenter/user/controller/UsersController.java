@@ -35,7 +35,8 @@ public class UsersController {
 		userServiceImpl.createAdmin(requestUserDTO);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
-
+	
+// CQREATE NON ADMIN
 	@PostMapping("/")
 	public ResponseEntity<?> Create(@Valid @RequestBody RequestUserDTO userDto) {
 		userServiceImpl.createUser(userDto);

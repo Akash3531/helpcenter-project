@@ -97,7 +97,6 @@ public class IncidentServiceImpl implements IncidentService {
 	@Override
 	public ResponseIncidentDto getIncidentById(int id) {
 		Incident incident = incidentReposatiory.findById(id);
-		System.out.println(incident);
 		if (incident == null) {
 			throw new IncidentNotFoundException(id);
 		}
@@ -111,6 +110,12 @@ public class IncidentServiceImpl implements IncidentService {
 		// Fetching Incident To be Updated
 		Incident updateIncident = incidentReposatiory.findById(id);
 
+		if(updateIncident==null)
+		{
+			throw new IncidentNotFoundException(id);
+		}
+		else
+		{
 		if (incidentdto != null) {
 			// DTO CONVERSION
 			Incident incident = incidentClass.UpdateDtoToIncident(incidentdto);
@@ -124,6 +129,11 @@ public class IncidentServiceImpl implements IncidentService {
 				}
 				updateIncident.setCategory(category);
 				
+			}
+			if(incident.getStatus()!=null)
+			{
+				updateIncident.setStatus(incident.getStatus());
+				providerForEmailServiceImpl.getDetailOfStatusUpdate(updateIncident);
 			}
 			if(incident.getLastmailSendedTime()!=null)
 			{
@@ -153,6 +163,7 @@ public class IncidentServiceImpl implements IncidentService {
 			updateIncident.setImages(imageslist);
 		}
 		incidentReposatiory.save(updateIncident);
+		}
 	}
 
 //Get INCIDENT BY USER

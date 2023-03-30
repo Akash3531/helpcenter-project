@@ -40,7 +40,7 @@ public class Incident {
 
 	private String categoryCode;
 
-	private String Status = "In Progress";
+	private String status = "In Progress";
 
 	@CreatedDate
 	private Date createdDate;
@@ -111,11 +111,11 @@ public class Incident {
 	}
 
 	public String getStatus() {
-		return Status;
+		return status;
 	}
 
 	public void setStatus(String status) {
-		Status = status;
+		this.status=status;
 	}
 
 	public Category getCategory() {
@@ -157,7 +157,7 @@ public class Incident {
 		this.title = title;
 		this.description = description;
 		this.categoryCode = categoryCode;
-		Status = status;
+		this.status = status;
 		this.createdDate = createdDate;
 		this.lastmailSendedTime = lastmailSendedTime;
 		this.category = category;
@@ -171,7 +171,7 @@ public class Incident {
 	@Override
 	public String toString() {
 		return "incidentCreation [id=" + id + ", title=" + title + ", description=" + description + ", categoryCode="
-				+ categoryCode + ", Status=" + Status + ", priority=" + priority + ", category=" + category
+				+ categoryCode + ", Status=" + status + ", priority=" + priority + ", category=" + category
 				+ ", images=" + images + ", user=" + user + "]";
 	}
 
@@ -191,6 +191,7 @@ public class Incident {
 	public Incident UpdateDtoToIncident(UpdateIncidentDto incidentDto) {
 		Incident incident = new Incident();
 		incident.setTitle(incidentDto.getTitle());
+		incident.setStatus(incidentDto.getStatus());
 		incident.setDescription(incidentDto.getDescription());
 		incident.setCategoryCode(incidentDto.getCategoryCode());
 		incident.setLastmailSendedTime(incidentDto.getLastmailSendedTime());

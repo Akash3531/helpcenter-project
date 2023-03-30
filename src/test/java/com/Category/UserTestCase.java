@@ -37,7 +37,8 @@ import com.helpCenter.user.repository.UserRepository;
 public class UserTestCase {
 	@Autowired
 	private MockMvc mockMvc;
-
+	@Autowired
+	IncidentReposatiory incidentReposatiory;
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
