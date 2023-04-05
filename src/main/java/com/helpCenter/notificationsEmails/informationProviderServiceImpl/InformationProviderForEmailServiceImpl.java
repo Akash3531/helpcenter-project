@@ -13,13 +13,11 @@ import org.springframework.stereotype.Service;
 import com.helpCenter.Incident.dtos.UpdateIncidentDto;
 import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.Incident.serviceImpl.IncidentServiceImpl;
-import com.helpCenter.category.entity.Category;
 import com.helpCenter.comment.entity.Comment;
 import com.helpCenter.notificationsEmails.informationProviderService.InformationProviderForEmailService;
 import com.helpCenter.notificationsEmails.mailSenderServiceImpl.MailSenderServiceImpl;
 import com.helpCenter.requestHandlers.entity.HandlerDetails;
 import com.helpCenter.requestHandlers.entity.RequestHandler;
-import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
 @Service
@@ -37,8 +35,7 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 
 		int eta = incident.getCategory().getEtaInMinutes();
 		long createdTime = incident.getCreatedDate().getTime();
-		Date currentTime = new Date();
-		long shedulerRunTime = currentTime.getTime();
+		long shedulerRunTime = new Date().getTime();
 		long diffBetweenCreatedTimeAndSchedulerRunTime = shedulerRunTime - createdTime;// Difference between created
 																						// time and current time
 		long diffrenceInMinutes = TimeUnit.MILLISECONDS.toMinutes(diffBetweenCreatedTimeAndSchedulerRunTime);
@@ -58,7 +55,7 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 			}
 			mailSenderServiceImpl.sendEmailForIncident(toEmails, incident.getTitle(), incident.getDescription());
 			UpdateIncidentDto incidentDto = new UpdateIncidentDto();
-			incidentDto.setLastmailSendedTime(currentTime);
+			incidentDto.setLastmailSendedTime(new Date());
 			try {
 				incidentServiceImpl.updateIncident(incident.getId(), incidentDto, null);
 			} catch (IOException e) {

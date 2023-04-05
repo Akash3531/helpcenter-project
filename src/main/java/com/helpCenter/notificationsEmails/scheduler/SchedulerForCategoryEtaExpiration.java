@@ -24,7 +24,7 @@ public class SchedulerForCategoryEtaExpiration {
 	@Autowired
 	InformationProviderForEmailServiceImpl providerForEmailServiceImpl;
 
-	//@Scheduled(cron = "0 0/30 * * * *") // this code will be executed every 30
+	// @Scheduled(cron = "0 0/30 * * * *") // this code will be executed every 30
 	@Scheduled(fixedDelay = 30000)
 	public void runForCategoryEta() {
 		List<Incident> incidents = incidentReposatiory.findAll();// get all saved incident

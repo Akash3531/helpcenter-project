@@ -5,13 +5,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-import com.helpCenter.Incident.serviceImpl.IncidentServiceImpl;
 import com.helpCenter.notificationsEmails.mailSenderService.EmailSenderService;
 
-import ch.qos.logback.classic.Logger;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.extern.java.Log;
 
 @Component
 public class MailSenderServiceImpl implements EmailSenderService {
