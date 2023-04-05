@@ -8,7 +8,7 @@ databaseChangeLog:
             - onFail: MARK_RAN
               not:
                 tableExists:
-                  tableName: user_role
+                 tableName: user_role
           changes:
             - createTable:
                 tableName: user_role            

@@ -1,4 +1,4 @@
-#UserRoleCreation
+#RoleCreation
 databaseChangeLog:
       - changeSet:
           id: user_tablee
@@ -8,7 +8,7 @@ databaseChangeLog:
             - onFail: MARK_RAN
               not:
                 tableExists:
-                  tableName: role
+                 tableName: role
           changes:
             - createTable:
                 tableName: role            

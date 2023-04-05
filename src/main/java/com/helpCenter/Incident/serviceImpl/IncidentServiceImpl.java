@@ -25,7 +25,6 @@ import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 import com.helpCenter.Incident.service.IncidentService;
 import com.helpCenter.category.entity.Category;
 import com.helpCenter.category.repository.CategoryRepo;
-import com.helpCenter.notificationsEmails.informationProviderServiceImpl.InformationProviderForEmailServiceImpl;
 import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
@@ -41,15 +40,13 @@ public class IncidentServiceImpl implements IncidentService {
 	@Autowired
 	Incident incidentClass;
 	@Autowired
-	InformationProviderForEmailServiceImpl providerForEmailServiceImpl;
-	@Autowired
 	ResponseIncidentDto responseIncidentDto;
 	@Autowired
 	GetIncidentbyCategory getIncidentbyCategory;
 
 // CREATE INCIDENT
 	@Override
-	public void createIncident(RequestIncidentDto incidentdto, List<MultipartFile> file) throws IOException {
+	public Incident createIncident(RequestIncidentDto incidentdto, List<MultipartFile> file) throws IOException {
 
 		// DTO CONVERSION
 		Incident incident = incidentClass.DtoToIncident(incidentdto);
@@ -77,10 +74,7 @@ public class IncidentServiceImpl implements IncidentService {
 			incident.setUser(name);
 			incident.setCategory(category);
 			Incident savedincident = incidentReposatiory.save(incident);
-			if(savedincident!=null)
-			{
-				providerForEmailServiceImpl.getIncidentCategoryDetails(savedincident);
-			}
+			return savedincident;
 		}
 	}
 
@@ -106,70 +100,66 @@ public class IncidentServiceImpl implements IncidentService {
 
 // UPDATE INCIDENT
 	@Override
-	public void updateIncident(int id, UpdateIncidentDto incidentdto, List<MultipartFile> file) throws IOException {
+	public Incident updateIncident(int id, UpdateIncidentDto incidentdto, List<MultipartFile> file) throws IOException {
 		// Fetching Incident To be Updated
 		Incident updateIncident = incidentReposatiory.findById(id);
 
-		if(updateIncident==null)
-		{
+		if (updateIncident == null) {
 			throw new IncidentNotFoundException(id);
-		}
-		else
-		{
-		if (incidentdto != null) {
-			// DTO CONVERSION
-			Incident incident = incidentClass.UpdateDtoToIncident(incidentdto);
-			// Fetching Category
-			String categoryCode = incident.getCategoryCode();
-			if (categoryCode != null) {
+		} else {
+			if (incidentdto != null) {
+				// DTO CONVERSION
+				Incident incident = incidentClass.UpdateDtoToIncident(incidentdto);
+				// Fetching Category
+				String categoryCode = incident.getCategoryCode();
+				if (categoryCode != null) {
 
-			Category category = categoryRepo.findByCode(categoryCode.toUpperCase());
-				if (category == null) {
-					throw new CategoryNotFoundException(categoryCode);
+					Category category = categoryRepo.findByCode(categoryCode.toUpperCase());
+					if (category == null) {
+						throw new CategoryNotFoundException(categoryCode);
+					}
+					updateIncident.setCategory(category);
+
 				}
-				updateIncident.setCategory(category);
-				
+				if (incident.getStatus() != null) {
+					updateIncident.setStatus(incident.getStatus());
+				}
+				if (incident.getLastmailSendedTime() != null) {
+					updateIncident.setLastmailSendedTime(incident.getLastmailSendedTime());
+				}
+				if (incident.getTitle() != null) {
+					updateIncident.setTitle(incident.getTitle());
+				}
+				if (incident.getCategory() != null) {
+					updateIncident.setCategoryCode(incident.getCategoryCode());
+				}
+				if (incident.getDescription() != null) {
+					updateIncident.setDescription(incident.getDescription());
+				}
+				if (incident.getPriority() != null) {
+					updateIncident.setPriority(incident.getPriority());
+				}
 			}
-			if(incident.getStatus()!=null)
-			{
-				updateIncident.setStatus(incident.getStatus());
-				providerForEmailServiceImpl.getDetailOfStatusUpdate(updateIncident);
+			if (file != null) {
+				List<ImageCreation> imageslist = new ArrayList<>();
+				for (MultipartFile multipart : file) {
+					ImageCreation image = new ImageCreation();
+					image.setImage(multipart.getBytes());
+					image.setIncident(updateIncident);
+					imageslist.add(image);
+				}
+				updateIncident.setImages(imageslist);
 			}
-			if(incident.getLastmailSendedTime()!=null)
-			{
-				updateIncident.setLastmailSendedTime(incident.getLastmailSendedTime());
-			}
-			if (incident.getTitle() != null) {
-				updateIncident.setTitle(incident.getTitle());
-			}
-			if (incident.getCategory() != null) {
-				updateIncident.setCategoryCode(incident.getCategoryCode());
-			}
-			if (incident.getDescription() != null) {
-				updateIncident.setDescription(incident.getDescription());
-			}
-			if (incident.getPriority() != null) {
-				updateIncident.setPriority(incident.getPriority());
-			}
+			Incident saveIncident = incidentReposatiory.save(updateIncident);
+			return saveIncident;
 		}
-		if (file != null) {
-			List<ImageCreation> imageslist = new ArrayList<>();
-			for (MultipartFile multipart : file) {
-				ImageCreation image = new ImageCreation();
-				image.setImage(multipart.getBytes());
-				image.setIncident(updateIncident);
-				imageslist.add(image);
-			}
-			updateIncident.setImages(imageslist);
-		}
-		incidentReposatiory.save(updateIncident);
-		}
+
 	}
 
 //Get INCIDENT BY USER
 	@Override
-	public List<GetIncidentbyCategory> getIncidentbyUser(int user_id,Integer pageNumber , Integer pageSize) {
-		
+	public List<GetIncidentbyCategory> getIncidentbyUser(int user_id, Integer pageNumber, Integer pageSize) {
+
 		Pageable p = PageRequest.of(pageNumber, pageSize);
 		List<Incident> incidents = incidentReposatiory.findIncidentByUserId(user_id, p);
 		if (incidents == null) {
