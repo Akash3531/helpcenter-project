@@ -14,7 +14,6 @@ import com.helpCenter.user.dto.RequestUserDTO;
 import com.helpCenter.user.dto.ResponseUserDto;
 import com.helpCenter.user.dto.ResponseUsersNameDto;
 import com.helpCenter.user.dto.UpdateUserDto;
-import com.helpCenter.user.entity.Constants;
 import com.helpCenter.user.entity.Role;
 import com.helpCenter.user.entity.User;
 import com.helpCenter.user.exceptionHandler.UserAlreadyExist;
@@ -37,7 +36,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	ResponseUserDto responseUserDto;
 
-// create Admin
+// Create Admin
 	@Override
 	public void createAdmin(RequestUserDTO requestUserDTO) {
 		// Getting User from authentication
@@ -49,17 +48,16 @@ public class UserServiceImpl implements UserService {
 		if (byuserName != null) {
 			throw new UserAlreadyExist(userName);
 		}
-		Role roleById = roleRepository.findById(Constants.ROLE_ADMIN).get();
+		Role adminRole = roleRepository.getAdmin(101);
 		List<Role> role = new ArrayList<>();
-		role.add(roleById);
+		role.add(adminRole);
 		user.setRole(role);
 		user.setCreatedBy(created_by);
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
-
 	}
 
-// create user
+// CREATE NORMAL USER
 	@Override
 	public void createUser(RequestUserDTO userDto) {
 
@@ -73,9 +71,9 @@ public class UserServiceImpl implements UserService {
 		if (byuserName != null) {
 			throw new UserAlreadyExist(userName);
 		}
-		Role roleById = roleRepository.findById(Constants.ROLE_NORMAL).get();
+		Role nonAdmin = roleRepository.getNonAdmin(102);
 		List<Role> role = new ArrayList<>();
-		role.add(roleById);
+		role.add(nonAdmin);
 		user.setRole(role);
 		user.setCreatedBy(created_by);
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -130,11 +128,11 @@ public class UserServiceImpl implements UserService {
 		if (user == null) {
 			throw new UserNotFound(userName);
 		}
-		user.setActive(false);
+		user.setActive(true);
 		userRepository.save(user);
 	}
 
-// only users name
+// RESPONSE- ONLY USERS NAME
 	@Override
 	public List<ResponseUsersNameDto> usersName() {
 		List<User> users = userRepository.findAll();

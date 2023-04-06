@@ -9,11 +9,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.helpCenter.comment.dto.CommentByIncidentIdDto;
 import com.helpCenter.comment.dto.RequestCommentDto;
 import com.helpCenter.comment.dto.ResponseCommentDto;
+import com.helpCenter.comment.entity.Comment;
 
 @Service
 public interface CommentsService {
 
-	void createComment(int id, RequestCommentDto comments, List<MultipartFile> file) throws IOException;
+	Comment createComment(int id, RequestCommentDto comments, List<MultipartFile> file) throws IOException;
 
 	List<ResponseCommentDto> getAllComments();
 

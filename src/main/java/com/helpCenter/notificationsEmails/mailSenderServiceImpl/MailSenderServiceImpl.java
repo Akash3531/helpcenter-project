@@ -45,7 +45,6 @@ public class MailSenderServiceImpl implements EmailSenderService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void sendMailOnStatusUpdate(String email, String title, String status) {

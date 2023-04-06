@@ -49,19 +49,6 @@ public class User implements UserDetails {
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Role> role = new ArrayList<>();
 
-//
-//	@JsonBackReference(value = "user")
-//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	private List<Incident> incidents = new ArrayList<>();
-//
-//	public List<Incident> getIncidents() {
-//		return incidents;
-//	}
-//
-//	public void setIncidents(List<Incident> incidents) {
-//		this.incidents = incidents;
-//	}
-
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -101,7 +88,6 @@ public class User implements UserDetails {
 		this.password = password;
 	}
 
-	
 	public String getEmail() {
 		return email;
 	}
@@ -200,7 +186,7 @@ public class User implements UserDetails {
 		super();
 		this.userName = userDto.getUserName();
 		this.password = userDto.getPassword();
-		this.email=userDto.getEmail();
+		this.email = userDto.getEmail();
 		this.failureAttempes = userDto.getFailureAttempes();
 		this.active = userDto.isActive();
 		this.createdBy = userDto.getCreatedBy();

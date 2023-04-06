@@ -3,16 +3,17 @@ databaseChangeLog:
       - changeSet:
           id: user_tablee
           runOnChange: true
+
           author: abhii
           preConditions:
             - onFail: MARK_RAN
               not:
                 tableExists:
-                 tableName: user_role
+                  tableName: user_role
           changes:
             - createTable:
-                tableName: user_role
-                columns:
+                tableName: user_role            
+                columns:                   
                   - column:
                       constraints:
                       name: role
@@ -21,14 +22,6 @@ databaseChangeLog:
                       constraints:
                       name: user
                       type: integer
-
-
-
-
-
-
-
-
 
 
 

@@ -1,9 +1,9 @@
 #Userinsertion
 databaseChangeLog:
       - changeSet:
-          id: user_table
+          id: hitesh_2.0
           runOnChange: true
-          author: abhi (generated)
+          author: author (generated)
           tableName: user
           changes:
           - insert:
@@ -11,7 +11,7 @@ databaseChangeLog:
                 columns:
                 - column:
                     name: user_id
-                    value: "12"
+                    value: "1"
                 - column:
                     name: created_by
                     value: "akash"

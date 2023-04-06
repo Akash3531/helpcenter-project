@@ -1,6 +1,7 @@
 #UserCreation
 databaseChangeLog:
       - changeSet:
+
           id: user_table
           runOnChange: true
           author: abhi
@@ -12,6 +13,17 @@ databaseChangeLog:
           changes:
             - createTable:
                 tableName: user
+          id: hitesh_2.0
+          runOnChange: true
+          author: author (generated)
+          preConditions:
+            - onFail: MARK_RAN
+              not:
+                 tableExists:
+                  tableName: user
+          changes:
+            - createTable:
+                tableName: user            
                 columns:
                   - column:
                       autoIncrement: true
@@ -55,4 +67,5 @@ databaseChangeLog:
                       constraints:
                         nullable: false
                       name: user_name
-                      type: varchar(255)
+                      type: varchar(255)    
+                      
