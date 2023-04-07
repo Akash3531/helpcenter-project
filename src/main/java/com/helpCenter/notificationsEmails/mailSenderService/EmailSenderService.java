@@ -6,4 +6,8 @@ public interface EmailSenderService {
 
 	void sendEmailAfterCommentCreation(String[] toEmails, String comment, String incidentTitle);
 
+	void sendMailOnStatusUpdate(String email, String title, String status);
+	
+	void sendMailOnCategoryCreation(String email,String category);
+
 }

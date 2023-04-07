@@ -15,7 +15,7 @@ public class EmailAspect {
 
 	@Autowired
 	InformationProviderForEmailServiceImpl providerForEmailServiceImpl;
-
+	
 	@AfterReturning(pointcut = "execution(* com.helpCenter.Incident.serviceImpl.IncidentServiceImpl.createIncident(..))", returning = "Incident")
 	public void sentMail_afterCreatingIncident(Incident Incident) {
 		if (Incident != null) {

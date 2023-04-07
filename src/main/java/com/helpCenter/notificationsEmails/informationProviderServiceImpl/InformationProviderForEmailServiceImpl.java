@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.helpCenter.Incident.dtos.UpdateIncidentDto;
 import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.Incident.serviceImpl.IncidentServiceImpl;
+import com.helpCenter.category.entity.Category;
 import com.helpCenter.comment.entity.Comment;
 import com.helpCenter.notificationsEmails.informationProviderService.InformationProviderForEmailService;
 import com.helpCenter.notificationsEmails.mailSenderServiceImpl.MailSenderServiceImpl;
@@ -90,6 +91,13 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 		String title = updateIncident.getTitle();
 		String status = updateIncident.getStatus();
 		mailSenderServiceImpl.sendMailOnStatusUpdate(email, title, status);
+	}
+
+	@Override
+	public void getCategoryCreateDetails(Category category) {
+		String createdBy = category.getCreatedBy();
+		String name = category.getName();
+		mailSenderServiceImpl.sendMailOnCategoryCreation(createdBy, name);
 	}
 
 }

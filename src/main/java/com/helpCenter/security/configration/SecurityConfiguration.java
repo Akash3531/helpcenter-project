@@ -32,6 +32,7 @@ public class SecurityConfiguration {
 				.requestMatchers(HttpMethod.POST, "/incident/").hasAnyRole("ADMIN", "NORMAL")
 				.requestMatchers(HttpMethod.GET, "/byuser/{user_id}").hasAnyRole("ADMIN", "NORMAL")
 				.requestMatchers(HttpMethod.GET, "/category/").hasAnyRole("ADMIN", "NORMAL")
+				.requestMatchers(HttpMethod.POST, "/comment/{incidentId}").hasAnyRole("ADMIN", "NORMAL")
 				.requestMatchers("/user/**", "/category/**", "/iamge/**", "/incident/**", "/comment/**")
 				.hasRole("ADMIN").anyRequest().authenticated().and().httpBasic();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

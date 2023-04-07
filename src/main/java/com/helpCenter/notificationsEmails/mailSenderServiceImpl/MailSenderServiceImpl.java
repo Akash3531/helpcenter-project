@@ -47,6 +47,7 @@ public class MailSenderServiceImpl implements EmailSenderService {
 		}
 	}
 
+	@Override
 	public void sendMailOnStatusUpdate(String email, String title, String status) {
 
 		try {
@@ -63,6 +64,23 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public void sendMailOnCategoryCreation(String email, String category) {
+
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+			helper.setFrom("jbawa@seasia.in");
+			helper.setTo("springtest@yopmail.com");
+			helper.setSubject("Regarding || Category creation");
+			helper.setText("There is a category created name as :"+category);
+			mailSender.send(mimeMessage);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

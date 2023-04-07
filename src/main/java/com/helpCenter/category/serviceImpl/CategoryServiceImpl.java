@@ -1,10 +1,13 @@
 package com.helpCenter.category.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.helpCenter.category.dtos.RequestCategoryDto;
@@ -37,7 +40,10 @@ public class CategoryServiceImpl implements CategoryService {
 
 // CREATE CATEGORY
 	@Override
-	public void createCategory(RequestCategoryDto categorydto) {
+	public Category createCategory(RequestCategoryDto categorydto) {
+		//get principle
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
 		Category category = new Category(categorydto);
 		String categoyName = category.getName();
 		Category findCategory = categoryRepository.findByName(categoyName);
@@ -62,7 +68,11 @@ public class CategoryServiceImpl implements CategoryService {
 		if (category.getRequestHandler() != null) {
 			category.getRequestHandler().setCategory(category);
 		}
-		categoryRepository.save(category);
+		category.setCreatedBy(authentication.getName());
+		category.setUpdatedBy(authentication.getName());
+		category.setUpdatedDate(new Date());
+		Category savedCategory=categoryRepository.save(category);
+		return savedCategory;
 	}
 
 // UPDATE CATEGORY FIELDS
