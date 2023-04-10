@@ -13,7 +13,7 @@ import com.helpCenter.notificationsEmails.mailSenderServiceImpl.MailSenderServic
 import com.helpCenter.user.repository.UserRepository;
 
 @Component
-public class SchedulerForCategoryEtaExpiration extends Thread{
+public class SchedulerForCategoryEtaExpiration {
 
 	@Autowired
 	UserRepository userRepository;
@@ -24,8 +24,7 @@ public class SchedulerForCategoryEtaExpiration extends Thread{
 	@Autowired
 	InformationProviderForEmailServiceImpl providerForEmailServiceImpl;
 
-	//@Scheduled(cron = "0 0/15 * * * *") // this code will be executed every 30
-	@Scheduled(fixedRate = 3000)
+	@Scheduled(cron = "0 0/15 * * * *") // this code will be executed every 30
 	public void runForCategoryEta() {
 		List<Incident> incidents = incidentReposatiory.findAll();// get all saved incident
 		for (Incident incident : incidents) {
@@ -41,8 +40,5 @@ public class SchedulerForCategoryEtaExpiration extends Thread{
 			}
 
 		}
-		SchedulerForCategoryEtaExpiration categoryEtaExpiration=new SchedulerForCategoryEtaExpiration();
-		categoryEtaExpiration.setDaemon(true);
-		categoryEtaExpiration.start();
 	}
 }
