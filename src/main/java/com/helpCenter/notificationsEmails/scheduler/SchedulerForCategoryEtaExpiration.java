@@ -13,7 +13,7 @@ import com.helpCenter.notificationsEmails.mailSenderServiceImpl.MailSenderServic
 import com.helpCenter.user.repository.UserRepository;
 
 @Component
-public class SchedulerForCategoryEtaExpiration {
+public class SchedulerForCategoryEtaExpiration extends Thread{
 
 	@Autowired
 	UserRepository userRepository;
