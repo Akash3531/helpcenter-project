@@ -1,6 +1,7 @@
 package com.helpCenter.notificationsEmails.informationProviderServiceImpl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -98,6 +99,24 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 		String createdBy = category.getCreatedBy();
 		String name = category.getName();
 		mailSenderServiceImpl.sendMailOnCategoryCreation(createdBy, name);
+	}
+
+	@Override
+	public void getDetailsOnCategoryUpdation(Category category) {
+		String[] userEmails=null;
+		String name = category.getName();
+		String code = category.getCode();
+		int etaInMinutes = category.getEtaInMinutes();
+		RequestHandler requestHandler = category.getRequestHandler();
+		String createdBy = category.getCreatedBy();
+		String updatedBy = category.getUpdatedBy();
+		List<String> users = new ArrayList<>();
+		users.add(createdBy);
+		users.add(updatedBy);
+		for (String user : users) {
+			userEmails = userRepository.findUserEmail(user);
+		}
+		mailSenderServiceImpl.sendMailOnCategoryUpdation(userEmails, name,code, etaInMinutes, requestHandler);
 	}
 
 }

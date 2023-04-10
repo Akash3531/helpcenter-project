@@ -30,7 +30,7 @@ public class KafkaConsumerConfig {
 	@Bean
 	public Map<String, Object> consumerConfigurations() {
 		Map<String, Object> configurations = new HashMap<>();
-		configurations.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,Constants.KAFKA_TOPIC);
+		configurations.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,Constants.KAFKA_BROKER);
 		configurations.put(ConsumerConfig.GROUP_ID_CONFIG, Constants.GROUP_ID);
 		configurations.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		configurations.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
@@ -43,4 +43,6 @@ public class KafkaConsumerConfig {
 		return new DefaultKafkaConsumerFactory<>(consumerConfigurations(), new StringDeserializer(),
 				new JsonDeserializer<>(Message.class));
 	}
+	
+	
 }

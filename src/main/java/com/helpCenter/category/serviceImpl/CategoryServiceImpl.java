@@ -77,7 +77,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 // UPDATE CATEGORY FIELDS
 	@Override
-	public void updateFields(String code, UpdateCategoryDto Category) {
+	public Category updateFields(String code, UpdateCategoryDto Category) {
 		Category category = new Category(Category);
 		Category updateCategory = categoryRepository.findByCode(code.toUpperCase());
 		if (updateCategory == null || updateCategory.isActive() == false) {
@@ -112,7 +112,8 @@ public class CategoryServiceImpl implements CategoryService {
 		{
 			updateCategory.setEtaInMinutes(category.getEtaInMinutes());
 		}
-		categoryRepository.save(updateCategory);
+		Category savedCateogry = categoryRepository.save(updateCategory);
+		return savedCateogry;
 	}
 
 // GET CATEGORY BY CODE

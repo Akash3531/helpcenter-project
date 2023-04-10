@@ -20,9 +20,9 @@ public class EmailAspectOnCategory {
 		providerForEmailServiceImpl.getCategoryCreateDetails(Category);
 	}
 	
-	@AfterReturning(pointcut = "execution(* com.helpCenter.category.serviceImpl.CategoryServiceImpl.UCategory(..))", returning = "Category")
+	@AfterReturning(pointcut = "execution(* com.helpCenter.category.serviceImpl.CategoryServiceImpl.updateFields(..))", returning = "Category")
 	public void sendMailOnCategoryUpdatetion(Category Category)
 	{
-		
+		providerForEmailServiceImpl.getDetailsOnCategoryUpdation(Category);
 	}
 }

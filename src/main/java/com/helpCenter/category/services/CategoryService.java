@@ -21,7 +21,7 @@ public interface CategoryService {
 
 	void deleteCategory(String code);
 
-	void updateFields(String code, UpdateCategoryDto category);
+	Category updateFields(String code, UpdateCategoryDto category);
 
 	List<ResponseCategoryChildDto> childrenOfCategory(String code);
 

@@ -6,6 +6,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import com.helpCenter.notificationsEmails.mailSenderService.EmailSenderService;
+import com.helpCenter.requestHandlers.entity.RequestHandler;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -81,6 +82,25 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void sendMailOnCategoryUpdation(String[] emails, String categoryName,String code, int etaOfCategory,
+			RequestHandler requestHandler) {
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+			helper.setFrom("jbawa@seasia.in");
+			helper.setTo("springtest@yopmail.com");
+			helper.setSubject("Regarding || Category updation");
+			helper.setText("category name is :"+categoryName.toUpperCase()
+			+""+"is updated"+"\n"+"category details are:"+"\n"+"name:"+categoryName+" "+"code:"+code+" "+"eta:"+etaOfCategory+" "+"RequestHandler:"+requestHandler);
+			mailSender.send(mimeMessage);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

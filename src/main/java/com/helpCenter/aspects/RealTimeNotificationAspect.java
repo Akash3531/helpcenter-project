@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -35,11 +36,12 @@ public class RealTimeNotificationAspect {
 		} catch (InterruptedException | ExecutionException e) {
 			throw new RuntimeException(e);
 		}
+		
 	}
-
+	
 	@AfterReturning(pointcut = "execution(* com.helpCenter.comment.serviceImpl.CommentServiceimpl.createComment(..))", returning = "comment")
 	public void sentMail_afterComment(Comment comment) {
-		Message message=new Message();
+		Message message = new Message();
 		message.setTimestamp(new Date().toString());
 		message.setSender(comment.getUser().getUsername());
 		message.setContent(comment.getComments());
