@@ -56,10 +56,6 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 	}
-<<<<<<< HEAD
-
-=======
->>>>>>> 8c7a6c42ee09bee915404cdeaa38678199017722
 // CREATE NORMAL USER
 	@Override
 	public void createUser(RequestUserDTO userDto) {

@@ -14,13 +14,13 @@ databaseChangeLog:
                     value: "12"
                 - column:
                     name: created_by
-                    value: "akash"
+                    value: "superAdmin"
                 - column:
                     name: created_date
                     value: "12/03/2023"
                 - column:
                     name: email
-                    value: "aksh@gmail.com"
+                    value: "admin@gmail.com"            
                 - column:
                     name: user_name
                     value:  "admin"
