@@ -30,7 +30,7 @@ public class SchedulerForCategoryEtaExpiration {
 		List<Incident> incidents = incidentReposatiory.findAll();// get all saved incident
 		for (Incident incident : incidents) {
 			String status = incident.getStatus();// getting status of incident
-			if (status != "done") {
+			if (status != "done" && status!="hold") {
 				int eta = incident.getCategory().getEtaInMinutes();
 				long etaInMillis = eta * 60 * 1000;
 				long lastmailSendedTime = incident.getLastmailSendedTime().getTime();

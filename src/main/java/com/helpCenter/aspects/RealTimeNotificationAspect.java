@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import com.helpCenter.kafkaSetUp.constants.Constants;
 import com.helpCenter.kafkaSetUp.model.Message;
 import com.helpCenter.notificationsEmails.informationProviderServiceImpl.InformationProviderForEmailServiceImpl;
 
+@EnableKafka
 @Aspect
 @Component
 public class RealTimeNotificationAspect {
