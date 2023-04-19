@@ -1,9 +1,9 @@
 #Userinsertion
 databaseChangeLog:
       - changeSet:
-          id: user_table
+          id: hitesh_2.0
           runOnChange: true
-          author: abhi (generated)
+          author: author (generated)
           tableName: user
           changes:
           - insert:
@@ -11,16 +11,16 @@ databaseChangeLog:
                 columns:
                 - column:
                     name: user_id
-                    value: "12"
+                    value: "1"
                 - column:
                     name: created_by
-                    value: "akash"
+                    value: "superAdmin"
                 - column:
                     name: created_date
                     value: "12/03/2023"
                 - column:
                     name: email
-                    value: "aksh@gmail.com"
+                    value: "admin@gmail.com"            
                 - column:
                     name: user_name
                     value:  "admin"

@@ -1,0 +1,27 @@
+#Roleinsertion
+databaseChangeLog:
+      - changeSet:
+          id: hitesh_1.0
+          runOnChange: true
+          author: author (generated)
+          tableName: role
+          changes:
+          - insert:
+                tableName: role
+                columns:
+                - column:
+                    name: role_id
+                    value: "101"
+                - column:
+                    name: role
+                    value: "ROLE_ADMIN"
+          - insert:
+                tableName: role
+                columns:                   
+                - column:
+                    name: role_id
+                    value: "102"
+                - column:
+                    name: role
+                    value: "ROLE_NORMAL"
+                       

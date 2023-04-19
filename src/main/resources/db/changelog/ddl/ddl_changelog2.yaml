@@ -1,27 +1,29 @@
-#UserRoleCreation
+#RoleCreation
 databaseChangeLog:
       - changeSet:
           id: hitesh_1.0
           runOnChange: true
-          author: author
+          author: author 
           preConditions:
             - onFail: MARK_RAN
               not:
                 tableExists:
-                  tableName: user_role
+                  tableName: role
           changes:
             - createTable:
-                tableName: user_role            
+                tableName: role            
                 columns:                   
                   - column:
+                      autoIncrement: true
                       constraints:
-                      name: role
+                        nullable: false
+                        primaryKey: true
+                        primaryKeyName: role_pkeyy
+                      name: role_id
                       type: integer
-                      
                   - column:
-                      constraints:
-                      name: user
-                      type: integer
+                      name: role
+                      type: varchar(255)
                   
                 
                       

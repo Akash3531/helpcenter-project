@@ -1,17 +1,17 @@
 #UserCreation
 databaseChangeLog:
       - changeSet:
-          id: user_table
+          id: hitesh_1.0
           runOnChange: true
-          author: abhi
+          author: author 
           preConditions:
             - onFail: MARK_RAN
               not:
-                tableExists:
+                 tableExists:
                   tableName: user
           changes:
             - createTable:
-                tableName: user
+                tableName: user            
                 columns:
                   - column:
                       autoIncrement: true
@@ -21,38 +21,58 @@ databaseChangeLog:
                         primaryKeyName: user_table_pkey
                       name: user_id
                       type: BIGINT
+                  
                   - column:
                       constraints:
                         nullable: false
                       name: active
                       type: boolean
+                  
                   - column:
                       constraints:
                         nullable: false
                       name: created_by
                       type: varchar(255)
+                   
                   - column:
                       constraints:
                         nullable: false
                       name: created_date
                       type: timestamp without time zone
+                      
                   - column:
                       constraints:
                         nullable: false
                       name: failure_attempes
                       type: integer
+                  
                   - column:
                       constraints:
                         nullable: false
                       name: email
                       type: varchar(255)
+                            
+              
                   - column:
                       constraints:
                         nullable: false
                       name: password
                       type: varchar(255)
+                  
                   - column:
                       constraints:
                         nullable: false
                       name: user_name
-                      type: varchar(255)
+                      type: varchar(255)    
+                      
+                  
+                  
+                 
+                  
+                 
+                  
+                
+                
+                 
+                       
+
