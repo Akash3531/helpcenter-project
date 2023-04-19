@@ -34,6 +34,7 @@ import com.helpCenter.comment.entity.Comment;
 import com.helpCenter.comment.reposatiory.CommentReposatiory;
 import com.helpCenter.requestHandlers.entity.HandlerDetails;
 import com.helpCenter.requestHandlers.entity.RequestHandler;
+import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
 @SpringBootTest
@@ -78,29 +79,34 @@ public class CommentTestCases {
 		category.setCode("SOFTWARE@12");
 		category.setEtaInMinutes(5);
 		
-		List<String>resources=new ArrayList<>();
+		User user=new User();
+		user.setUserName("akash");
+		user.setPassword("akash");
+		user.setEmail("akash@gmail.com");
+		userRepository.save(user);
+		List<String> resources = new ArrayList<>();
 		resources.add("akash");
-		resources.add("sonu");
-		HandlerDetails detail=new HandlerDetails();
+		HandlerDetails detail = new HandlerDetails();
 		detail.setLevel(1);
 		detail.setResources(resources);
-		List<HandlerDetails> details=new ArrayList<>();
+		List<HandlerDetails> details = new ArrayList<>();
 		details.add(detail);
-		RequestHandler requestHandler=new RequestHandler();
+		RequestHandler requestHandler = new RequestHandler();
 		requestHandler.setHandler(details);
 		requestHandler.setCategory(category);
 		category.setRequestHandler(requestHandler);
-		
 		categoryRepo.save(category);
 
 		Incident incident = new Incident();
 		incident.setCategory(category);
+		incident.setUser(user);
 		incident.setLastmailSendedTime(new Date());
 		incident.setTitle("mouse problem");
 		incident.setDescription("mouse is not working");
 		incidentReposatiory.save(incident);
 
-		RequestCommentDto commentDto = new RequestCommentDto("Please send the pictures");
+		RequestCommentDto commentDto = new RequestCommentDto();
+		commentDto.setComments("please check mouse");
 
 		ObjectMapper Obj = new ObjectMapper();
 		String jsonStr = Obj.writeValueAsString(commentDto);
@@ -117,7 +123,7 @@ public class CommentTestCases {
 
 //	 GET ALL COMMENTS
 	@Test
-	public void gevenComments_whenGetAllComments_thenReturnSavedComment() throws Exception {
+	public void givenComments_whenGetAllComments_thenReturnSavedComment() throws Exception {
 
 		Comment comment1 = new Comment();
 		comment1.setComments("keyboard is not working");
@@ -163,15 +169,14 @@ public class CommentTestCases {
 		comments.add(comment1);
 		comments.add(comment2);
 		commentRepository.saveAll(comments);
-		int id =0;
-		id=incident.getId();
+		int id = 0;
+		id = incident.getId();
 		System.out.println(id);
 		// when - action or behavior
-		ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/comment/{id}",id));
+		ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/comment/{id}", id));
 		// then - verify output
 		response.andDo(print()).andExpect(jsonPath("$.[0].comments", is(comment1.getComments())))
 				.andExpect(jsonPath("$.[1].comments", is(comment2.getComments())));
 	}
-	
 
 }

@@ -14,7 +14,6 @@ import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.comment.entity.Comment;
 import com.helpCenter.kafkaSetUp.constants.Constants;
 import com.helpCenter.kafkaSetUp.model.Message;
-import com.helpCenter.notificationsEmails.informationProviderServiceImpl.InformationProviderForEmailServiceImpl;
 
 @EnableKafka
 @Aspect
@@ -22,12 +21,11 @@ import com.helpCenter.notificationsEmails.informationProviderServiceImpl.Informa
 public class RealTimeNotificationAspect {
 	@Autowired
 	private KafkaTemplate<String, Message> kafkaTemplate;
-	@Autowired
-	InformationProviderForEmailServiceImpl providerForEmailServiceImpl;
 
+	//Send notification on incident creation
 	@AfterReturning(pointcut = "execution(* com.helpCenter.Incident.serviceImpl.IncidentServiceImpl.createIncident(..))", returning = "Incident")
 	public void sentKafkaNotification_afterCreatingIncident(Incident Incident) {
-		Message message=new Message();
+		Message message = new Message();
 		message.setTimestamp(new Date().toString());
 		message.setSender(Incident.getUser().getUsername());
 		message.setContent(Incident.getDescription());
@@ -37,9 +35,9 @@ public class RealTimeNotificationAspect {
 		} catch (InterruptedException | ExecutionException e) {
 			throw new RuntimeException(e);
 		}
-		
+
 	}
-	
+	//Send notification on comment creation
 	@AfterReturning(pointcut = "execution(* com.helpCenter.comment.serviceImpl.CommentServiceimpl.createComment(..))", returning = "comment")
 	public void sentMail_afterComment(Comment comment) {
 		Message message = new Message();
