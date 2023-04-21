@@ -27,20 +27,4 @@ public class EmailConfiguration {
 		return mailSender;
 	}
 	
-//	@Bean
-//	public JavaMailSender mailSender()
-//	{
-//		JavaMailSenderImpl mailSender=new JavaMailSenderImpl();
-//		mailSender.setHost("smtp.gmail.com");
-//		mailSender.setPort(587);
-//		mailSender.setUsername("dingramail000@gmail.com");
-//		mailSender.setPassword("dzdxtgzccoelxueo");
-//		
-//		Properties javaMailProperties = new Properties();
-//		javaMailProperties.put("mail.smtp.auth", true);
-//		javaMailProperties.put("mail.smtp.starttls.enable", true);
-//		
-//		mailSender.setJavaMailProperties(javaMailProperties);
-//		return mailSender;
-//	}
 }

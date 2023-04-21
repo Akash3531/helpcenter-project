@@ -29,14 +29,24 @@ public class QueueNumberAspect {
 			ids.add(id2);
 		}
 		int indexOf = ids.indexOf(id);
+		System.out.println(++indexOf);
 	}
 
 	@AfterReturning(pointcut = "execution(* com.helpCenter.Incident.serviceImpl.IncidentServiceImpl.updateIncident(..))", returning = "incident")
 	public void get_queueNumberOn_StatusUpdate(Incident incident) {
-		List<Incident> byCategoryCodeAndStatus = incidentReposatiory
-				.findIncidentByCategoryCodeAndStatus(incident.getCategoryCode());
-		for (Incident incident2 : byCategoryCodeAndStatus) {
-			int id = incident2.getId();
+		if (incident.getStatus() != null && !incident.getStatus().equals("ToDo")) {
+			List<Integer> listOfIds = new ArrayList<>();
+			List<Incident> byCategoryCodeAndStatus = incidentReposatiory
+					.findIncidentByCategoryCodeAndStatus(incident.getCategoryCode());
+			for (Incident incident2 : byCategoryCodeAndStatus) {
+				int id = incident2.getId();
+				listOfIds.add(id);
+			}
+			for (Integer no : listOfIds) {
+				
+				int indexOf = listOfIds.indexOf(no);
+				System.out.println(no+" is on"+ ++indexOf);
+			}
 		}
 	}
 }
