@@ -112,12 +112,10 @@ public class IncidentTestCase {
 		String jsonStr = Obj.writeValueAsString(incidentDto);
 		MockMultipartFile jsonFile = new MockMultipartFile("incident", "", "application/json", jsonStr.getBytes());
 
-<<<<<<< HEAD
+
 
 		MockMultipartFile file = new MockMultipartFile("image", "C:\\Users\\sahotahitesh\\Downloads\\w.jpg",
-=======
-		MockMultipartFile file = new MockMultipartFile("image", "C:\\\\Users\\\\salariyaabhishek\\\\Pictures\\\\meditation-buddhism-monk-temple",
->>>>>>> 23e97f8e8811d3310af51014828f23724d6426f0
+
 				MediaType.MULTIPART_FORM_DATA_VALUE, "".getBytes());
 		// when - action or behavior
 		ResultActions response = mockMvc.perform(multipart("/incident/").file(jsonFile).file(file));

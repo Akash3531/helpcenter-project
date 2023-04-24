@@ -1,9 +1,9 @@
 #UserCreation
 databaseChangeLog:
       - changeSet:
-          id: hitesh_2.0
+          id: hitesh_1.0
           runOnChange: true
-          author: author (generated)
+          author: author 
           preConditions:
             - onFail: MARK_RAN
               not:
