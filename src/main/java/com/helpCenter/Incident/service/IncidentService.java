@@ -9,16 +9,17 @@ import com.helpCenter.Incident.dtos.GetIncidentbyCategory;
 import com.helpCenter.Incident.dtos.RequestIncidentDto;
 import com.helpCenter.Incident.dtos.ResponseIncidentDto;
 import com.helpCenter.Incident.dtos.UpdateIncidentDto;
+import com.helpCenter.Incident.entity.Incident;
 
 public interface IncidentService {
 
-	void createIncident(RequestIncidentDto incident, List<MultipartFile> file) throws Exception;
+	Incident createIncident(RequestIncidentDto incident, List<MultipartFile> file) throws Exception;
 
 	List<ResponseIncidentDto> getAllIncidents();
 
 	ResponseIncidentDto getIncidentById(int id);
 
-	void updateIncident(int id, UpdateIncidentDto incident, List<MultipartFile> file) throws IOException;
+	Incident updateIncident(int id, UpdateIncidentDto incident, List<MultipartFile> file) throws IOException;
 
 	public List<GetIncidentbyCategory> getIncidentbyUser(int user_id,Integer pageNumber , Integer pageSize);
 	

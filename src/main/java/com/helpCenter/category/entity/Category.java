@@ -1,6 +1,9 @@
 package com.helpCenter.category.entity;
 
+import java.util.Date;
+
 import org.hibernate.annotations.Where;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.stereotype.Component;
 
 import com.helpCenter.category.dtos.RequestCategoryDto;
@@ -20,7 +23,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Where(clause = "active=true")
-//@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Entity
 @Table
 @Component
@@ -35,6 +37,11 @@ public class Category {
 	private String name;
 	private boolean active = true;
 	private int etaInMinutes;
+	@CreatedDate
+	private Date createdDate;
+	private Date updatedDate;
+	private String createdBy;
+	private String updatedBy;
 	@ManyToOne
 	@JoinColumn(name = "parent_id")
 	private Category parent;
@@ -43,21 +50,21 @@ public class Category {
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "category", fetch = FetchType.EAGER)
 	private RequestHandler requestHandler;
 
-	public Category(Integer id, String name, boolean active,int etaInMinutes, Category parent, String code,
+	public Category(Integer id, String name, boolean active, int etaInMinutes, Category parent, String code,
 			RequestHandler requestHandler) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.active = active;
-		this.etaInMinutes=etaInMinutes;
+		this.etaInMinutes = etaInMinutes;
 		this.parent = parent;
 		this.code = code;
 		this.requestHandler = requestHandler;
 	}
 
-	public Category(String name,String code, Category parent) {
+	public Category(String name, String code, Category parent) {
 		this.name = name;
-		this.code=code;
+		this.code = code;
 		this.parent = parent;
 	}
 
@@ -76,7 +83,8 @@ public class Category {
 		this.code = category.getCode();
 		this.name = category.getName();
 		this.parent = category.getParent();
-		this.etaInMinutes=category.getEtaInMinutes();
+		this.etaInMinutes = category.getEtaInMinutes();
+		this.createdDate=category.getCreatedDate();
 		this.requestHandler = category.getRequestHandler();
 
 	}
@@ -86,8 +94,8 @@ public class Category {
 		this.code = category.getCode();
 		this.name = category.getName();
 		this.parent = category.getParent();
-		this.etaInMinutes=category.getEtaInMinutes();
-		this.requestHandler=category.getRequestHandler();
+		this.etaInMinutes = category.getEtaInMinutes();
+		this.requestHandler = category.getRequestHandler();
 	}
 
 	public Integer getId() {
@@ -136,6 +144,38 @@ public class Category {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
 	}
 
 	public RequestHandler getRequestHandler() {

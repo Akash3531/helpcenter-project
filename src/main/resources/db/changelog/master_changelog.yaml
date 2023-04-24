@@ -3,6 +3,11 @@ databaseChangeLog:
   - include:
       file: db/changelog/ddl/ddl_changelog.yaml
   - include:
+      file: db/changelog/ddl/ddl_changelog1.yaml
+  - include:
+      file: db/changelog/dml/dml_changelog.yaml
+  - include:
+      file: db/changelog/dml/dml_changelog1.yaml
       file: db/changelog/ddl/ddl_changelog2.yaml       
   - include:
       file: db/changelog/ddl/ddl_changelog1.yaml  
@@ -12,5 +17,4 @@ databaseChangeLog:
       file: db/changelog/dml/dml_changelog1.yaml
   - include:
       file: db/changelog/dml/dml_changelog2.yaml          
- 
-  
+

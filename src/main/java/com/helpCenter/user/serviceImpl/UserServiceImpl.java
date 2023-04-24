@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
 		if (user == null) {
 			throw new UserNotFound(userName);
 		}
-		user.setActive(false);
+		user.setActive(true);
 		userRepository.save(user);
 	}
 

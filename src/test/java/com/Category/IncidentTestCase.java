@@ -111,11 +111,15 @@ public class IncidentTestCase {
 		ObjectMapper Obj = new ObjectMapper();
 		String jsonStr = Obj.writeValueAsString(incidentDto);
 		MockMultipartFile jsonFile = new MockMultipartFile("incident", "", "application/json", jsonStr.getBytes());
+<<<<<<< HEAD
 
 
 
 		MockMultipartFile file = new MockMultipartFile("image", "C:\\Users\\sahotahitesh\\Downloads\\w.jpg",
 
+=======
+		MockMultipartFile file = new MockMultipartFile("image", "C:\\\\Users\\\\salariyaabhishek\\\\Pictures\\\\meditation-buddhism-monk-temple",
+>>>>>>> b80e1cc333c650ca4194883fbbe875addc8606cc
 				MediaType.MULTIPART_FORM_DATA_VALUE, "".getBytes());
 		// when - action or behavior
 		ResultActions response = mockMvc.perform(multipart("/incident/").file(jsonFile).file(file));

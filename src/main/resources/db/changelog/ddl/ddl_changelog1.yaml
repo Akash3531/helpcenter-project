@@ -17,27 +17,11 @@ databaseChangeLog:
                       constraints:
                       name: role
                       type: integer
-                      
                   - column:
                       constraints:
                       name: user
                       type: integer
-                  
-                
-                      
-                  
-                  
-                 
-                  
-                 
-                  
-                
-                
-                 
-                       
-                
-                
-                
+
 
 
 
