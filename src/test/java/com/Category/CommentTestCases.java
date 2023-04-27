@@ -74,16 +74,16 @@ public class CommentTestCases {
 	public void givenCommentObject_whenCreateComment_thenReturnStatus() throws Exception {
 
 		// given - precondition or setup
-		Category category = new Category();
-		category.setName("software");
-		category.setCode("SOFTWARE@12");
-		category.setEtaInMinutes(5);
-		
-		User user=new User();
+		User user = new User();
 		user.setUserName("akash");
 		user.setPassword("akash");
 		user.setEmail("akash@gmail.com");
 		userRepository.save(user);
+		
+		Category category = new Category();
+		category.setName("software");
+		category.setCode("SOFTWARE@12");
+		category.setEtaInMinutes(5);
 		List<String> resources = new ArrayList<>();
 		resources.add("akash");
 		HandlerDetails detail = new HandlerDetails();

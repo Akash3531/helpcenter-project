@@ -3,18 +3,24 @@ package com.helpCenter.aspects;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.kafka.clients.admin.NewTopic;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
+import com.helpCenter.kafkaSetUp.model.Message;
 
 @Component
 @Aspect
 public class QueueNumberAspect {
-
+	@Autowired
+    private KafkaTemplate<String, Message> kafkaTemplate;
+    @Autowired
+    NewTopic  topic;
 	@Autowired
 	IncidentReposatiory incidentReposatiory;
 
@@ -29,7 +35,9 @@ public class QueueNumberAspect {
 			ids.add(id2);
 		}
 		int indexOf = ids.indexOf(id);
-		System.out.println(++indexOf);
+		String message = "Your ticket number is" + Incident.getId() + "your incident is" + indexOf
+				+ " in the queue.Your incident will be resolve shortly";
+		 
 	}
 
 	@AfterReturning(pointcut = "execution(* com.helpCenter.Incident.serviceImpl.IncidentServiceImpl.updateIncident(..))", returning = "incident")
@@ -39,13 +47,13 @@ public class QueueNumberAspect {
 			List<Incident> byCategoryCodeAndStatus = incidentReposatiory
 					.findIncidentByCategoryCodeAndStatus(incident.getCategoryCode());
 			for (Incident incident2 : byCategoryCodeAndStatus) {
-				int id = incident2.getId();
-				listOfIds.add(id);
+				listOfIds.add(incident2.getId());
 			}
 			for (Integer no : listOfIds) {
-				
+
 				int indexOf = listOfIds.indexOf(no);
-				System.out.println(no+" is on"+ ++indexOf);
+				// Incident incidentById = incidentReposatiory.incidentById(no);
+
 			}
 		}
 	}

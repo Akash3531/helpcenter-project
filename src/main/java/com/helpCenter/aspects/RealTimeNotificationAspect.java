@@ -3,6 +3,7 @@ package com.helpCenter.aspects;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.kafka.clients.admin.NewTopic;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.comment.entity.Comment;
-import com.helpCenter.kafkaSetUp.constants.Constants;
 import com.helpCenter.kafkaSetUp.model.Message;
 
 @EnableKafka
@@ -21,6 +21,8 @@ import com.helpCenter.kafkaSetUp.model.Message;
 public class RealTimeNotificationAspect {
 	@Autowired
 	private KafkaTemplate<String, Message> kafkaTemplate;
+	@Autowired
+	NewTopic newTopic;
 
 	//Send notification on incident creation
 	@AfterReturning(pointcut = "execution(* com.helpCenter.Incident.serviceImpl.IncidentServiceImpl.createIncident(..))", returning = "Incident")
@@ -31,7 +33,7 @@ public class RealTimeNotificationAspect {
 		message.setContent(Incident.getDescription());
 		try {
 			// Sending the message to kafka topic queue
-			kafkaTemplate.send(Constants.KAFKA_TOPIC, message).get();
+			kafkaTemplate.send(newTopic.name(), message).get();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new RuntimeException(e);
 		}
@@ -46,7 +48,7 @@ public class RealTimeNotificationAspect {
 		message.setContent(comment.getComments());
 		try {
 			// Sending the message to kafka topic queue
-			kafkaTemplate.send(Constants.KAFKA_TOPIC, message).get();
+			kafkaTemplate.send(newTopic.name(), message).get();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new RuntimeException(e);
 		}

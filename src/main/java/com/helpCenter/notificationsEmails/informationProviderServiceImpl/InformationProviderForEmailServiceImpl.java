@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.helpCenter.Incident.dtos.UpdateIncidentDto;
 import com.helpCenter.Incident.entity.Incident;
+import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 import com.helpCenter.Incident.serviceImpl.IncidentServiceImpl;
 import com.helpCenter.category.entity.Category;
 import com.helpCenter.comment.entity.Comment;
@@ -32,7 +33,7 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 	@Autowired
 	IncidentServiceImpl incidentServiceImpl;
 
-	//information provider for incident
+	// information provider for incident
 	@Override
 	public void getIncidentCategoryDetails(Incident incident) {
 
@@ -52,13 +53,15 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 																			// value pair
 		}
 		if (handlerLevel < handlers.size()) {
-			List<String> handlersName = handlerDetails.get(handlers.size() - handlerLevel);//getting handler of incident
+			List<String> handlersName = handlerDetails.get(handlers.size() - handlerLevel);// getting handler of
+																							// incident
 			for (String handlerName : handlersName) {
-				toEmails = userRepository.findUserEmail(handlerName);//getting Email of related handlers
+				toEmails = userRepository.findUserEmail(handlerName);// getting Email of related handlers
 			}
-			mailSenderServiceImpl.sendEmailForIncident(toEmails, incident.getTitle(), incident.getDescription());//sending mail 
+			mailSenderServiceImpl.sendEmailForIncident(toEmails, incident.getTitle(), incident.getDescription());// sending
+																													// mail
 			UpdateIncidentDto incidentDto = new UpdateIncidentDto();
-			incidentDto.setLastmailSendedTime(new Date());//updating lastMailSendedTime 
+			incidentDto.setLastmailSendedTime(new Date());// updating lastMailSendedTime
 			try {
 				incidentServiceImpl.updateIncident(incident.getId(), incidentDto, null);
 			} catch (IOException e) {
@@ -68,7 +71,7 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 
 	}
 
-	//information provider on comment creation
+	// information provider on comment creation
 	@Override
 	public void getCommentDetails(Comment comment) {
 		Map<Integer, List<String>> handlersWithLevel = new LinkedHashMap<>();
@@ -88,7 +91,7 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 				comment.getIncident().getTitle());
 	}
 
-	//Information provider for status updation
+	// Information provider for status updation
 	@Override
 	public void getDetailOfStatusUpdate(Incident updateIncident) {
 		String email = updateIncident.getUser().getEmail();
@@ -97,7 +100,7 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 		mailSenderServiceImpl.sendMailOnStatusUpdate(email, title, status);
 	}
 
-	//Information provider on category creation
+	// Information provider on category creation
 	@Override
 	public void getCategoryCreateDetails(Category category) {
 		String createdBy = category.getCreatedBy();
@@ -105,10 +108,10 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 		mailSenderServiceImpl.sendMailOnCategoryCreation(createdBy, name);
 	}
 
-	//information provider on category updation
+	// information provider on category updation
 	@Override
 	public void getDetailsOnCategoryUpdation(Category category) {
-		String[] userEmails=null;
+		String[] userEmails = null;
 		String name = category.getName();
 		String code = category.getCode();
 		int etaInMinutes = category.getEtaInMinutes();
@@ -121,7 +124,7 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 		for (String user : users) {
 			userEmails = userRepository.findUserEmail(user);
 		}
-		mailSenderServiceImpl.sendMailOnCategoryUpdation(userEmails, name,code, etaInMinutes, requestHandler);
+		mailSenderServiceImpl.sendMailOnCategoryUpdation(userEmails, name, code, etaInMinutes, requestHandler);
 	}
 
 }

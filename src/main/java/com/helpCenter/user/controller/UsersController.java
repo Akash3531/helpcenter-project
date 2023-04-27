@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,16 +30,9 @@ public class UsersController {
 	@Autowired
 	UserServiceImpl userServiceImpl;
 
-// Create admin
-	@PostMapping("/admin")
-	public ResponseEntity<?> createAdmin(@Valid @RequestBody RequestUserDTO requestUserDTO) {
-		userServiceImpl.createAdmin(requestUserDTO);
-		return new ResponseEntity<>(HttpStatus.CREATED);
-	}
-
 // CREATE NON ADMIN
-	@PostMapping("/")
-	public ResponseEntity<?> Create(@Valid @RequestBody RequestUserDTO userDto) {
+	@PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> Create(@RequestBody RequestUserDTO userDto) {
 		userServiceImpl.createUser(userDto);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}

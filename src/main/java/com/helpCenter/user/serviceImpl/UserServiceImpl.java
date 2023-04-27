@@ -36,27 +36,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	ResponseUserDto responseUserDto;
 
-// Create Admin
-	@Override
-	public void createAdmin(RequestUserDTO requestUserDTO) {
-		// Getting User from authentication
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String created_by = authentication.getName();
-		User user = new User(requestUserDTO);
-		String userName = user.getUserName();
-		User byuserName = userRepository.findByuserName(userName);
-		if (byuserName != null) {
-			throw new UserAlreadyExist(userName);
-		}
-		Role adminRole = roleRepository.getAdmin(101);
-		List<Role> role = new ArrayList<>();
-		role.add(adminRole);
-		user.setRole(role);
-		user.setCreatedBy(created_by);
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		userRepository.save(user);
-	}
-
 // CREATE NORMAL USER
 	@Override
 	public void createUser(RequestUserDTO userDto) {
@@ -64,16 +43,16 @@ public class UserServiceImpl implements UserService {
 		// Getting User from authentication
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String created_by = authentication.getName();
-
 		User user = new User(userDto);
 		String userName = user.getUserName();
 		User byuserName = userRepository.findByuserName(userName);
 		if (byuserName != null) {
 			throw new UserAlreadyExist(userName);
 		}
-		Role nonAdmin = roleRepository.getNonAdmin(102);
+		// Role nonAdmin = roleRepository.getNonAdmin(102);
+		Role userRole = roleRepository.getRole(userDto.getRole().getRole().toUpperCase());
 		List<Role> role = new ArrayList<>();
-		role.add(nonAdmin);
+		role.add(userRole);
 		user.setRole(role);
 		user.setCreatedBy(created_by);
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));

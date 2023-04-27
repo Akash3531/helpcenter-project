@@ -191,6 +191,5 @@ public class User implements UserDetails {
 		this.active = userDto.isActive();
 		this.createdBy = userDto.getCreatedBy();
 		this.createdDate = userDto.getCreatedDate();
-		this.role = userDto.getRole();
 	}
 }
