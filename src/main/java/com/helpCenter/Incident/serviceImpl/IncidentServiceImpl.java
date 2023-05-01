@@ -100,7 +100,7 @@ public class IncidentServiceImpl implements IncidentService {
 
 // UPDATE INCIDENT
 	@Override
-	public Incident updateIncident(int id, UpdateIncidentDto incidentdto, List<MultipartFile> file) throws IOException {
+	public Incident updateIncident(int id, UpdateIncidentDto incidentdto, List<MultipartFile> files) throws IOException {
 		// Fetching Incident To be Updated
 		Incident updateIncident = incidentReposatiory.findById(id);
 
@@ -140,15 +140,15 @@ public class IncidentServiceImpl implements IncidentService {
 					updateIncident.setPriority(incident.getPriority());
 				}
 			}
-			if (file != null) {
-				List<ImageCreation> imageslist = new ArrayList<>();
-				for (MultipartFile multipart : file) {
+			if (files != null) {
+				List<ImageCreation> images = new ArrayList<>();
+				for (MultipartFile file : files) {
 					ImageCreation image = new ImageCreation();
-					image.setImage(multipart.getBytes());
+					image.setImage(file.getBytes());
 					image.setIncident(updateIncident);
-					imageslist.add(image);
+					images.add(image);
 				}
-				updateIncident.setImages(imageslist);
+				updateIncident.setImages(images);
 			}
 			Incident saveIncident = incidentReposatiory.save(updateIncident);
 			return saveIncident;
