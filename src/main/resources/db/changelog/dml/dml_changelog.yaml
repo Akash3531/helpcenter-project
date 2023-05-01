@@ -11,7 +11,7 @@ databaseChangeLog:
                 columns:
                 - column:
                     name: user_id
-                    value: "12"
+                    value: "1"
                 - column:
                     name: created_by
                     value: "akash"
@@ -20,7 +20,7 @@ databaseChangeLog:
                     value: "12/03/2023"
                 - column:
                     name: email
-                    value: "aksh@gmail.com"            
+                    value: "aksh@gmail.com"
                 - column:
                     name: user_name
                     value:  "admin"

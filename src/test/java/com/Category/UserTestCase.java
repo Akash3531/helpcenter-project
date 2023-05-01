@@ -27,6 +27,7 @@ import com.helpCenter.CategoryApplication;
 import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 import com.helpCenter.user.dto.RequestUserDTO;
 import com.helpCenter.user.dto.UpdateUserDto;
+import com.helpCenter.user.entity.Role;
 import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
@@ -60,8 +61,12 @@ public class UserTestCase {
 	public void givenUserObject_whenCreateUser_thenReturnStatusCreated() throws Exception {
 
 		// given - precondition or setup
-		RequestUserDTO userDto = new RequestUserDTO("akash", "akash", "prabhjot");
+		Role  role=new Role();
+		role.setRole("role_admin");
 
+		RequestUserDTO userDto = new RequestUserDTO("akash", "akash", "prabhjot");
+		userDto.setRole(role);
+		
 		// when - action or behavior that we are going test
 		ResultActions response = mockMvc.perform(MockMvcRequestBuilders.post("/user/")
 				.contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(userDto)));

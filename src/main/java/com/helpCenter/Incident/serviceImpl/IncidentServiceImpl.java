@@ -103,7 +103,6 @@ public class IncidentServiceImpl implements IncidentService {
 	public Incident updateIncident(int id, UpdateIncidentDto incidentdto, List<MultipartFile> files) throws IOException {
 		// Fetching Incident To be Updated
 		Incident updateIncident = incidentReposatiory.findById(id);
-
 		if (updateIncident == null) {
 			throw new IncidentNotFoundException(id);
 		} else {

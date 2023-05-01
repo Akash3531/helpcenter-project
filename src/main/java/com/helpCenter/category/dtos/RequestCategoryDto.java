@@ -1,5 +1,8 @@
 package com.helpCenter.category.dtos;
 
+import java.util.Date;
+
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.stereotype.Component;
 
 import com.helpCenter.category.entity.Category;
@@ -20,18 +23,21 @@ public class RequestCategoryDto {
 	private Category parent;
 	private boolean active;
 	private int etaInMinutes;
+	@CreatedDate
+	private Date createdDate;
 	private RequestHandler requestHandler;
+
 	public RequestCategoryDto(RequestCategoryDto categoryDto) {
 		super();
 		this.name = categoryDto.getName();
 	}
-	
+
 	public RequestCategoryDto(String name, String code) {
 		super();
 		this.name = name;
 		this.code = code;
 	}
-	
+
 	public boolean isActive() {
 		return active;
 	}
@@ -59,15 +65,25 @@ public class RequestCategoryDto {
 	public Category getParent() {
 		return parent;
 	}
+
 	public void setParent(Category parent) {
 		this.parent = parent;
 	}
+
 	public int getEtaInMinutes() {
 		return etaInMinutes;
 	}
 
 	public void setEtaInMinutes(int etaInMinutes) {
 		this.etaInMinutes = etaInMinutes;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	public RequestCategoryDto() {
@@ -82,6 +98,7 @@ public class RequestCategoryDto {
 	public void setRequestHandler(RequestHandler requestHandler) {
 		this.requestHandler = requestHandler;
 	}
+
 	@Override
 	public String toString() {
 		return "categoryDto [name=" + name + ", code=" + code + ", parent=" + parent + ", Active=" + active + "]";
