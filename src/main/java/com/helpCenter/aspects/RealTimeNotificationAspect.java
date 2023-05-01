@@ -7,6 +7,7 @@ import org.apache.kafka.clients.admin.NewTopic;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -21,10 +22,11 @@ import com.helpCenter.kafkaSetUp.model.Message;
 public class RealTimeNotificationAspect {
 	@Autowired
 	private KafkaTemplate<String, Message> kafkaTemplate;
-	@Autowired
+	@Autowired	
+	@Qualifier(value="test")
 	NewTopic newTopic;
 
-	//Send notification on incident creation
+	// Send notification on incident creation
 	@AfterReturning(pointcut = "execution(* com.helpCenter.Incident.serviceImpl.IncidentServiceImpl.createIncident(..))", returning = "Incident")
 	public void sentKafkaNotification_afterCreatingIncident(Incident Incident) {
 		Message message = new Message();
@@ -39,7 +41,8 @@ public class RealTimeNotificationAspect {
 		}
 
 	}
-	//Send notification on comment creation
+
+	// Send notification on comment creation
 	@AfterReturning(pointcut = "execution(* com.helpCenter.comment.serviceImpl.CommentServiceimpl.createComment(..))", returning = "comment")
 	public void sentMail_afterComment(Comment comment) {
 		Message message = new Message();

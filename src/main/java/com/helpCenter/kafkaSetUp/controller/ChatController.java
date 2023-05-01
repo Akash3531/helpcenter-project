@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ public class ChatController {
     @Autowired
     private KafkaTemplate<String, Message> kafkaTemplate;
     @Autowired
+    @Qualifier("test")
     NewTopic  topic;
 
     @PostMapping("/")

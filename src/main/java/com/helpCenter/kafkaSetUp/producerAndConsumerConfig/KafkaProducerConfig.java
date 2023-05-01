@@ -38,7 +38,27 @@ public class KafkaProducerConfig {
 	}
 
 	@Bean
-	public KafkaTemplate<String, Message> kafkaTemplate() {
+	public ProducerFactory<String, String> producerFactoryForQueue() {
+		return new DefaultKafkaProducerFactory<>(producerConfigurations());
+	}
+	
+	@Bean
+	public Map<String, String> producerConfigurationsForQueue() {
+		Map<String, String> configurations = new HashMap<>();
+		configurations.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,bootstrapAddress);
+//		configurations.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+//		configurations.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+		return configurations;
+	}
+	@Bean
+	public KafkaTemplate<String, Message> kafkaTemplateForCreation() {
 		return new KafkaTemplate<>(producerFactory());
+	}
+	
+	
+	@Bean(name="templateForQueue")
+	public KafkaTemplate<String,String> kafkaTemplateForQueue()
+	{
+		return new KafkaTemplate<>(producerFactoryForQueue());
 	}
 }
