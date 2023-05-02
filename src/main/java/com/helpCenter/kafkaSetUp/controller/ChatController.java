@@ -18,21 +18,22 @@ import com.helpCenter.kafkaSetUp.model.Message;
 @RequestMapping("/kafka")
 public class ChatController {
 
-    @Autowired
-    private KafkaTemplate<String, Message> kafkaTemplate;
-    @Autowired
-    @Qualifier("test")
-    NewTopic  topic;
+	@Autowired
+	private KafkaTemplate<String, Message> kafkaTemplate;
 
-    @PostMapping("/")
-    public void sendMessage(@RequestBody Message message) {
-        message.setTimestamp(LocalDateTime.now().toString());
-        try {
-            //Sending the message to kafka topic queue
-            kafkaTemplate.send(topic.name(), message).get();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	@Autowired
+	@Qualifier("test")
+	NewTopic topic;
 
+	@PostMapping("/")
+	public void sendMessage(@RequestBody Message message) {
+		message.setTimestamp(LocalDateTime.now().toString());
+		try {
+			// Sending the message to kafka topic queue
+			kafkaTemplate.send(topic.name(), message).get();
+
+		} catch (InterruptedException | ExecutionException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

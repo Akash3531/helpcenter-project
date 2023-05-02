@@ -44,7 +44,7 @@ public class RealTimeNotificationAspect {
 
 	// Send notification on comment creation
 	@AfterReturning(pointcut = "execution(* com.helpCenter.comment.serviceImpl.CommentServiceimpl.createComment(..))", returning = "comment")
-	public void sentMail_afterComment(Comment comment) {
+	public void sentKafkaNotification_afterComment(Comment comment) {
 		Message message = new Message();
 		message.setTimestamp(new Date().toString());
 		message.setSender(comment.getUser().getUsername());
