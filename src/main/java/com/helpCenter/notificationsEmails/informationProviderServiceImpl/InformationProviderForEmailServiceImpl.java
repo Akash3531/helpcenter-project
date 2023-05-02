@@ -1,6 +1,7 @@
 package com.helpCenter.notificationsEmails.informationProviderServiceImpl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.helpCenter.Incident.dtos.UpdateIncidentDto;
 import com.helpCenter.Incident.entity.Incident;
+import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 import com.helpCenter.Incident.serviceImpl.IncidentServiceImpl;
+import com.helpCenter.category.entity.Category;
 import com.helpCenter.comment.entity.Comment;
 import com.helpCenter.notificationsEmails.informationProviderService.InformationProviderForEmailService;
 import com.helpCenter.notificationsEmails.mailSenderServiceImpl.MailSenderServiceImpl;
@@ -30,13 +33,13 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 	@Autowired
 	IncidentServiceImpl incidentServiceImpl;
 
+	// information provider for incident
 	@Override
 	public void getIncidentCategoryDetails(Incident incident) {
 
 		int eta = incident.getCategory().getEtaInMinutes();
 		long createdTime = incident.getCreatedDate().getTime();
-		Date currentTime = new Date();
-		long shedulerRunTime = currentTime.getTime();
+		long shedulerRunTime = new Date().getTime();
 		long diffBetweenCreatedTimeAndSchedulerRunTime = shedulerRunTime - createdTime;// Difference between created
 																						// time and current time
 		long diffrenceInMinutes = TimeUnit.MILLISECONDS.toMinutes(diffBetweenCreatedTimeAndSchedulerRunTime);
@@ -50,13 +53,15 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 																			// value pair
 		}
 		if (handlerLevel < handlers.size()) {
-			List<String> handlersName = handlerDetails.get(handlers.size() - handlerLevel);
+			List<String> handlersName = handlerDetails.get(handlers.size() - handlerLevel);// getting handler of
+																							// incident
 			for (String handlerName : handlersName) {
-				toEmails = userRepository.findUserEmail(handlerName);
+				toEmails = userRepository.findUserEmail(handlerName);// getting Email of related handlers
 			}
-			mailSenderServiceImpl.sendEmailForIncident(toEmails, incident.getTitle(), incident.getDescription());
+			mailSenderServiceImpl.sendEmailForIncident(toEmails, incident.getTitle(), incident.getDescription());// sending
+																													// mail
 			UpdateIncidentDto incidentDto = new UpdateIncidentDto();
-			incidentDto.setLastmailSendedTime(currentTime);
+			incidentDto.setLastmailSendedTime(new Date());// updating lastMailSendedTime
 			try {
 				incidentServiceImpl.updateIncident(incident.getId(), incidentDto, null);
 			} catch (IOException e) {
@@ -66,6 +71,7 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 
 	}
 
+	// information provider on comment creation
 	@Override
 	public void getCommentDetails(Comment comment) {
 		Map<Integer, List<String>> handlersWithLevel = new LinkedHashMap<>();
@@ -85,12 +91,41 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 				comment.getIncident().getTitle());
 	}
 
+	// Information provider for status updation
+
 	@Override
 	public void getDetailOfStatusUpdate(Incident updateIncident) {
 		String email = updateIncident.getUser().getEmail();
 		String title = updateIncident.getTitle();
 		String status = updateIncident.getStatus();
 		mailSenderServiceImpl.sendMailOnStatusUpdate(email, title, status);
+	}
+
+	// Information provider on category creation
+	@Override
+	public void getCategoryCreateDetails(Category category) {
+		String createdBy = category.getCreatedBy();
+		String name = category.getName();
+		mailSenderServiceImpl.sendMailOnCategoryCreation(createdBy, name);
+	}
+
+	// information provider on category updation
+	@Override
+	public void getDetailsOnCategoryUpdation(Category category) {
+		String[] userEmails = null;
+		String name = category.getName();
+		String code = category.getCode();
+		int etaInMinutes = category.getEtaInMinutes();
+		RequestHandler requestHandler = category.getRequestHandler();
+		String createdBy = category.getCreatedBy();
+		String updatedBy = category.getUpdatedBy();
+		List<String> users = new ArrayList<>();
+		users.add(createdBy);
+		users.add(updatedBy);
+		for (String user : users) {
+			userEmails = userRepository.findUserEmail(user);
+		}
+		mailSenderServiceImpl.sendMailOnCategoryUpdation(userEmails, name, code, etaInMinutes, requestHandler);
 	}
 
 }

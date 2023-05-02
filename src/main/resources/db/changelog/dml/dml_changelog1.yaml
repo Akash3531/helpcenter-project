@@ -11,7 +11,7 @@ databaseChangeLog:
                 columns:
                 - column:
                     name: user
-                    value: "12"
+                    value: "1"
                 - column:
                     name: role
                     value: "101"

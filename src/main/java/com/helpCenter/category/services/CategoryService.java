@@ -8,11 +8,12 @@ import com.helpCenter.category.dtos.RequestCategoryDto;
 import com.helpCenter.category.dtos.ResponseCategoryChildDto;
 import com.helpCenter.category.dtos.ResponseCategoryDto;
 import com.helpCenter.category.dtos.UpdateCategoryDto;
+import com.helpCenter.category.entity.Category;
 
 @Service
 public interface CategoryService {
 
-	void createCategory(RequestCategoryDto category);
+	Category createCategory(RequestCategoryDto category);
 
 	ResponseCategoryDto getCategory(String code);
 
@@ -20,7 +21,7 @@ public interface CategoryService {
 
 	void deleteCategory(String code);
 
-	void updateFields(String code, UpdateCategoryDto category);
+	Category updateFields(String code, UpdateCategoryDto category);
 
 	List<ResponseCategoryChildDto> childrenOfCategory(String code);
 

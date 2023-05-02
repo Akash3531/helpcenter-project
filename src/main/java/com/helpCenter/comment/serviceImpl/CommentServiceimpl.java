@@ -21,7 +21,6 @@ import com.helpCenter.comment.dto.ResponseCommentDto;
 import com.helpCenter.comment.entity.Comment;
 import com.helpCenter.comment.reposatiory.CommentReposatiory;
 import com.helpCenter.comment.service.CommentsService;
-import com.helpCenter.notificationsEmails.informationProviderServiceImpl.InformationProviderForEmailServiceImpl;
 import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
@@ -39,13 +38,11 @@ public class CommentServiceimpl implements CommentsService {
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
-	InformationProviderForEmailServiceImpl providerForEmailServiceImpl;
-	@Autowired
 	CommentByIncidentIdDto commentByIncidentIdDto;
 
 // CREATE COMMENT
 	@Override
-	public void createComment(int id, RequestCommentDto commentDto, List<MultipartFile> file) throws IOException {
+	public Comment createComment(int id, RequestCommentDto commentDto, List<MultipartFile> file) throws IOException {
 
 		// Dto Conversion
 		Comment comment = commentClass.dtoToClass(commentDto);
@@ -72,9 +69,7 @@ public class CommentServiceimpl implements CommentsService {
 			comment.setUser(user);
 			comment.setIncident(incident);
 			Comment savedComment = commentReposatiory.save(comment);
-			if (savedComment != null) {
-				providerForEmailServiceImpl.getCommentDetails(savedComment);
-			}
+			return savedComment;
 		}
 		
 	}

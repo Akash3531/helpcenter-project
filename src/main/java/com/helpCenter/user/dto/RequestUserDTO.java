@@ -1,17 +1,14 @@
 package com.helpCenter.user.dto;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.stereotype.Component;
 
 import com.helpCenter.user.entity.Role;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 
-@Component
 public class RequestUserDTO {
 	@NotEmpty
 	@Pattern(message = "Minimum 2 characters requried", regexp = "^(?=.{2,20}$)(?![_.])(?!.*[_.]{2})[A-Za-z._]+(?<![_.])$")
@@ -23,7 +20,8 @@ public class RequestUserDTO {
 	private String createdBy;
 	@CreatedDate
 	private Date createdDate;
-	private List<Role> role;
+	
+	private Role role;
 
 	public RequestUserDTO() {
 		super();
@@ -31,7 +29,7 @@ public class RequestUserDTO {
 	}
 
 	public RequestUserDTO(String userName, String password,String email, int failureAttempes, boolean active, String createdBy,
-			Date createdDate, List<Role> role) {
+			Date createdDate,Role role) {
 		super();
 		this.userName = userName;
 		this.password = password;
@@ -108,11 +106,11 @@ public class RequestUserDTO {
 		this.createdDate = createdDate;
 	}
 
-	public List<Role> getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(List<Role> role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 

@@ -40,7 +40,7 @@ public class Incident {
 
 	private String categoryCode;
 
-	private String status = "In Progress";
+	private String status = "ToDo";
 
 	@CreatedDate
 	private Date createdDate;

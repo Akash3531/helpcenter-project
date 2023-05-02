@@ -12,8 +12,6 @@ import com.helpCenter.user.dto.UpdateUserDto;
 @Service
 public interface UserService {
 
-	void createAdmin(RequestUserDTO requestUserDTO);
-
 	void createUser(RequestUserDTO userDto);
 
 	void updateUser(String userName, UpdateUserDto updateUserDto);

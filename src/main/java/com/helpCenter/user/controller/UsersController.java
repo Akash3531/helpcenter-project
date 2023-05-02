@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,21 +30,14 @@ public class UsersController {
 	@Autowired
 	UserServiceImpl userServiceImpl;
 
-// CREATE ADMIN USER
-	@PostMapping("/admin")
-	public ResponseEntity<?> createAdmin(@Valid @RequestBody RequestUserDTO requestUserDTO) {
-		userServiceImpl.createAdmin(requestUserDTO);
-		return new ResponseEntity<>(HttpStatus.CREATED);
-	}
-
 // CREATE NON ADMIN
-	@PostMapping("/")
-	public ResponseEntity<?> Create(@Valid @RequestBody RequestUserDTO userDto) {
+	@PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> Create(@RequestBody RequestUserDTO userDto) {
 		userServiceImpl.createUser(userDto);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-// UPDATE USER FIELDS
+// update User
 	@PatchMapping("/{userName}")
 	public ResponseEntity<?> updateUser(@Valid @PathVariable String userName,
 			@RequestBody UpdateUserDto updateUserDto) {
@@ -51,21 +45,21 @@ public class UsersController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-// GET USER BY NAME
+// get user by name
 	@GetMapping("/{userName}")
 	public ResponseEntity<ResponseUserDto> userByName(@PathVariable String userName) {
 		ResponseUserDto userByName = userServiceImpl.userByName(userName);
 		return new ResponseEntity<ResponseUserDto>(userByName, HttpStatus.OK);
 	}
 
-// GET LIST OF USERS NAME
+//get only users name
 	@GetMapping("/usersName")
 	public ResponseEntity<List<ResponseUsersNameDto>> usersName() {
 		List<ResponseUsersNameDto> usersName = userServiceImpl.usersName();
 		return new ResponseEntity<List<ResponseUsersNameDto>>(usersName, HttpStatus.OK);
 	}
 
-// GET ALL USERS
+// get all users
 	@GetMapping("/")
 	public ResponseEntity<List<ResponseUserDto>> getAllUsers() {
 		List<ResponseUserDto> allUser = userServiceImpl.allUser();
@@ -73,7 +67,7 @@ public class UsersController {
 		return new ResponseEntity<List<ResponseUserDto>>(allUser, HttpStatus.OK);
 	}
 
-// DELETE USER
+// Delete user by name
 	@DeleteMapping("/{userName}")
 	public ResponseEntity<?> deleteUser(@PathVariable String userName) {
 		userServiceImpl.deleteUser(userName);

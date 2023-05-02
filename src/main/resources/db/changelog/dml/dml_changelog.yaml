@@ -11,7 +11,7 @@ databaseChangeLog:
                 columns:
                 - column:
                     name: user_id
-                    value: "12"
+                    value: "1"
                 - column:
                     name: created_by
                     value: "superAdmin"

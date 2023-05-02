@@ -6,6 +6,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import com.helpCenter.notificationsEmails.mailSenderService.EmailSenderService;
+import com.helpCenter.requestHandlers.entity.RequestHandler;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -27,7 +28,6 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			helper.setSubject("Regarding ||" + title);
 			helper.setText(description);
 			mailSender.send(mimeMessage);
-			System.out.println("done");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -49,6 +49,7 @@ public class MailSenderServiceImpl implements EmailSenderService {
 		}
 	}
 
+	@Override
 	public void sendMailOnStatusUpdate(String email, String title, String status) {
 
 		try {
@@ -56,7 +57,7 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 			helper.setFrom("jbawa@seasia.in");
 			helper.setTo("springtest@yopmail.com");
-			helper.setSubject("Regarding ||Status Updation");
+			helper.setSubject("Regarding || Status Updation");
 			helper.setText(
 					"your incident staus is:" + status.toUpperCase() + " " + "for incident:" + title.toUpperCase());
 			mailSender.send(mimeMessage);
@@ -65,6 +66,42 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public void sendMailOnCategoryCreation(String email, String category) {
+
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+			helper.setFrom("jbawa@seasia.in");
+			helper.setTo("springtest@yopmail.com");
+			helper.setSubject("Regarding || Category creation");
+			helper.setText("There is a category created name as :"+category);
+			mailSender.send(mimeMessage);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void sendMailOnCategoryUpdation(String[] emails, String categoryName,String code, int etaOfCategory,
+			RequestHandler requestHandler) {
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+			helper.setFrom("jbawa@seasia.in");
+			helper.setTo("springtest@yopmail.com");
+			helper.setSubject("Regarding || Category updation");
+			helper.setText("category name is :"+categoryName.toUpperCase()
+			+""+"is updated"+"\n"+"category details are:"+"\n"+"name:"+categoryName+" "+"code:"+code+" "+"eta:"+etaOfCategory+" "+"RequestHandler:"+requestHandler);
+			mailSender.send(mimeMessage);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

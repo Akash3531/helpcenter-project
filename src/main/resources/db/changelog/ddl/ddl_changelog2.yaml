@@ -7,7 +7,7 @@ databaseChangeLog:
           preConditions:
             - onFail: MARK_RAN
               not:
-                tableExists:
+                 tableExists:
                   tableName: role
           changes:
             - createTable:
@@ -26,20 +26,5 @@ databaseChangeLog:
                       type: varchar(255)
                   
                 
-                      
-                  
-                  
-                 
-                  
-                 
-                  
-                
-                
-                 
-                       
-                
-                
-                
-
-
+              
 

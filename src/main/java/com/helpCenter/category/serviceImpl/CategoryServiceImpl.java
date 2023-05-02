@@ -1,10 +1,13 @@
 package com.helpCenter.category.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.helpCenter.category.dtos.RequestCategoryDto;
@@ -37,7 +40,10 @@ public class CategoryServiceImpl implements CategoryService {
 
 // CREATE CATEGORY
 	@Override
-	public void createCategory(RequestCategoryDto categorydto) {
+	public Category createCategory(RequestCategoryDto categorydto) {
+		//get principle
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
 		Category category = new Category(categorydto);
 		String categoyName = category.getName();
 		Category findCategory = categoryRepository.findByName(categoyName);
@@ -62,12 +68,16 @@ public class CategoryServiceImpl implements CategoryService {
 		if (category.getRequestHandler() != null) {
 			category.getRequestHandler().setCategory(category);
 		}
-		categoryRepository.save(category);
+		category.setCreatedBy(authentication.getName());
+		category.setUpdatedBy(authentication.getName());
+		category.setUpdatedDate(new Date());
+		Category savedCategory=categoryRepository.save(category);
+		return savedCategory;
 	}
 
 // UPDATE CATEGORY FIELDS
 	@Override
-	public void updateFields(String code, UpdateCategoryDto Category) {
+	public Category updateFields(String code, UpdateCategoryDto Category) {
 		Category category = new Category(Category);
 		Category updateCategory = categoryRepository.findByCode(code.toUpperCase());
 		if (updateCategory == null || updateCategory.isActive() == false) {
@@ -102,7 +112,8 @@ public class CategoryServiceImpl implements CategoryService {
 		{
 			updateCategory.setEtaInMinutes(category.getEtaInMinutes());
 		}
-		categoryRepository.save(updateCategory);
+		Category savedCateogry = categoryRepository.save(updateCategory);
+		return savedCateogry;
 	}
 
 // GET CATEGORY BY CODE

@@ -7,9 +7,12 @@ import com.helpCenter.user.entity.Role;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-	@Query(value = "select * from role WHERE role_id=?", nativeQuery = true)
-	Role getNonAdmin(int id);
-	
-	@Query(value = "select * from role WHERE role_id=?", nativeQuery = true)
-	Role getAdmin(int id);
+//	@Query(value = "select * from role WHERE role_id=?", nativeQuery = true)
+//	Role getNonAdmin(int id);
+//
+//	@Query(value = "select * from role WHERE role_id=?", nativeQuery = true)
+//	Role getAdmin(int id);
+
+	@Query(value = "select * from role WHERE role=?", nativeQuery = true)
+	Role getRole(String role);
 }

@@ -105,13 +105,12 @@ public class IncidentTestCase {
 		incidentDto.setTitle("Software failure");
 		incidentDto.setDescription("postman is not working");
 		incidentDto.setCategoryCode("SOFTWARE@12");
-		incidentDto.setLastmailSendedTime(date);
+		incidentDto.setLastmailSendedTime(new Date());
 
 		ObjectMapper Obj = new ObjectMapper();
 		String jsonStr = Obj.writeValueAsString(incidentDto);
 		MockMultipartFile jsonFile = new MockMultipartFile("incident", "", "application/json", jsonStr.getBytes());
-
-		MockMultipartFile file = new MockMultipartFile("image", "C:\\\\Users\\\\salariyaabhishek\\\\Pictures\\\\meditation-buddhism-monk-temple",
+		MockMultipartFile file = new MockMultipartFile("image", "C:\\Users\\akash\\Pictures\\photo",
 				MediaType.MULTIPART_FORM_DATA_VALUE, "".getBytes());
 
 		// when - action or behavior
