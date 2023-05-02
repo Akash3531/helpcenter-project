@@ -30,9 +30,9 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-  kafka:
-    image: bitnami/kafka:latest
-    container_name: broker
+  broker:
+    image: confluentinc/cp-kafka:7.3.2
+    container_name: kafka
     ports:
       - "9092:9092"
     depends_on:
@@ -46,4 +46,4 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
     volumes:
-      - ./broker:/var/lib/kafka
+      - 'C:\Users\sahotahitesh\Desktop\kafka/broker:/var/lib/kafka'
