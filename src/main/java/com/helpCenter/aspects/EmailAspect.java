@@ -18,7 +18,7 @@ public class EmailAspect {
 	
 	//Call information after incident creation
 	@AfterReturning(pointcut = "execution(* com.helpCenter.Incident.serviceImpl.IncidentServiceImpl.createIncident(..))", returning = "Incident")
-	public void sentMail_afterCreatingIncident(Incident Incident) {
+	public void sentMailAfterCreatingIncident(Incident Incident) {
 		if (Incident != null) {
 			providerForEmailServiceImpl.getIncidentCategoryDetails(Incident);
 		}
@@ -26,14 +26,14 @@ public class EmailAspect {
 
 	//Call information provider after comment creation
 	@AfterReturning(pointcut = "execution(* com.helpCenter.comment.serviceImpl.CommentServiceimpl.createComment(..))", returning = "comment")
-	public void sentMail_afterComment(Comment comment) {
+	public void sentMailAfterComment(Comment comment) {
 		if (comment != null) {
 			providerForEmailServiceImpl.getCommentDetails(comment);
 		}
 	}
 	//Call information provider after incident status update
 	@AfterReturning(pointcut = "execution(* com.helpCenter.Incident.serviceImpl.IncidentServiceImpl.updateIncident(..))", returning = "incident")
-	public void sentMail_afterUpdateIncidentStatus(Incident incident) {
+	public void sentMailAfterUpdateIncidentStatus(Incident incident) {
 		if (incident.getStatus() != null && !incident.getStatus().equals("ToDo")) {
 			providerForEmailServiceImpl.getDetailOfStatusUpdate(incident);
 		}
