@@ -22,8 +22,8 @@ import com.helpCenter.kafkaSetUp.model.Message;
 public class RealTimeNotificationAspect {
 	@Autowired
 	private KafkaTemplate<String, Message> kafkaTemplate;
-	@Autowired	
-	@Qualifier(value="test")
+	@Autowired
+	@Qualifier(value = "test")
 	NewTopic newTopic;
 
 	// Send notification on incident creation

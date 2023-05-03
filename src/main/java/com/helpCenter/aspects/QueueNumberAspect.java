@@ -18,6 +18,7 @@ import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 @Component
 @Aspect
 public class QueueNumberAspect {
+
 	@Autowired
 	@Qualifier("templateForQueue")
 	private KafkaTemplate<String, String> kafkaTemplate;
@@ -63,19 +64,16 @@ public class QueueNumberAspect {
 				listOfIds.add(incidentFromList.getId());
 			}
 			for (Integer idOfIncident : listOfIds) {
-
 				int indexOf = listOfIds.indexOf(idOfIncident);
 				String message = new String();
-				message = "Your ticket number is" + " " + listOfIds.get(idOfIncident) + " " + "your incident is" + " "
-						+ ++indexOf + " in the queue.Your incident will be resolve shortly";
+				message = "Your ticket number is" + " " + idOfIncident + " " + "your incident is" + " " + ++indexOf
+						+ " in the queue.Your incident will be resolve shortly";
 				try {
 					// Sending the message to kafka topic queue
 					kafkaTemplate.send(queue.name(), message).get();
-					System.out.println("helo");
 				} catch (InterruptedException | ExecutionException e) {
 					throw new RuntimeException(e);
 				}
-
 			}
 		}
 	}

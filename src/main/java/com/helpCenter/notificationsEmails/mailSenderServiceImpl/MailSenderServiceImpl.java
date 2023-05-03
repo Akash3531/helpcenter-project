@@ -17,6 +17,7 @@ public class MailSenderServiceImpl implements EmailSenderService {
 	@Autowired
 	JavaMailSender mailSender;
 
+	//send mail on incident creation
 	@Override
 	public void sendEmailForIncident(String[] toEmail, String title, String description) {
 		try {
@@ -32,7 +33,7 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			e.printStackTrace();
 		}
 	}
-
+	//send mail on comment creation
 	@Override
 	public void sendEmailAfterCommentCreation(String[] toEmails, String comment, String incidentTitle) {
 		try {
@@ -47,7 +48,7 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			e.printStackTrace();
 		}
 	}
-
+	//send mail on status updation of a incident 
 	@Override
 	public void sendMailOnStatusUpdate(String email, String title, String status) {
 
@@ -66,7 +67,7 @@ public class MailSenderServiceImpl implements EmailSenderService {
 		}
 
 	}
-
+	//send mail on category creation
 	@Override
 	public void sendMailOnCategoryCreation(String email, String category) {
 
@@ -83,7 +84,7 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			e.printStackTrace();
 		}
 	}
-
+	//send mail on category updation
 	@Override
 	public void sendMailOnCategoryUpdation(String[] emails, String categoryName,String code, int etaOfCategory,
 			RequestHandler requestHandler) {
