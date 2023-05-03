@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -80,6 +81,11 @@ public class IncidentTestCase {
 	@Test
 	public void givenIncidentObject_whenCreateIncident_thenReturnStatusCreated() throws Exception {
 		// given - precondition
+
+
+
+		User user=new User("user","password");
+		userRepository.save(user);
 
 		Category category = new Category();
 		category.setName("software");

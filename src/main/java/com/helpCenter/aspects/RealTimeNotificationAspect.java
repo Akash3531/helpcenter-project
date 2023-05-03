@@ -22,8 +22,8 @@ import com.helpCenter.kafkaSetUp.model.Message;
 public class RealTimeNotificationAspect {
 	@Autowired
 	private KafkaTemplate<String, Message> kafkaTemplate;
-	@Autowired	
-	@Qualifier(value="test")
+	@Autowired
+	@Qualifier(value = "test")
 	NewTopic newTopic;
 
 	// Send notification on incident creation
@@ -44,7 +44,7 @@ public class RealTimeNotificationAspect {
 
 	// Send notification on comment creation
 	@AfterReturning(pointcut = "execution(* com.helpCenter.comment.serviceImpl.CommentServiceimpl.createComment(..))", returning = "comment")
-	public void sentMail_afterComment(Comment comment) {
+	public void sentKafkaNotification_afterComment(Comment comment) {
 		Message message = new Message();
 		message.setTimestamp(new Date().toString());
 		message.setSender(comment.getUser().getUsername());

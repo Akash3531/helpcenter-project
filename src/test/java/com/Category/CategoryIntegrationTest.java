@@ -73,7 +73,7 @@ class CategoryIntegrationTest {
 	@Test
 	public void givenUpdatedCategory_whenUpdateCategory_thenReturnUpdateCategoryObject() throws Exception {
 		// given - precondition or setup
-		Category category = new Category("software", "SOFTWARE5@");
+		Category category = new Category("softwaree", "SOFTWARE5@");
 		categoryRepo.save(category);
 		UpdateCategoryDto updateCategory = new UpdateCategoryDto("File", "Documents@2");
 		Category fromDb = categoryRepo.findByName("File");
