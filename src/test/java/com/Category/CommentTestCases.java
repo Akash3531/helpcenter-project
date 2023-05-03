@@ -66,7 +66,7 @@ public class CommentTestCases {
 		commentRepository.deleteAll();
 		incidentReposatiory.deleteAll();
 		categoryRepo.deleteAll();
-		userRepository.deleteAll();
+		//userRepository.deleteAll();
 	}
 
 	// CREATE COMMENT
@@ -74,10 +74,7 @@ public class CommentTestCases {
 	public void givenCommentObject_whenCreateComment_thenReturnStatus() throws Exception {
 
 		// given - precondition or setup
-		User user = new User();
-		user.setUserName("akash");
-		user.setPassword("akash");
-		user.setEmail("akash@gmail.com");
+		User user=new User("user","password");
 		userRepository.save(user);
 		
 		Category category = new Category();
@@ -96,7 +93,6 @@ public class CommentTestCases {
 		requestHandler.setCategory(category);
 		category.setRequestHandler(requestHandler);
 		categoryRepo.save(category);
-
 		Incident incident = new Incident();
 		incident.setCategory(category);
 		incident.setUser(user);

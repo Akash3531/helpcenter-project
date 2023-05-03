@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -61,8 +62,6 @@ public class IncidentTestCase {
 	@Autowired
 	ObjectMapper objectMapper;
 
-	Date date = new Date();
-
 	@Test
 	void contextLoads() {
 
@@ -80,8 +79,7 @@ public class IncidentTestCase {
 	@Test
 	public void givenIncidentObject_whenCreateIncident_thenReturnStatusCreated() throws Exception {
 		// given - precondition
-
-		User user = new User("akash", "akash");
+		User user=new User("user","password");
 		userRepository.save(user);
 		Category category = new Category();
 		category.setName("software");
@@ -107,7 +105,7 @@ public class IncidentTestCase {
 		incidentDto.setTitle("Software failure");
 		incidentDto.setDescription("postman is not working");
 		incidentDto.setCategoryCode("SOFTWARE@12");
-		incidentDto.setLastmailSendedTime(date);
+		incidentDto.setLastmailSendedTime(new Date());
 
 		ObjectMapper Obj = new ObjectMapper();
 		String jsonStr = Obj.writeValueAsString(incidentDto);

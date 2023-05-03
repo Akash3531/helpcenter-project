@@ -2,58 +2,78 @@ package com.helpCenter.aspects;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
-import com.helpCenter.kafkaSetUp.model.Message;
 
 @Component
 @Aspect
 public class QueueNumberAspect {
+
 	@Autowired
-    private KafkaTemplate<String, Message> kafkaTemplate;
-    @Autowired
-    NewTopic  topic;
+	@Qualifier("templateForQueue")
+	private KafkaTemplate<String, String> kafkaTemplate;
+
+	@Autowired
+	@Qualifier("queue")
+	private NewTopic queue;
+
 	@Autowired
 	IncidentReposatiory incidentReposatiory;
 
+	// Send queue number of a incident
 	@AfterReturning(pointcut = "execution(* com.helpCenter.Incident.serviceImpl.IncidentServiceImpl.createIncident(..))", returning = "Incident")
 	public void get_QueueNumberOn_IncidetnCreation(Incident Incident) {
-		List<Integer> ids = new ArrayList<>();
+		List<Integer> idsOfIncident = new ArrayList<>();
 		String categoryCode = Incident.getCategory().getCode();
 		int id = Incident.getId();
 		List<Incident> byCategoryCodeAndStatus = incidentReposatiory.findIncidentByCategoryCodeAndStatus(categoryCode);
-		for (Incident incident2 : byCategoryCodeAndStatus) {
-			int id2 = incident2.getId();
-			ids.add(id2);
+		for (Incident incidentFromList : byCategoryCodeAndStatus) {
+			int idOfIncident = incidentFromList.getId();
+			idsOfIncident.add(idOfIncident);
 		}
-		int indexOf = ids.indexOf(id);
-		String message = "Your ticket number is" + Incident.getId() + "your incident is" + indexOf
+		int indexOf = idsOfIncident.indexOf(id);
+		String message = new String();
+		message = "Your ticket number is" + " " + Incident.getId() + " " + "your incident is" + " " + ++indexOf
 				+ " in the queue.Your incident will be resolve shortly";
-		 
+		try {
+			// Sending the message to kafka topic queue
+			kafkaTemplate.send(queue.name(), message).get();
+		} catch (InterruptedException | ExecutionException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
+	// send queue number of a incident if any incident get update
 	@AfterReturning(pointcut = "execution(* com.helpCenter.Incident.serviceImpl.IncidentServiceImpl.updateIncident(..))", returning = "incident")
 	public void get_queueNumberOn_StatusUpdate(Incident incident) {
 		if (incident.getStatus() != null && !incident.getStatus().equals("ToDo")) {
 			List<Integer> listOfIds = new ArrayList<>();
 			List<Incident> byCategoryCodeAndStatus = incidentReposatiory
 					.findIncidentByCategoryCodeAndStatus(incident.getCategoryCode());
-			for (Incident incident2 : byCategoryCodeAndStatus) {
-				listOfIds.add(incident2.getId());
+			for (Incident incidentFromList : byCategoryCodeAndStatus) {
+				listOfIds.add(incidentFromList.getId());
 			}
-			for (Integer no : listOfIds) {
-
-				int indexOf = listOfIds.indexOf(no);
-				// Incident incidentById = incidentReposatiory.incidentById(no);
-
+			for (Integer idOfIncident : listOfIds) {
+				int indexOf = listOfIds.indexOf(idOfIncident);
+				String message = new String();
+				message = "Your ticket number is" + " " + idOfIncident + " " + "your incident is" + " " + ++indexOf
+						+ " in the queue.Your incident will be resolve shortly";
+				try {
+					// Sending the message to kafka topic queue
+					kafkaTemplate.send(queue.name(), message).get();
+				} catch (InterruptedException | ExecutionException e) {
+					throw new RuntimeException(e);
+				}
 			}
 		}
 	}

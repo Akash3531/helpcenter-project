@@ -24,9 +24,13 @@ public class KafkaConfig {
 		return new KafkaAdmin(configs);
 	}
 
-	@Bean
+	@Bean("test")
 	public NewTopic userTestTopic() {
 		return TopicBuilder.name("test-user").partitions(2).replicas(2).build();
 	}
 
+	@Bean("queue")
+	public NewTopic topicForQueue() {
+		return TopicBuilder.name("topicForQueue").partitions(1).replicas(1).build();
+	}
 }
