@@ -3,7 +3,6 @@ package com.helpCenter.Incident.entity;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.helpCenter.comment.entity.Comment;
 
 import jakarta.persistence.Column;

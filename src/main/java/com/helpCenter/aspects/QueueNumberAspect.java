@@ -33,15 +33,15 @@ public class QueueNumberAspect {
 	// Send queue number of a incident
 	@AfterReturning(pointcut = "execution(* com.helpCenter.Incident.serviceImpl.IncidentServiceImpl.createIncident(..))", returning = "Incident")
 	public void get_QueueNumberOn_IncidetnCreation(Incident Incident) {
-		List<Integer> idsOfIncident = new ArrayList<>();
+		List<Integer> idOfIncidents = new ArrayList<>();
 		String categoryCode = Incident.getCategory().getCode();
 		int id = Incident.getId();
 		List<Incident> byCategoryCodeAndStatus = incidentReposatiory.findIncidentByCategoryCodeAndStatus(categoryCode);
 		for (Incident incidentFromList : byCategoryCodeAndStatus) {
 			int idOfIncident = incidentFromList.getId();
-			idsOfIncident.add(idOfIncident);
+			idOfIncidents.add(idOfIncident);
 		}
-		int indexOf = idsOfIncident.indexOf(id);
+		int indexOf = idOfIncidents.indexOf(id);
 		String message = new String();
 		message = "Your ticket number is" + " " + Incident.getId() + " " + "your incident is" + " " + ++indexOf
 				+ " in the queue.Your incident will be resolve shortly";
