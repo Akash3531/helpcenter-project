@@ -13,8 +13,10 @@ public class UpdateCategoryDto {
 	private String code;
 	private Category parent;
 	private int etaInMinutes;
+	private int etaInValidation;
 	private int Flag;
 	private RequestHandler requestHandler;
+
 	public UpdateCategoryDto(String name, String code) {
 		super();
 		this.name = name;
@@ -52,7 +54,6 @@ public class UpdateCategoryDto {
 	public void setParent(Category parent) {
 		this.parent = parent;
 	}
-	
 
 	public int getEtaInMinutes() {
 		return etaInMinutes;
@@ -68,6 +69,14 @@ public class UpdateCategoryDto {
 
 	public void setRequestHandler(RequestHandler requestHandler) {
 		this.requestHandler = requestHandler;
+	}
+
+	public int getEtaInValidation() {
+		return etaInValidation;
+	}
+
+	public void setEtaInValidation(int etaInValidation) {
+		this.etaInValidation = etaInValidation;
 	}
 
 	@Override

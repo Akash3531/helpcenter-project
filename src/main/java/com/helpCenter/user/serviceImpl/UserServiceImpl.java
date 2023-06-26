@@ -1,6 +1,7 @@
 package com.helpCenter.user.serviceImpl;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.helpCenter.Incident.entity.Incident;
+import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
+import com.helpCenter.notificationsEmails.mailSenderServiceImpl.MailSenderServiceImpl;
 import com.helpCenter.user.dto.RequestUserDTO;
 import com.helpCenter.user.dto.ResponseUserDto;
 import com.helpCenter.user.dto.ResponseUsersNameDto;
@@ -35,6 +39,10 @@ public class UserServiceImpl implements UserService {
 	ResponseUsersNameDto responseUsersNameDto;
 	@Autowired
 	ResponseUserDto responseUserDto;
+	@Autowired
+	IncidentReposatiory incidentReposatiory;
+	@Autowired
+	MailSenderServiceImpl senderServiceImpl;
 
 // CREATE NORMAL USER
 	@Override
@@ -49,7 +57,7 @@ public class UserServiceImpl implements UserService {
 		if (byuserName != null) {
 			throw new UserAlreadyExist(userName);
 		}
-		// Role nonAdmin = roleRepository.getNonAdmin(102);
+		System.out.println(userDto.getRole().getRole());
 		Role userRole = roleRepository.getRole(userDto.getRole().getRole().toUpperCase());
 		List<Role> role = new ArrayList<>();
 		role.add(userRole);
@@ -75,7 +83,10 @@ public class UserServiceImpl implements UserService {
 		String password = user.getPassword();
 		if (password != null) {
 			byuserName.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-
+		}
+		String department = user.getDepartment();
+		if (department != null) {
+			byuserName.setDepartment(department);
 		}
 		userRepository.save(byuserName);
 	}
@@ -118,6 +129,20 @@ public class UserServiceImpl implements UserService {
 		List<ResponseUsersNameDto> usersName = users.stream().map(user -> responseUsersNameDto.usersName(user))
 				.collect(Collectors.toList());
 		return usersName;
+	}
+
+// Assign tickets
+	@Override
+	public void assignTicket(int Ticketid, String User) {
+
+		// Fetching Inicident
+		Incident incident = incidentReposatiory.findById(Ticketid);
+		// Fetching User
+		User user = userRepository.findByuserName(User);
+		String email = user.getEmail();
+		// Sending mail
+		senderServiceImpl.sendEmailForIncidentAssign(email, incident.getTitle(), incident.getDescription());
+
 	}
 
 }

@@ -30,9 +30,9 @@ public class UsersController {
 	@Autowired
 	UserServiceImpl userServiceImpl;
 
-// CREATE NON ADMIN
+// CREATE User
 	@PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> Create(@RequestBody RequestUserDTO userDto) {
+	public ResponseEntity<?> Create( @Valid @RequestBody RequestUserDTO userDto) {
 		userServiceImpl.createUser(userDto);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
@@ -71,6 +71,13 @@ public class UsersController {
 	@DeleteMapping("/{userName}")
 	public ResponseEntity<?> deleteUser(@PathVariable String userName) {
 		userServiceImpl.deleteUser(userName);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+// Assign Ticket
+	@PostMapping("/{Ticketid}/{user}")
+	public ResponseEntity<?> assignTicket(@PathVariable int Ticketid ,@PathVariable String user) {
+		userServiceImpl.assignTicket(Ticketid, user);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

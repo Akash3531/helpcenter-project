@@ -1,5 +1,7 @@
 package com.helpCenter.notificationsEmails.emailConfiguration;
 
+
+
 import java.util.Properties;
 
 import org.springframework.context.annotation.Bean;

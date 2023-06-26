@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import com.helpCenter.Incident.entity.ImageCreation;
 import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.category.entity.Category;
-import com.helpCenter.user.entity.User;
 
 @Component
 public class ResponseIncidentDto {
@@ -25,7 +24,11 @@ public class ResponseIncidentDto {
 
 	private List<ImageCreation> images = new ArrayList<>();
 
-	private User user;
+	private String userName;
+
+	private String userEmail;
+
+	private String userDepartment;
 
 	private Category category;
 
@@ -77,12 +80,28 @@ public class ResponseIncidentDto {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
+	public String getUserDepartment() {
+		return userDepartment;
+	}
+
+	public void setUserDepartment(String userDepartment) {
+		this.userDepartment = userDepartment;
 	}
 
 	public Category getCategory() {
@@ -107,7 +126,9 @@ public class ResponseIncidentDto {
 		dto.setPriority(incident.getPriority());
 		dto.setTitle(incident.getTitle());
 		dto.setCategory(incident.getCategory());
-		dto.setUser(incident.getUser());
+		dto.setUserName(incident.getUser().getUsername());
+		dto.setUserEmail(incident.getUser().getEmail());
+		dto.setUserDepartment(incident.getUser().getDepartment());
 		return dto;
 
 	}

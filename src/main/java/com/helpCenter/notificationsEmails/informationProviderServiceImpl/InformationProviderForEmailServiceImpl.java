@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.helpCenter.Incident.dtos.UpdateIncidentDto;
 import com.helpCenter.Incident.entity.Incident;
-import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
 import com.helpCenter.Incident.serviceImpl.IncidentServiceImpl;
 import com.helpCenter.category.entity.Category;
 import com.helpCenter.comment.entity.Comment;
@@ -50,12 +49,13 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 		List<HandlerDetails> handlers = incident.getCategory().getRequestHandler().getHandler();
 		for (HandlerDetails details : handlers) {
 			handlerDetails.put(details.getLevel(), details.getResources());// put handler details in key
-																			// value pair
+			System.out.println(details); // value pair
 		}
 		if (handlerLevel < handlers.size()) {
 			List<String> handlersName = handlerDetails.get(handlers.size() - handlerLevel);// getting handler of
 																							// incident
 			for (String handlerName : handlersName) {
+				System.out.println(handlerName);
 				toEmails = userRepository.findUserEmail(handlerName);// getting Email of related handlers
 			}
 			mailSenderServiceImpl.sendEmailForIncident(toEmails, incident.getTitle(), incident.getDescription());// sending

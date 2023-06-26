@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @EnableJpaAuditing
-//@EnableScheduling
+@EnableScheduling
 @SpringBootApplication
 public class CategoryApplication {
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Component;
@@ -45,8 +46,16 @@ public class Incident {
 	@CreatedDate
 	private Date createdDate;
 
+	@UpdateTimestamp
+	private Date upDatedDate;
+
 	private Date lastmailSendedTime;
+
 	private String priority;
+
+	private int etaInMinutes;
+
+	private int etaInValidation;
 
 //	@JsonManagedReference(value = "category")
 	@ManyToOne
@@ -115,7 +124,7 @@ public class Incident {
 	}
 
 	public void setStatus(String status) {
-		this.status=status;
+		this.status = status;
 	}
 
 	public Category getCategory() {
@@ -148,6 +157,30 @@ public class Incident {
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public Date getUpDatedDate() {
+		return upDatedDate;
+	}
+
+	public void setUpDatedDate(Date upDatedDate) {
+		this.upDatedDate = upDatedDate;
+	}
+
+	public int getEtaInMinutes() {
+		return etaInMinutes;
+	}
+
+	public void setEtaInMinutes(int etaInMinutes) {
+		this.etaInMinutes = etaInMinutes;
+	}
+
+	public int getEtaInValidation() {
+		return etaInValidation;
+	}
+
+	public void setEtaInValidation(int etaInValidation) {
+		this.etaInValidation = etaInValidation;
 	}
 
 	public Incident(int id, String title, String description, String categoryCode, String status, Date createdDate,
@@ -187,7 +220,7 @@ public class Incident {
 
 	}
 
-	// Conversion Method Update_Incident_Dto to Incident
+// Conversion Method Update_Incident_Dto to Incident
 	public Incident UpdateDtoToIncident(UpdateIncidentDto incidentDto) {
 		Incident incident = new Incident();
 		incident.setTitle(incidentDto.getTitle());
