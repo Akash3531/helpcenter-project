@@ -12,11 +12,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Base64Utils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,10 +27,10 @@ import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.Incident.exceptionHandler.CategoryNotFoundException;
 import com.helpCenter.Incident.exceptionHandler.IncidentNotFoundException;
 import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
-import com.helpCenter.Incident.resttemplate.InsecureRestTemplateFactory;
 import com.helpCenter.Incident.service.IncidentService;
 import com.helpCenter.category.entity.Category;
 import com.helpCenter.category.repository.CategoryRepo;
+import com.helpCenter.restTemplate.HttpHeader;
 import com.helpCenter.user.entity.User;
 import com.helpCenter.user.repository.UserRepository;
 
@@ -52,6 +50,10 @@ public class IncidentServiceImpl implements IncidentService {
 	ResponseIncidentDto responseIncidentDto;
 	@Autowired
 	GetIncidentbyCategory getIncidentbyCategory;
+	@Autowired
+	RestTemplate restTemplate;
+	@Autowired
+	HttpHeader httpHeader;
 
 // CREATE INCIDENT
 	@Override
@@ -82,7 +84,15 @@ public class IncidentServiceImpl implements IncidentService {
 			}
 			incident.setUser(name);
 			incident.setCategory(category);
-			
+        	incident.setEtaInMinutes(category.getEtaInMinutes());
+			incident.setEtaInValidation(category.getEtaInValidation());
+
+			// Data Storing into Elastic Search
+			HttpHeaders headers = httpHeader.createHeadersWithAuthentication();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			HttpEntity<Incident> requestEntity = new HttpEntity<>(incident, headers);
+			restTemplate.exchange("https://localhost:9200/incident/_doc", HttpMethod.POST, requestEntity, String.class);
+
 			Incident savedincident = incidentReposatiory.save(incident);
 			return savedincident;
 			
@@ -111,7 +121,8 @@ public class IncidentServiceImpl implements IncidentService {
 
 // UPDATE INCIDENT
 	@Override
-	public Incident updateIncident(int id, UpdateIncidentDto incidentdto, List<MultipartFile> files) throws IOException {
+	public Incident updateIncident(int id, UpdateIncidentDto incidentdto, List<MultipartFile> files)
+			throws IOException {
 		// Fetching Incident To be Updated
 		Incident updateIncident = incidentReposatiory.findById(id);
 		if (updateIncident == null) {

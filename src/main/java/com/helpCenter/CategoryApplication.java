@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 
 @EnableJpaAuditing
-//@EnableScheduling
+@EnableScheduling
 @SpringBootApplication
 public class CategoryApplication {
 

@@ -23,6 +23,7 @@ public class RequestCategoryDto {
 	private Category parent;
 	private boolean active;
 	private int etaInMinutes;
+	private int etaInValidation;
 	@CreatedDate
 	private Date createdDate;
 	private RequestHandler requestHandler;
@@ -99,9 +100,19 @@ public class RequestCategoryDto {
 		this.requestHandler = requestHandler;
 	}
 
+	public int getEtaInValidation() {
+		return etaInValidation;
+	}
+
+	public void setEtaInValidation(int etaInValidation) {
+		this.etaInValidation = etaInValidation;
+	}
+
 	@Override
 	public String toString() {
-		return "categoryDto [name=" + name + ", code=" + code + ", parent=" + parent + ", Active=" + active + "]";
+		return "RequestCategoryDto [name=" + name + ", code=" + code + ", parent=" + parent + ", active=" + active
+				+ ", etaInMinutes=" + etaInMinutes + ", etaInValidation=" + etaInValidation + ", createdDate="
+				+ createdDate + ", requestHandler=" + requestHandler + "]";
 	}
 
 }

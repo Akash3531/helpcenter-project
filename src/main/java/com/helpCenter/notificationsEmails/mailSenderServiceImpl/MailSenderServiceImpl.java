@@ -104,5 +104,19 @@ public class MailSenderServiceImpl implements EmailSenderService {
 		}
 		
 	}
+	public void sendEmailForIncidentAssign(String toEmail, String title, String description) {
+		try {
+
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+			helper.setFrom("jbawa@seasia.in");
+			helper.setTo("springtest@yopmail.com");
+			helper.setSubject("Regarding ||" + title);
+			helper.setText(description+" "+"Ticket Assign");
+			mailSender.send(mimeMessage);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

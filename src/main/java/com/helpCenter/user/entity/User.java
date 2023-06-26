@@ -41,6 +41,7 @@ public class User implements UserDetails {
 	private String email;
 	private int failureAttempes = 0;
 	private boolean active = false;
+	private String department;
 	private String createdBy;
 	@CreatedDate
 	private Date createdDate;
@@ -136,11 +137,19 @@ public class User implements UserDetails {
 		this.role = role;
 	}
 
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", failureAttempes="
-				+ failureAttempes + ", active=" + active + ", createdBy=" + createdBy + ", createdDate=" + createdDate
-				+ ", role=" + role + "]";
+		return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", email=" + email
+				+ ", failureAttempes=" + failureAttempes + ", active=" + active + ", department=" + department
+				+ ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", role=" + role + "]";
 	}
 
 	@Override

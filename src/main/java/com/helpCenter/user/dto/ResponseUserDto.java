@@ -14,6 +14,7 @@ public class ResponseUserDto {
 	private String userName;
 	private String createdBy;
 	private Date createdDate;
+	private String department;
 	private List<Role> roles = new ArrayList<>();
 
 	public ResponseUserDto() {
@@ -28,6 +29,7 @@ public class ResponseUserDto {
 		this.createdBy = user.getCreatedBy();
 		this.createdDate = user.getCreatedDate();
 		this.roles = user.getRole();
+		this.department = user.getDepartment();
 	}
 
 	public String getUserName() {
@@ -62,17 +64,22 @@ public class ResponseUserDto {
 		this.roles = roles;
 	}
 
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
 	public ResponseUserDto userToDto(User user) {
 		ResponseUserDto getUserDto = new ResponseUserDto();
 		getUserDto.setUserName(user.getUsername());
 		getUserDto.setCreatedBy(user.getCreatedBy());
 		getUserDto.setCreatedDate(user.getCreatedDate());
 		getUserDto.setRoles(user.getRole());
-
+		getUserDto.setDepartment(user.getDepartment());
 		return getUserDto;
 	}
-	
-	
-	
 
 }

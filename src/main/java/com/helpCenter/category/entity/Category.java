@@ -31,12 +31,12 @@ public class Category {
 	@Id
 	@Column(name = "category_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
 	private Integer id;
 	@Column(length = 64)
 	private String name;
 	private boolean active = true;
 	private int etaInMinutes;
+	private int etaInValidation;
 	@CreatedDate
 	private Date createdDate;
 	private Date updatedDate;
@@ -50,13 +50,14 @@ public class Category {
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "category", fetch = FetchType.EAGER)
 	private RequestHandler requestHandler;
 
-	public Category(Integer id, String name, boolean active, int etaInMinutes, Category parent, String code,
-			RequestHandler requestHandler) {
+	public Category(Integer id, String name, boolean active, int etaInMinutes, int etaInvalidation, Category parent,
+			String code, RequestHandler requestHandler) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.active = active;
 		this.etaInMinutes = etaInMinutes;
+		this.etaInValidation = etaInvalidation;
 		this.parent = parent;
 		this.code = code;
 		this.requestHandler = requestHandler;
@@ -84,9 +85,9 @@ public class Category {
 		this.name = category.getName();
 		this.parent = category.getParent();
 		this.etaInMinutes = category.getEtaInMinutes();
-		this.createdDate=category.getCreatedDate();
+		this.createdDate = category.getCreatedDate();
 		this.requestHandler = category.getRequestHandler();
-
+		this.etaInValidation = category.getEtaInValidation();
 	}
 
 	// Mapper updateCategoryDto to Category
@@ -96,6 +97,7 @@ public class Category {
 		this.parent = category.getParent();
 		this.etaInMinutes = category.getEtaInMinutes();
 		this.requestHandler = category.getRequestHandler();
+		this.etaInValidation=category.getEtaInValidation();
 	}
 
 	public Integer getId() {
@@ -184,6 +186,14 @@ public class Category {
 
 	public void setRequestHandler(RequestHandler requestHandler) {
 		this.requestHandler = requestHandler;
+	}
+
+	public int getEtaInValidation() {
+		return etaInValidation;
+	}
+
+	public void setEtaInValidation(int etaInValidation) {
+		this.etaInValidation = etaInValidation;
 	}
 
 	@Override

@@ -24,4 +24,5 @@ public interface UserService {
 
 	List<ResponseUsersNameDto> usersName();
 
+	void assignTicket(int Ticketid , String User);
 }

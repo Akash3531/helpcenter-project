@@ -82,7 +82,7 @@ public class UserTestCase {
 		RequestUserDTO userDto = new RequestUserDTO("akash", "akash", "prabhjot");
 		User user = new User(userDto);
 		userRepository.save(user);
-		UpdateUserDto updateUserDto = new UpdateUserDto("amit", "amit");
+		UpdateUserDto updateUserDto = new UpdateUserDto("amit", "amit","java");
 		User byuserName = userRepository.findByuserName("amit");
 		assertSame(null, byuserName);
 		// when - action or behavior that we are going test

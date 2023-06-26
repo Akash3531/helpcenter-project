@@ -15,12 +15,12 @@ public class RequestUserDTO {
 	private String userName;
 	private String password;
 	private String email;
+	private String department;
 	private int failureAttempes = 0;
 	private boolean active = false;
 	private String createdBy;
 	@CreatedDate
 	private Date createdDate;
-	
 	private Role role;
 
 	public RequestUserDTO() {
@@ -29,7 +29,7 @@ public class RequestUserDTO {
 	}
 
 	public RequestUserDTO(String userName, String password,String email, int failureAttempes, boolean active, String createdBy,
-			Date createdDate,Role role) {
+			Date createdDate,Role role,String department) {
 		super();
 		this.userName = userName;
 		this.password = password;
@@ -39,6 +39,7 @@ public class RequestUserDTO {
 		this.createdBy = createdBy;
 		this.createdDate = createdDate;
 		this.role = role;
+		this.department=department;
 	}
 
 	public RequestUserDTO(String userName, String password, String createdBy) {
@@ -113,5 +114,14 @@ public class RequestUserDTO {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+	
 
 }
