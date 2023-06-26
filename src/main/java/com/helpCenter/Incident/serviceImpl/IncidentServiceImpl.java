@@ -8,9 +8,16 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Base64Utils;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.helpCenter.Incident.dtos.GetIncidentbyCategory;
@@ -22,6 +29,7 @@ import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.Incident.exceptionHandler.CategoryNotFoundException;
 import com.helpCenter.Incident.exceptionHandler.IncidentNotFoundException;
 import com.helpCenter.Incident.reposatiory.IncidentReposatiory;
+import com.helpCenter.Incident.resttemplate.InsecureRestTemplateFactory;
 import com.helpCenter.Incident.service.IncidentService;
 import com.helpCenter.category.entity.Category;
 import com.helpCenter.category.repository.CategoryRepo;
@@ -30,6 +38,7 @@ import com.helpCenter.user.repository.UserRepository;
 
 @Service
 public class IncidentServiceImpl implements IncidentService {
+
 
 	@Autowired
 	IncidentReposatiory incidentReposatiory;
@@ -47,7 +56,7 @@ public class IncidentServiceImpl implements IncidentService {
 // CREATE INCIDENT
 	@Override
 	public Incident createIncident(RequestIncidentDto incidentdto, List<MultipartFile> file) throws IOException {
-
+ 
 		// DTO CONVERSION
 		Incident incident = incidentClass.DtoToIncident(incidentdto);
 		// Getting User from authentication
@@ -73,8 +82,10 @@ public class IncidentServiceImpl implements IncidentService {
 			}
 			incident.setUser(name);
 			incident.setCategory(category);
+			
 			Incident savedincident = incidentReposatiory.save(incident);
 			return savedincident;
+			
 		}
 	}
 

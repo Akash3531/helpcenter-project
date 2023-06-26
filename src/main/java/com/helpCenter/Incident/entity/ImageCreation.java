@@ -72,7 +72,7 @@ public class ImageCreation {
 
 	public ImageCreation() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override
