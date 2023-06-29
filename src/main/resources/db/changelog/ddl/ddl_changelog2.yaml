@@ -7,8 +7,10 @@ databaseChangeLog:
           preConditions:
             - onFail: MARK_RAN
               not:
+
                  tableExists:
                   tableName: role
+
           changes:
             - createTable:
                 tableName: role            

@@ -34,7 +34,8 @@ public class KafkaConfig {
 	public NewTopic topicForQueue() {
 		return TopicBuilder.name("topicForQueue").partitions(1).replicas(1).build();
 	}
-	}
+
+	
 
 //package com.helpCenter.kafkaSetUp.config;
 //
@@ -72,4 +73,7 @@ public class KafkaConfig {
 //		return TopicBuilder.name("topicForQueue").partitions(1).replicas(1).build();
 //	}
 //}
+
+
+}
 

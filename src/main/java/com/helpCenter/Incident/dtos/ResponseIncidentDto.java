@@ -2,6 +2,7 @@ package com.helpCenter.Incident.dtos;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -126,9 +127,6 @@ public class ResponseIncidentDto {
 		dto.setPriority(incident.getPriority());
 		dto.setTitle(incident.getTitle());
 		dto.setCategory(incident.getCategory());
-		dto.setUserName(incident.getUser().getUsername());
-		dto.setUserEmail(incident.getUser().getEmail());
-		dto.setUserDepartment(incident.getUser().getDepartment());
 		return dto;
 
 	}
@@ -140,6 +138,38 @@ public class ResponseIncidentDto {
 		dto.setTitle(incident.getTitle());
 		return dto;
 
+	}
+
+// Conversion for ELastic
+	@SuppressWarnings("unchecked")
+	public ResponseIncidentDto convertToIncident(Map<String, Object> hit) {
+		Map<String, Object> source = (Map<String, Object>) hit.get("_source");
+		Map<String, Object> user = (Map<String, Object>) source.get("user");
+		Integer id = null;
+		Object idValue = source.get("id");
+		if (idValue != null) {
+			id = (Integer) idValue;
+		}
+		String title = (String) source.get("title");
+		String description = (String) source.get("description");
+		String categoryCode = (String) source.get("categoryCode");
+		String priority = (String) source.get("priority");
+		String userName = (String) user.get("userName");
+		String userEmail = (String) user.get("userEmail");
+		String userDepartment = (String) user.get("userDepartment");
+		List<ImageCreation> images = (List<ImageCreation>) source.get("images");
+
+		ResponseIncidentDto incident = new ResponseIncidentDto();
+		incident.setId(id);
+		incident.setTitle(title);
+		incident.setDescription(description);
+		incident.setImages(images);
+		incident.setCategoryCode(categoryCode);
+		incident.setPriority(priority);
+		incident.setUserName(userName);
+		incident.setUserDepartment(userDepartment);
+		incident.setUserEmail(userEmail);
+		return incident;
 	}
 
 }
