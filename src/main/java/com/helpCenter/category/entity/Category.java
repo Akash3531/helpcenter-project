@@ -2,6 +2,7 @@ package com.helpCenter.category.entity;
 
 import java.util.Date;
 
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.stereotype.Component;
@@ -39,6 +40,7 @@ public class Category {
 	private int etaInValidation;
 	@CreatedDate
 	private Date createdDate;
+	@UpdateTimestamp
 	private Date updatedDate;
 	private String createdBy;
 	private String updatedBy;

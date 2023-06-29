@@ -2,16 +2,21 @@ package com.helpCenter.Incident.serviceImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -85,13 +90,6 @@ public class IncidentServiceImpl implements IncidentService {
 			incident.setCategory(category);
 			incident.setEtaInMinutes(category.getEtaInMinutes());
 			incident.setEtaInValidation(category.getEtaInValidation());
-
-			// Data Storing into Elastic Search
-			HttpHeaders headers = httpHeader.createHeadersWithAuthentication();
-			headers.setContentType(MediaType.APPLICATION_JSON);
-			HttpEntity<Incident> requestEntity = new HttpEntity<>(incident, headers);
-			restTemplate.exchange("https://localhost:9200/incident/_doc", HttpMethod.POST, requestEntity, String.class);
-
 			// Data Storing into Database
 			Incident savedincident = incidentReposatiory.save(incident);
 			return savedincident;
@@ -173,7 +171,6 @@ public class IncidentServiceImpl implements IncidentService {
 			Incident saveIncident = incidentReposatiory.save(updateIncident);
 			return saveIncident;
 		}
-
 	}
 
 //Get INCIDENT BY USER
@@ -193,16 +190,39 @@ public class IncidentServiceImpl implements IncidentService {
 //Get INCIDENT BY CODE
 	@Override
 	public List<GetIncidentbyCategory> getIncidentbyCategoryCode(String code, Integer pageNumber, Integer pageSize) {
-
 		Pageable p = PageRequest.of(pageNumber, pageSize);
 		List<Incident> incidents = incidentReposatiory.findIncidentByCode(code, p);
-
 		if (incidents == null) {
 			throw new IncidentNotFoundException(code);
 		}
 		List<GetIncidentbyCategory> incidentDto = incidents.stream()
 				.map((incident) -> getIncidentbyCategory.UserIncident(incident)).collect(Collectors.toList());
 		return incidentDto;
-
 	}
+
+// Get Incidents from ELastic Search
+	@Override
+	public List<ResponseIncidentDto> getAllIncidentsFromElastic(String index) {
+		String url = "https://localhost:9200/" + index + "/_search";
+
+		HttpHeaders headers = httpHeader.createHeadersWithAuthentication();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+		ResponseEntity<Map<String, Object>> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity,
+				new ParameterizedTypeReference<Map<String, Object>>() {
+				});
+		List<ResponseIncidentDto> incidents = null;
+		if (response.getStatusCode().is2xxSuccessful()) {
+			Map<String, Object> responseBody = response.getBody();
+			if (responseBody != null) {
+				Map<String, Object> hits = (Map<String, Object>) responseBody.get("hits");
+				if (hits != null) {
+					List<Map<String, Object>> hitsList = (List<Map<String, Object>>) hits.get("hits");
+					incidents = hitsList.stream().map(hit -> responseIncidentDto.convertToIncident(hit)).collect(Collectors.toList());
+				}
+			}
+		}
+		return incidents;
+	}
+
 }

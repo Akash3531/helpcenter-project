@@ -89,4 +89,11 @@ public class IncidentController {
 		return new ResponseEntity<List<GetIncidentbyCategory>>(incidents, HttpStatus.OK);
 	}
 
+// Get Incidents From Elastic Search
+	@GetMapping("/elastic/{index}")
+    public List<ResponseIncidentDto> getDataList(@PathVariable String index) {
+        List<ResponseIncidentDto> incidents = incidentService.getAllIncidentsFromElastic(index);
+        return incidents;
+    }
+
 }

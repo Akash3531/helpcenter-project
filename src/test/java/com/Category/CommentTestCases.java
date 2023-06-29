@@ -66,7 +66,7 @@ public class CommentTestCases {
 		commentRepository.deleteAll();
 		incidentReposatiory.deleteAll();
 		categoryRepo.deleteAll();
-		//userRepository.deleteAll();
+		userRepository.deleteAll();
 	}
 
 	// CREATE COMMENT
