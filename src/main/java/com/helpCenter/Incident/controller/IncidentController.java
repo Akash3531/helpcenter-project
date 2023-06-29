@@ -88,5 +88,6 @@ public class IncidentController {
 		List<GetIncidentbyCategory> incidents = incidentService.getIncidentbyCategoryCode(code, pageNumber, pageSize);
 		return new ResponseEntity<List<GetIncidentbyCategory>>(incidents, HttpStatus.OK);
 	}
+ 
 
 }

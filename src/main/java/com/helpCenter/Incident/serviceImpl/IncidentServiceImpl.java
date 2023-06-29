@@ -92,7 +92,7 @@ public class IncidentServiceImpl implements IncidentService {
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			HttpEntity<Incident> requestEntity = new HttpEntity<>(incident, headers);
 			restTemplate.exchange("https://localhost:9200/incident/_doc", HttpMethod.POST, requestEntity, String.class);
-
+			
 			Incident savedincident = incidentReposatiory.save(incident);
 			return savedincident;
 			
@@ -206,4 +206,9 @@ public class IncidentServiceImpl implements IncidentService {
 		return incidentDto;
 
 	}
+	
+	
+
+		
+	
 }

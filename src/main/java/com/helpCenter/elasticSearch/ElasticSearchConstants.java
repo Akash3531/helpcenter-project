@@ -7,7 +7,7 @@ public class ElasticSearchConstants {
 
 	private static String userName = "elastic";
 
-	private static String password = "OSNb+XCJ=-CgmFrH49At";
+	private static String password = "_i0eCRN1RMplLu-mVYYw";
 
 	public static String getUserName() {
 		return userName;
