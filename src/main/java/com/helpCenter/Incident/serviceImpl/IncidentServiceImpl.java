@@ -59,6 +59,7 @@ public class IncidentServiceImpl implements IncidentService {
 	RestTemplate restTemplate;
 	@Autowired
 	HttpHeader httpHeader;
+	
 
 // CREATE INCIDENT
 	@Override
@@ -91,20 +92,9 @@ public class IncidentServiceImpl implements IncidentService {
 			incident.setCategory(category);
         	incident.setEtaInMinutes(category.getEtaInMinutes());
 			incident.setEtaInValidation(category.getEtaInValidation());
-
-
-			// Data Storing into Elastic Search
-			HttpHeaders headers = httpHeader.createHeadersWithAuthentication();
-			headers.setContentType(MediaType.APPLICATION_JSON);
-			HttpEntity<Incident> requestEntity = new HttpEntity<>(incident, headers);
-			restTemplate.exchange("https://localhost:9200/incident/_doc", HttpMethod.POST, requestEntity, String.class);
-			
-			// Data Storing into Database
-
 			Incident savedincident = incidentReposatiory.save(incident);
-			return savedincident;
-			
-		}
+			return savedincident;		
+		}		
 	}
 
 // GET ALL INCIDENTS
@@ -213,12 +203,13 @@ public class IncidentServiceImpl implements IncidentService {
 
 // Get Incidents from ELastic Search
 	@Override
-	public List<ResponseIncidentDto> getAllIncidentsFromElastic(String index) {
-		String url = "https://localhost:9200/" + index + "/_search";
+	public List<ResponseIncidentDto> getAllIncidentsFromElastic(String index,String text) {
+		
+		String url = "https://localhost:9200/" + index + "/_search?q="+text;
 
 		HttpHeaders headers = httpHeader.createHeadersWithAuthentication();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+	 	HttpEntity<String> requestEntity = new HttpEntity<>(headers);
 		ResponseEntity<Map<String, Object>> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity,
 				new ParameterizedTypeReference<Map<String, Object>>() {
 				});
@@ -234,6 +225,7 @@ public class IncidentServiceImpl implements IncidentService {
 			}
 		}
 		return incidents;
+		
 	}
 
 

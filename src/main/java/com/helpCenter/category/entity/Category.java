@@ -40,6 +40,7 @@ public class Category {
 	private int etaInValidation;
 	@CreatedDate
 	private Date createdDate;
+
 	@UpdateTimestamp
 	private Date updatedDate;
 	private String createdBy;
@@ -87,7 +88,6 @@ public class Category {
 		this.name = category.getName();
 		this.parent = category.getParent();
 		this.etaInMinutes = category.getEtaInMinutes();
-		this.createdDate = category.getCreatedDate();
 		this.requestHandler = category.getRequestHandler();
 		this.etaInValidation = category.getEtaInValidation();
 	}
@@ -99,7 +99,7 @@ public class Category {
 		this.parent = category.getParent();
 		this.etaInMinutes = category.getEtaInMinutes();
 		this.requestHandler = category.getRequestHandler();
-		this.etaInValidation=category.getEtaInValidation();
+		this.etaInValidation = category.getEtaInValidation();
 	}
 
 	public Integer getId() {

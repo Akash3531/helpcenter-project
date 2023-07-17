@@ -5,9 +5,7 @@ import java.util.Date;
 public class UpdateIncidentDto {
 
 	private String title;
-
 	private String description;
-
 	private String categoryCode;
 	private String status;
 	private String priority;

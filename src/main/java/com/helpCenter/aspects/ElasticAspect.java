@@ -22,18 +22,33 @@ public class ElasticAspect {
 	@Autowired
 	HttpHeader httpHeader;
 
-	// Storing data into Elastic Search
+	// STORING DATA INTO ELASTIC SEARCH
 	@AfterReturning(pointcut = "execution(* com.helpCenter.Incident.serviceImpl.IncidentServiceImpl.createIncident(..))", returning = "incident")
 	public void storeIncidentInElasticsearchAsync(Incident incident) {
 		try {
 			HttpHeaders headers = httpHeader.createHeadersWithAuthentication();
 			headers.setContentType(MediaType.APPLICATION_JSON);
-			HttpEntity<Incident> requestEntity = new HttpEntity<>(incident, headers);
+			HttpEntity<Incident> requestEntity = new HttpEntity<>(incident,headers);
 			String docId = Integer.toString(incident.getId());
-			String url = String.format("https://localhost:9200/incidents/_doc/%s", docId);
+			String url = String.format("https://localhost:9200/incident/_doc/%s",docId);
 			restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
+	
+	// Updating data into Elastic Search
+		@AfterReturning(pointcut = "execution(* com.helpCenter.Incident.serviceImpl.IncidentServiceImpl.updateIncident(..))", returning = "incident")
+		public void updatingIncidentInElasticsearchAsync(Incident incident) {
+			try {
+				HttpHeaders headers = httpHeader.createHeadersWithAuthentication();
+				headers.setContentType(MediaType.APPLICATION_JSON);
+				HttpEntity<Incident> requestEntity = new HttpEntity<>(incident,headers);
+				int id = incident.getId();
+				String url = String.format("https://localhost:9200/incident/_doc/%s",id);
+				restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
 }

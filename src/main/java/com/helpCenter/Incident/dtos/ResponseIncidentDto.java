@@ -1,9 +1,11 @@
 package com.helpCenter.Incident.dtos;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.stereotype.Component;
 
 import com.helpCenter.Incident.entity.ImageCreation;
@@ -22,6 +24,8 @@ public class ResponseIncidentDto {
 	private String categoryCode;
 
 	private String priority;
+	
+	private String status;
 
 	private List<ImageCreation> images = new ArrayList<>();
 
@@ -64,6 +68,14 @@ public class ResponseIncidentDto {
 	public void setPriority(String priority) {
 		this.priority = priority;
 	}
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 
 	public List<ImageCreation> getImages() {
 		return images;
@@ -126,6 +138,7 @@ public class ResponseIncidentDto {
 		dto.setImages(incident.getImages());
 		dto.setPriority(incident.getPriority());
 		dto.setTitle(incident.getTitle());
+		dto.setStatus(incident.getStatus());
 		dto.setCategory(incident.getCategory());
 		return dto;
 
@@ -140,7 +153,7 @@ public class ResponseIncidentDto {
 
 	}
 
-// Conversion for ELastic
+// conversion for elastic
 	@SuppressWarnings("unchecked")
 	public ResponseIncidentDto convertToIncident(Map<String, Object> hit) {
 		Map<String, Object> source = (Map<String, Object>) hit.get("_source");
@@ -154,6 +167,7 @@ public class ResponseIncidentDto {
 		String description = (String) source.get("description");
 		String categoryCode = (String) source.get("categoryCode");
 		String priority = (String) source.get("priority");
+		String status =(String) source.get("status");
 		String userName = (String) user.get("userName");
 		String userEmail = (String) user.get("userEmail");
 		String userDepartment = (String) user.get("userDepartment");
@@ -164,6 +178,7 @@ public class ResponseIncidentDto {
 		incident.setTitle(title);
 		incident.setDescription(description);
 		incident.setImages(images);
+		incident.setStatus(status);
 		incident.setCategoryCode(categoryCode);
 		incident.setPriority(priority);
 		incident.setUserName(userName);

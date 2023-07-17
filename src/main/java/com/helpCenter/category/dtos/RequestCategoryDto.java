@@ -24,8 +24,6 @@ public class RequestCategoryDto {
 	private boolean active;
 	private int etaInMinutes;
 	private int etaInValidation;
-	@CreatedDate
-	private Date createdDate;
 	private RequestHandler requestHandler;
 
 	public RequestCategoryDto(RequestCategoryDto categoryDto) {
@@ -79,14 +77,6 @@ public class RequestCategoryDto {
 		this.etaInMinutes = etaInMinutes;
 	}
 
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
 	public RequestCategoryDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -112,7 +102,7 @@ public class RequestCategoryDto {
 	public String toString() {
 		return "RequestCategoryDto [name=" + name + ", code=" + code + ", parent=" + parent + ", active=" + active
 				+ ", etaInMinutes=" + etaInMinutes + ", etaInValidation=" + etaInValidation + ", createdDate="
-				+ createdDate + ", requestHandler=" + requestHandler + "]";
+				+ ", requestHandler=" + requestHandler + "]";
 	}
 
 }

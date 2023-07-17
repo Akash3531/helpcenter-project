@@ -22,8 +22,8 @@ public interface IncidentService {
 	Incident updateIncident(int id, UpdateIncidentDto incident, List<MultipartFile> file) throws IOException;
 
     List<GetIncidentbyCategory> getIncidentbyUser(int user_id,Integer pageNumber , Integer pageSize);
-	
+	 
     List<GetIncidentbyCategory> getIncidentbyCategoryCode(String code,Integer pageNumber , Integer pageSize);
 	
-    List<ResponseIncidentDto> getAllIncidentsFromElastic(String index);
+    List<ResponseIncidentDto> getAllIncidentsFromElastic(String index,String text);
 }

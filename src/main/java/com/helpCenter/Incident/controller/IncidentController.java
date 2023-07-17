@@ -83,17 +83,16 @@ public class IncidentController {
 //Get INCIDENT BY CATEGORY CODE	
 	@GetMapping("/bycode/{code}")
 	public ResponseEntity<List<GetIncidentbyCategory>> getIncidentbyCategoryCode(@PathVariable String code,
-			@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-			@RequestParam(value = "pageSize", required = false) Integer pageSize) {
+			@RequestParam(value = "pageNumber",defaultValue ="1", required = false) Integer pageNumber,
+			@RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
 		List<GetIncidentbyCategory> incidents = incidentService.getIncidentbyCategoryCode(code, pageNumber, pageSize);
 		return new ResponseEntity<List<GetIncidentbyCategory>>(incidents, HttpStatus.OK);
 	}
  
-
 // Get Incidents From Elastic Search
-	@GetMapping("/elastic/{index}")
-    public List<ResponseIncidentDto> getDataList(@PathVariable String index) {
-        List<ResponseIncidentDto> incidents = incidentService.getAllIncidentsFromElastic(index);
+	@GetMapping("/elastic/{index}/{text}")
+    public List<ResponseIncidentDto> getDataList(@PathVariable String index,@PathVariable String text) {
+        List<ResponseIncidentDto> incidents = incidentService.getAllIncidentsFromElastic(index,text);
         return incidents;
     }
 
