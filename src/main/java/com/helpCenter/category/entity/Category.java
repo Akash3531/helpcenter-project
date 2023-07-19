@@ -38,6 +38,7 @@ public class Category {
 	private boolean active = true;
 	private int etaInMinutes;
 	private int etaInValidation;
+	
 	@CreatedDate
 	private Date createdDate;
 

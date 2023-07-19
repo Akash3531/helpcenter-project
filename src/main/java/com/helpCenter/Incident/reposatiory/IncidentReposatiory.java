@@ -20,4 +20,5 @@ public interface IncidentReposatiory extends JpaRepository<Incident, Integer> {
 
 	@Query(value = "Select * from \"incident\" where category_code=? and status='ToDo'", nativeQuery = true)
 	public List<Incident> findIncidentByCategoryCodeAndStatus(String categoryCode);
+	
 }

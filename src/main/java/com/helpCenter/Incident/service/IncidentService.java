@@ -26,4 +26,6 @@ public interface IncidentService {
     List<GetIncidentbyCategory> getIncidentbyCategoryCode(String code,Integer pageNumber , Integer pageSize);
 	
     List<ResponseIncidentDto> getAllIncidentsFromElastic(String index,String text);
+    
+  
 }
