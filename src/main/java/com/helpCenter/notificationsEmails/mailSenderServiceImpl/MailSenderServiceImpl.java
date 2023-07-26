@@ -63,7 +63,7 @@ public class MailSenderServiceImpl implements EmailSenderService {
 					"your incident staus is:" + status.toUpperCase() + " " + "for incident:" + title.toUpperCase());
 			mailSender.send(mimeMessage);
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 

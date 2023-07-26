@@ -49,13 +49,11 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 		List<HandlerDetails> handlers = incident.getCategory().getRequestHandler().getHandler();
 		for (HandlerDetails details : handlers) {
 			handlerDetails.put(details.getLevel(), details.getResources());// put handler details in key
-			System.out.println(details); // value pair
 		}
 		if (handlerLevel < handlers.size()) {
 			List<String> handlersName = handlerDetails.get(handlers.size() - handlerLevel);// getting handler of
 																							// incident
 			for (String handlerName : handlersName) {
-				System.out.println(handlerName);
 				toEmails = userRepository.findUserEmail(handlerName);// getting Email of related handlers
 			}
 			mailSenderServiceImpl.sendEmailForIncident(toEmails, incident.getTitle(), incident.getDescription());// sending
@@ -128,4 +126,40 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 		mailSenderServiceImpl.sendMailOnCategoryUpdation(userEmails, name, code, etaInMinutes, requestHandler);
 	}
 
+	// information provider for incident
+	@Override
+	public void getIncidentCategoryDetailsOnEtaExpiration(List<Incident> incidents) {
+		for (Incident incident : incidents) {
+			int eta = incident.getCategory().getEtaInMinutes();
+			long createdTime = incident.getCreatedDate().getTime();
+			long shedulerRunTime = new Date().getTime();
+			long diffBetweenCreatedTimeAndSchedulerRunTime = shedulerRunTime - createdTime;// Difference between created
+																							// time and current time
+			long diffrenceInMinutes = TimeUnit.MILLISECONDS.toMinutes(diffBetweenCreatedTimeAndSchedulerRunTime);
+
+			int handlerLevel = (int) (diffrenceInMinutes / eta);
+			String[] toEmails = null;
+			Map<Integer, List<String>> handlerDetails = new LinkedHashMap<>();
+			List<HandlerDetails> handlers = incident.getCategory().getRequestHandler().getHandler();
+			for (HandlerDetails details : handlers) {
+				handlerDetails.put(details.getLevel(), details.getResources());// put handler details in key
+			}
+			if (handlerLevel < handlers.size()) {
+				List<String> handlersName = handlerDetails.get(handlers.size() - handlerLevel);// getting handler of
+																								// incident
+				for (String handlerName : handlersName) {
+					toEmails = userRepository.findUserEmail(handlerName);// getting Email of related handlers
+				}
+				mailSenderServiceImpl.sendEmailForIncident(toEmails, incident.getTitle(), incident.getDescription());// sending
+																														// mail
+				UpdateIncidentDto incidentDto = new UpdateIncidentDto();
+				incidentDto.setLastmailSendedTime(new Date());// updating lastMailSendedTime
+				try {
+					incidentServiceImpl.updateIncident(incident.getId(), incidentDto, null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }

@@ -1,5 +1,7 @@
 package com.helpCenter.aspects;
 
+import java.util.List;
+
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,13 @@ public class EmailAspect {
 	public void sentMailAfterUpdateIncidentStatus(Incident incident) {
 		if (incident.getStatus() != null && !incident.getStatus().equals("ToDo")) {
 			providerForEmailServiceImpl.getDetailOfStatusUpdate(incident);
+		}
+	}
+	// Call information provider after eta expire
+	@AfterReturning(pointcut = "execution(* com.helpCenter.notificationsEmails.scheduler.SchedulerForCategoryEtaExpiration.runForCategoryEta(..))", returning = "incidents")
+	public void informationProviderOnEtaExperetion(List<Incident> incidents) {
+		if (incidents!=null) {
+			providerForEmailServiceImpl.getIncidentCategoryDetailsOnEtaExpiration(incidents);;
 		}
 	}
 }

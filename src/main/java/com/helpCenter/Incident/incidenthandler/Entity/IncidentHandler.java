@@ -1,5 +1,11 @@
-package com.helpCenter.Incident.entity;
+package com.helpCenter.Incident.incidenthandler.Entity;
 
+import java.util.List;
+
+import com.helpCenter.Incident.dtos.StringListConverter;
+import com.helpCenter.Incident.entity.Incident;
+
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,19 +14,20 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-
 public class IncidentHandler {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
-	private String name;
-	
+
+	@Convert(converter = StringListConverter.class)
+	private List<String> name;
+
 	@ManyToOne
-	@JoinColumn(name ="incident_id")
+	@JoinColumn(name = "incident_id")
 	private Incident incident;
-	
+
+	private String Status;
 
 	public int getId() {
 		return id;
@@ -30,23 +37,31 @@ public class IncidentHandler {
 		this.id = id;
 	}
 
-	public String getName() {
+	public Incident getIncident() {
+		return incident;
+	}
+
+	public List<String> getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(List<String> name) {
 		this.name = name;
-	}
-
-	public Incident getIncident() {
-		return incident;
 	}
 
 	public void setIncident(Incident incident) {
 		this.incident = incident;
 	}
-	
-	public IncidentHandler(int id, String name, Incident incident) {
+
+	public String getStatus() {
+		return Status;
+	}
+
+	public void setStatus(String status) {
+		Status = status;
+	}
+
+	public IncidentHandler(int id, List<String> name, Incident incident) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -55,13 +70,12 @@ public class IncidentHandler {
 
 	public IncidentHandler() {
 		super();
-	
+
 	}
 
 	@Override
 	public String toString() {
 		return "IncidentHandler [id=" + id + ", name=" + name + ", incident=" + incident + "]";
 	}
-	
-	
+
 }
