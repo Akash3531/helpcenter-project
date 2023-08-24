@@ -41,9 +41,9 @@ public class CategoryServiceImpl implements CategoryService {
 // CREATE CATEGORY
 	@Override
 	public Category createCategory(RequestCategoryDto categorydto) {
-		//get principle
+		// get principle
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
+
 		Category category = new Category(categorydto);
 		String categoyName = category.getName();
 		Category findCategory = categoryRepository.findByName(categoyName);
@@ -70,8 +70,9 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		category.setCreatedBy(authentication.getName());
 		category.setUpdatedBy(authentication.getName());
+		category.setCreatedDate(new Date());
 		category.setUpdatedDate(new Date());
-		Category savedCategory=categoryRepository.save(category);
+		Category savedCategory = categoryRepository.save(category);
 		return savedCategory;
 	}
 
@@ -108,8 +109,7 @@ public class CategoryServiceImpl implements CategoryService {
 			}
 			updateCategory.setCode(category.getCode().toUpperCase());
 		}
-		if(category.getEtaInMinutes()!=0)
-		{
+		if (category.getEtaInMinutes() != 0) {
 			updateCategory.setEtaInMinutes(category.getEtaInMinutes());
 		}
 		Category savedCateogry = categoryRepository.save(updateCategory);

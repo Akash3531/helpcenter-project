@@ -30,12 +30,26 @@ public class ResponseIncidentDto {
 	private List<ImageCreation> images = new ArrayList<>();
 
 	private String userName;
+	
+	@CreatedDate
+	private Date createdDate;
 
 	private String userEmail;
 
 	private String userDepartment;
 
 	private Category category;
+	
+	
+	
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
 
 	public String getTitle() {
 		return title;
@@ -75,7 +89,6 @@ public class ResponseIncidentDto {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 
 	public List<ImageCreation> getImages() {
 		return images;
@@ -137,6 +150,7 @@ public class ResponseIncidentDto {
 		dto.setDescription(incident.getDescription());
 		dto.setImages(incident.getImages());
 		dto.setPriority(incident.getPriority());
+		dto.setCreatedDate(incident.getCreatedDate());
 		dto.setTitle(incident.getTitle());
 		dto.setStatus(incident.getStatus());
 		dto.setCategory(incident.getCategory());
@@ -170,6 +184,7 @@ public class ResponseIncidentDto {
 		String status =(String) source.get("status");
 		String userName = (String) user.get("userName");
 		String userEmail = (String) user.get("userEmail");
+		long createdDate= (long)source.get("createdDate");	
 		String userDepartment = (String) user.get("userDepartment");
 		List<ImageCreation> images = (List<ImageCreation>) source.get("images");
 
@@ -181,10 +196,12 @@ public class ResponseIncidentDto {
 		incident.setStatus(status);
 		incident.setCategoryCode(categoryCode);
 		incident.setPriority(priority);
-		incident.setUserName(userName);
+		incident.setUserName(userName);		
+		incident.setCreatedDate(new Date(createdDate));	
 		incident.setUserDepartment(userDepartment);
 		incident.setUserEmail(userEmail);
 		return incident;
 	}
-
+	
+	 
 }

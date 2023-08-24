@@ -9,4 +9,5 @@ public interface IncidentHandlerReposatiory extends JpaRepository<IncidentHandle
 
 	@Query(value = "select * from public.incident_handler where incident_id=?", nativeQuery = true)
 	IncidentHandler getHandler(int id);
+
 }

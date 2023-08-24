@@ -1,6 +1,7 @@
 package com.helpCenter.Incident.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -10,6 +11,8 @@ import com.helpCenter.Incident.dtos.RequestIncidentDto;
 import com.helpCenter.Incident.dtos.ResponseIncidentDto;
 import com.helpCenter.Incident.dtos.UpdateIncidentDto;
 import com.helpCenter.Incident.entity.Incident;
+import com.helpCenter.elasticSearch.aggregators.AggregationResponse;
+import com.helpCenter.elasticSearch.aggregators.IntervalDataResponseAggregation;
 
 public interface IncidentService {
 
@@ -27,5 +30,9 @@ public interface IncidentService {
 	
     List<ResponseIncidentDto> getAllIncidentsFromElastic(String index,String text);
     
-  
+    List<AggregationResponse> getBucketListFromElastic(String index,String field);
+    
+    List<IntervalDataResponseAggregation> getIntervalDataFromElastic(String index,String interval);
+    
+    List<ResponseIncidentDto> getDataBydateAndTimeFromElastic(String index,Date starteddateandtime,Date endingdateandtime);
 }

@@ -38,8 +38,6 @@ public class Category {
 	private boolean active = true;
 	private int etaInMinutes;
 	private int etaInValidation;
-	
-	@CreatedDate
 	private Date createdDate;
 
 	@UpdateTimestamp
@@ -80,27 +78,7 @@ public class Category {
 
 	public Category() {
 		super();
-		// TODO Auto-generated constructor stub
-	}
 
-	// Mapper categoryDto to Category
-	public Category(RequestCategoryDto category) {
-		this.code = category.getCode();
-		this.name = category.getName();
-		this.parent = category.getParent();
-		this.etaInMinutes = category.getEtaInMinutes();
-		this.requestHandler = category.getRequestHandler();
-		this.etaInValidation = category.getEtaInValidation();
-	}
-
-	// Mapper updateCategoryDto to Category
-	public Category(UpdateCategoryDto category) {
-		this.code = category.getCode();
-		this.name = category.getName();
-		this.parent = category.getParent();
-		this.etaInMinutes = category.getEtaInMinutes();
-		this.requestHandler = category.getRequestHandler();
-		this.etaInValidation = category.getEtaInValidation();
 	}
 
 	public Integer getId() {
@@ -202,6 +180,26 @@ public class Category {
 	@Override
 	public String toString() {
 		return " [ name=" + name + ", parent=" + parent + "]";
+	}
+
+	// Mapper categoryDto to Category
+	public Category(RequestCategoryDto category) {
+		this.code = category.getCode();
+		this.name = category.getName();
+		this.parent = category.getParent();
+		this.etaInMinutes = category.getEtaInMinutes();
+		this.requestHandler = category.getRequestHandler();
+		this.etaInValidation = category.getEtaInValidation();
+	}
+
+	// Mapper updateCategoryDto to Category
+	public Category(UpdateCategoryDto category) {
+		this.code = category.getCode();
+		this.name = category.getName();
+		this.parent = category.getParent();
+		this.etaInMinutes = category.getEtaInMinutes();
+		this.requestHandler = category.getRequestHandler();
+		this.etaInValidation = category.getEtaInValidation();
 	}
 
 }

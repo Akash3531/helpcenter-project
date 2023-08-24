@@ -1,10 +1,12 @@
 package com.helpCenter.Incident.controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.JsonPath;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,9 @@ import com.helpCenter.Incident.dtos.ResponseIncidentDto;
 import com.helpCenter.Incident.dtos.UpdateIncidentDto;
 import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.Incident.service.IncidentService;
+import com.helpCenter.elasticSearch.aggregators.AggregationResponse;
+import com.helpCenter.elasticSearch.aggregators.IntervalDataResponseAggregation;
+import com.helpCenter.elasticSearch.aggregators.ResponseInterval;
 
 import jakarta.validation.Valid;
 
@@ -92,8 +97,36 @@ public class IncidentController {
 // Get Incidents From Elastic Search
 	@GetMapping("/elastic/{index}/{text}")
     public List<ResponseIncidentDto> getDataList(@PathVariable String index,@PathVariable String text) {
-        List<ResponseIncidentDto> incidents = incidentService.getAllIncidentsFromElastic(index,text);
+       System.out.println("enter");
+		List<ResponseIncidentDto> incidents = incidentService.getAllIncidentsFromElastic(index,text);
         return incidents;
     }
 
+// Get BucketList From Elastic Search
+	@GetMapping("/elastic/bucket/{index}/{field}")
+    public List<AggregationResponse> getBucketList(@PathVariable String index,@PathVariable String field) {
+      
+		List<AggregationResponse> incidents = incidentService.getBucketListFromElastic(index,field);
+        return incidents;
+    }
+	
+	@GetMapping("/elastic/interval/{index}/{interval}")
+	public List<IntervalDataResponseAggregation> getInterval(@PathVariable String index,@PathVariable String interval){
+		
+		List<IntervalDataResponseAggregation> resp=incidentService.getIntervalDataFromElastic(index, interval);
+		return resp;
+	}
+	
+	@GetMapping("/elastic/{index}/{starteddateandtime}/{endingdateandtime}")
+	public List<ResponseIncidentDto> getDatabYDateTimeWithElastic(@PathVariable String index,@PathVariable Date starteddateandtime,@PathVariable Date endingdateandtime){
+		
+		List<ResponseIncidentDto> response=incidentService.getDataBydateAndTimeFromElastic(index, starteddateandtime, endingdateandtime);
+		return response;
+		
+	}
+	
+	
+	
+	
+	
 }

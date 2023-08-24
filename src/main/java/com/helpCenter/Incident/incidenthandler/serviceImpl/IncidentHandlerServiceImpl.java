@@ -6,11 +6,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,7 +18,6 @@ import com.helpCenter.Incident.incidenthandler.Entity.IncidentHandler;
 import com.helpCenter.Incident.incidenthandler.reposatiory.IncidentHandlerReposatiory;
 import com.helpCenter.Incident.incidenthandler.service.IncidentHandlerService;
 import com.helpCenter.requestHandlers.entity.HandlerDetails;
-import com.helpCenter.user.entity.User;
 
 @Service
 public class IncidentHandlerServiceImpl implements IncidentHandlerService {
@@ -60,12 +56,6 @@ public class IncidentHandlerServiceImpl implements IncidentHandlerService {
 	}
 
 	@Override
-	public IncidentHandler getHandlerByStatus() {
-
-		return null;
-	}
-
-	@Override
 	public void updateHandlerOnEtaExpiration(List<Incident> incidents) {
 		for (Incident incident : incidents) {
 			IncidentHandler incidentHandler = handlerReposatiory.getHandler(incident.getId());
@@ -96,4 +86,5 @@ public class IncidentHandlerServiceImpl implements IncidentHandlerService {
 			}
 		}
 	}
+
 }

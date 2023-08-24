@@ -2,7 +2,6 @@ package com.helpCenter.Incident.incidenthandler.Entity;
 
 import java.util.List;
 
-import com.helpCenter.Incident.dtos.StringListConverter;
 import com.helpCenter.Incident.entity.Incident;
 
 import jakarta.persistence.Convert;

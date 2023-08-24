@@ -198,7 +198,7 @@ public class Incident {
 
 	public Incident() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override

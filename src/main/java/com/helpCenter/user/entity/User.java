@@ -52,7 +52,7 @@ public class User implements UserDetails {
 
 	public User() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public User(UpdateUserDto updateUserDto) {
@@ -163,30 +163,29 @@ public class User implements UserDetails {
 	public String getUsername() {
 
 		return userName;
-
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
 

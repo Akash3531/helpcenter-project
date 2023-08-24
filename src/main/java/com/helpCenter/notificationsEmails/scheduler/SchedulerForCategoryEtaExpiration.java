@@ -25,13 +25,12 @@ public class SchedulerForCategoryEtaExpiration {
 	@Autowired
 	InformationProviderForEmailServiceImpl providerForEmailServiceImpl;
 
-	//@Scheduled(fixedDelay = 30000)
+	// @Scheduled(fixedDelay = 30000)
 	@Scheduled(cron = "0 */5 * ? * *") // this code will be executed every 30
 	public List<Incident> runForCategoryEta() {
-		List<Incident> etaExpiredIncidents=new ArrayList<>();
+		List<Incident> etaExpiredIncidents = new ArrayList<>();
 		List<Incident> incidents = incidentReposatiory.findAll();// get all saved incident
 		for (Incident incident : incidents) {
-			System.out.println(incident.getId());
 			String status = incident.getStatus();// getting status of incident
 			if (status.equals("ToDo")) {
 				int eta = incident.getEtaInMinutes();

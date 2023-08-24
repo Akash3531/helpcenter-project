@@ -126,7 +126,7 @@ public class InformationProviderForEmailServiceImpl implements InformationProvid
 		mailSenderServiceImpl.sendMailOnCategoryUpdation(userEmails, name, code, etaInMinutes, requestHandler);
 	}
 
-	// information provider for incident
+	// information provider for incidents
 	@Override
 	public void getIncidentCategoryDetailsOnEtaExpiration(List<Incident> incidents) {
 		for (Incident incident : incidents) {

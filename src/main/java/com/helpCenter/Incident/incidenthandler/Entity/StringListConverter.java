@@ -1,4 +1,4 @@
-package com.helpCenter.Incident.dtos;
+package com.helpCenter.Incident.incidenthandler.Entity;
 
 import java.util.List;
 

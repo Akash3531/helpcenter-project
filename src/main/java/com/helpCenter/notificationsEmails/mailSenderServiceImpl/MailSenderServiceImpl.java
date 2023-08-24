@@ -17,7 +17,7 @@ public class MailSenderServiceImpl implements EmailSenderService {
 	@Autowired
 	JavaMailSender mailSender;
 
-	//send mail on incident creation
+	// send mail on incident creation
 	@Override
 	public void sendEmailForIncident(String[] toEmail, String title, String description) {
 		try {
@@ -33,7 +33,8 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			e.printStackTrace();
 		}
 	}
-	//send mail on comment creation
+
+	// send mail on comment creation
 	@Override
 	public void sendEmailAfterCommentCreation(String[] toEmails, String comment, String incidentTitle) {
 		try {
@@ -49,7 +50,8 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			e.printStackTrace();
 		}
 	}
-	//send mail on status updation of a incident 
+
+	// send mail on status updation of a incident
 	@Override
 	public void sendMailOnStatusUpdate(String email, String title, String status) {
 
@@ -63,12 +65,13 @@ public class MailSenderServiceImpl implements EmailSenderService {
 					"your incident staus is:" + status.toUpperCase() + " " + "for incident:" + title.toUpperCase());
 			mailSender.send(mimeMessage);
 		} catch (MessagingException e) {
-			
+
 			e.printStackTrace();
 		}
 
 	}
-	//send mail on category creation
+
+	// send mail on category creation
 	@Override
 	public void sendMailOnCategoryCreation(String email, String category) {
 
@@ -78,16 +81,17 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			helper.setFrom("jbawa@seasia.in");
 			helper.setTo("springtest@yopmail.com");
 			helper.setSubject("Regarding || Category creation");
-			helper.setText("There is a category created name as :"+category);
+			helper.setText("There is a category created name as :" + category);
 			mailSender.send(mimeMessage);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	//send mail on category updation
+
+	// send mail on category updation
 	@Override
-	public void sendMailOnCategoryUpdation(String[] emails, String categoryName,String code, int etaOfCategory,
+	public void sendMailOnCategoryUpdation(String[] emails, String categoryName, String code, int etaOfCategory,
 			RequestHandler requestHandler) {
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -95,15 +99,17 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			helper.setFrom("jbawa@seasia.in");
 			helper.setTo("springtest@yopmail.com");
 			helper.setSubject("Regarding || Category updation");
-			helper.setText("category name is :"+categoryName.toUpperCase()
-			+""+"is updated"+"\n"+"category details are:"+"\n"+"name:"+categoryName+" "+"code:"+code+" "+"eta:"+etaOfCategory+" "+"RequestHandler:"+requestHandler);
+			helper.setText("category name is :" + categoryName.toUpperCase() + "" + "is updated" + "\n"
+					+ "category details are:" + "\n" + "name:" + categoryName + " " + "code:" + code + " " + "eta:"
+					+ etaOfCategory + " " + "RequestHandler:" + requestHandler);
 			mailSender.send(mimeMessage);
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
-		
+
 	}
+
 	public void sendEmailForIncidentAssign(String toEmail, String title, String description) {
 		try {
 
@@ -112,7 +118,7 @@ public class MailSenderServiceImpl implements EmailSenderService {
 			helper.setFrom("jbawa@seasia.in");
 			helper.setTo("springtest@yopmail.com");
 			helper.setSubject("Regarding ||" + title);
-			helper.setText(description+" "+"Ticket Assign");
+			helper.setText(description + " " + "Ticket Assign");
 			mailSender.send(mimeMessage);
 		} catch (Exception e) {
 			e.printStackTrace();

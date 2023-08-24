@@ -17,8 +17,8 @@ public class EmailAspect {
 
 	@Autowired
 	InformationProviderForEmailServiceImpl providerForEmailServiceImpl;
-	
-	//Call information after incident creation
+
+	// Call information after incident creation
 	@AfterReturning(pointcut = "execution(* com.helpCenter.Incident.serviceImpl.IncidentServiceImpl.createIncident(..))", returning = "Incident")
 	public void sentMailAfterCreatingIncident(Incident Incident) {
 		if (Incident != null) {
@@ -26,25 +26,28 @@ public class EmailAspect {
 		}
 	}
 
-	//Call information provider after comment creation
+	// Call information provider after comment creation
 	@AfterReturning(pointcut = "execution(* com.helpCenter.comment.serviceImpl.CommentServiceimpl.createComment(..))", returning = "comment")
 	public void sentMailAfterComment(Comment comment) {
 		if (comment != null) {
 			providerForEmailServiceImpl.getCommentDetails(comment);
 		}
 	}
-	//Call information provider after incident status update
+
+	// Call information provider after incident status update
 	@AfterReturning(pointcut = "execution(* com.helpCenter.Incident.serviceImpl.IncidentServiceImpl.updateIncident(..))", returning = "incident")
 	public void sentMailAfterUpdateIncidentStatus(Incident incident) {
 		if (incident.getStatus() != null && !incident.getStatus().equals("ToDo")) {
 			providerForEmailServiceImpl.getDetailOfStatusUpdate(incident);
 		}
 	}
+
 	// Call information provider after eta expire
 	@AfterReturning(pointcut = "execution(* com.helpCenter.notificationsEmails.scheduler.SchedulerForCategoryEtaExpiration.runForCategoryEta(..))", returning = "incidents")
 	public void informationProviderOnEtaExperetion(List<Incident> incidents) {
-		if (incidents!=null) {
-			providerForEmailServiceImpl.getIncidentCategoryDetailsOnEtaExpiration(incidents);;
+		if (incidents != null) {
+			providerForEmailServiceImpl.getIncidentCategoryDetailsOnEtaExpiration(incidents);
+			;
 		}
 	}
 }

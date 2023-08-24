@@ -23,6 +23,7 @@ public class RequestCategoryDto {
 	private Category parent;
 	private boolean active;
 	private int etaInMinutes;
+	private Date  createdDate;
 	private int etaInValidation;
 	private RequestHandler requestHandler;
 
@@ -79,7 +80,7 @@ public class RequestCategoryDto {
 
 	public RequestCategoryDto() {
 		super();
-		
+
 	}
 
 	public RequestHandler getRequestHandler() {
@@ -100,9 +101,9 @@ public class RequestCategoryDto {
 
 	@Override
 	public String toString() {
+		
 		return "RequestCategoryDto [name=" + name + ", code=" + code + ", parent=" + parent + ", active=" + active
-				+ ", etaInMinutes=" + etaInMinutes + ", etaInValidation=" + etaInValidation + ", createdDate="
-				+ ", requestHandler=" + requestHandler + "]";
+				+ ", etaInMinutes=" + etaInMinutes + ", etaInValidation=" + etaInValidation + ", requestHandler="
+				+ requestHandler + ", createdDate=" + createdDate + "]";
 	}
-
 }
