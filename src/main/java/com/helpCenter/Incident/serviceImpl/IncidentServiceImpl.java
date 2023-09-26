@@ -2,7 +2,6 @@ package com.helpCenter.Incident.serviceImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -60,7 +59,7 @@ public class IncidentServiceImpl implements IncidentService {
 	RestTemplate restTemplate;
 	@Autowired
 	HttpHeader httpHeader;
-
+	
 // CREATE INCIDENT
 	@Override
 	public Incident createIncident(RequestIncidentDto incidentdto, List<MultipartFile> file) throws IOException {
@@ -281,6 +280,7 @@ public class IncidentServiceImpl implements IncidentService {
 				}
 			}
 		}
+		
 		return incidents;
 	}
 
@@ -328,7 +328,8 @@ public class IncidentServiceImpl implements IncidentService {
 							Number docCountNumber = (Number) bucket.get("doc_count"); // Cast to Number
 							long docCount = docCountNumber.longValue();
 
-							IntervalDataResponseAggregation respinterval = new IntervalDataResponseAggregation(date,docCount);
+							IntervalDataResponseAggregation respinterval = new IntervalDataResponseAggregation(date,
+									docCount);
 							incidents.add(respinterval);
 
 						}
@@ -339,17 +340,38 @@ public class IncidentServiceImpl implements IncidentService {
 		return incidents;
 
 	}
-
-	@Override
-	public List<ResponseIncidentDto> getDataBydateAndTimeFromElastic(String index, Date startdate, Date enddate) {
 	
-		String url = "https://localhost:9200/" + index + "/_search?q=*";
-		
-		
-		
-		return null;
+	public List<ResponseIncidentDto> getDataBydateAndTimeFromElastic(String index, long startDate, long endDate) {
+		String url = "https://localhost:9200/" + index + "/_search";
+		HttpHeaders headers = httpHeader.createHeadersWithAuthentication();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		long startTimestamp = startDate;
+	    long endTimestamp = endDate;
+	    JsonObject dateRangeAgg = new JsonObject();
+	    dateRangeAgg.addProperty("gte", startTimestamp);
+	    dateRangeAgg.addProperty("lte", endTimestamp);
+	    JsonObject rangeQuery = new JsonObject();
+	    rangeQuery.add("createdDate", dateRangeAgg);
+	    JsonObject query = new JsonObject();
+	    query.add("range", rangeQuery);
+	    JsonObject requestBody = new JsonObject();
+	    requestBody.add("query", query);
+	    RestTemplate restTemplate = new RestTemplate();
+	    HttpEntity<String> requestEntity = new HttpEntity<>(requestBody.toString(), headers);
+	  ResponseEntity<Map<String, Object>> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity,new ParameterizedTypeReference<Map<String, Object>>() {
+		});
+	  List<ResponseIncidentDto> incidents = null;
+		if (response.getStatusCode().is2xxSuccessful()) {
+			Map<String, Object> responseBody = response.getBody();
+			if (responseBody != null) {
+				Map<String, Object> hits = (Map<String, Object>) responseBody.get("hits");
+				if (hits != null) {
+					List<Map<String, Object>> hitsList = (List<Map<String, Object>>) hits.get("hits");
+					incidents = hitsList.stream().map(hit -> responseIncidentDto.convertToIncident(hit))
+							.collect(Collectors.toList());
+				}
+			}
+		}
+		return incidents;
 	}
-
 }
-
-

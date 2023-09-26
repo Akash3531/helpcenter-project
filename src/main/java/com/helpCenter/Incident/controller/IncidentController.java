@@ -1,13 +1,11 @@
 package com.helpCenter.Incident.controller;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
-import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.web.JsonPath;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,7 +25,6 @@ import com.helpCenter.Incident.entity.Incident;
 import com.helpCenter.Incident.service.IncidentService;
 import com.helpCenter.elasticSearch.aggregators.AggregationResponse;
 import com.helpCenter.elasticSearch.aggregators.IntervalDataResponseAggregation;
-import com.helpCenter.elasticSearch.aggregators.ResponseInterval;
 
 import jakarta.validation.Valid;
 
@@ -97,7 +94,6 @@ public class IncidentController {
 // Get Incidents From Elastic Search
 	@GetMapping("/elastic/{index}/{text}")
     public List<ResponseIncidentDto> getDataList(@PathVariable String index,@PathVariable String text) {
-       System.out.println("enter");
 		List<ResponseIncidentDto> incidents = incidentService.getAllIncidentsFromElastic(index,text);
         return incidents;
     }
@@ -117,14 +113,13 @@ public class IncidentController {
 		return resp;
 	}
 	
-	@GetMapping("/elastic/{index}/{starteddateandtime}/{endingdateandtime}")
-	public List<ResponseIncidentDto> getDatabYDateTimeWithElastic(@PathVariable String index,@PathVariable Date starteddateandtime,@PathVariable Date endingdateandtime){
+	@GetMapping("/elastics/{index}")
+	public List<ResponseIncidentDto> getDatabYDateTimeWithElastic(@PathVariable String index,@RequestParam(value="start",required = true) long startDate,@RequestParam(value="end",required = true) long endDate){
 		
-		List<ResponseIncidentDto> response=incidentService.getDataBydateAndTimeFromElastic(index, starteddateandtime, endingdateandtime);
+		List<ResponseIncidentDto> response=incidentService.getDataBydateAndTimeFromElastic(index, startDate, endDate);
 		return response;
 		
 	}
-	
 	
 	
 	
