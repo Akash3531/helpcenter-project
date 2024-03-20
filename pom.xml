@@ -103,6 +103,25 @@
 	</dependencies>
 
 	<build>
+		<pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.8</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>com/helpCenter/**/*dto/*</exclude>
+                            <exclude>com/helpCenter/**/*dtos/*</exclude>
+                            <exclude>com/helpCenter/**/*aggregators/*</exclude>
+                            <exclude>com/helpCenter/**/*entity/*</exclude>
+                            <exclude>com/helpCenter/**/*wseventlistener/*</exclude>
+                            <exclude>com/helpCenter/**/*token/*</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
 		<plugins>
 
 			<plugin>
